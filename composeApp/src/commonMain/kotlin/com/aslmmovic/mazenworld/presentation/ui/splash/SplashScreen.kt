@@ -21,7 +21,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.aslmmovic.mazenworld.presentation.navigation.Screen
-import com.aslmmovic.mazenworld.impl.getPlatform
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.treesvg
 import org.jetbrains.compose.resources.painterResource
@@ -33,7 +32,6 @@ fun SplashScreen(navController: NavController) {
 
     val viewModel: SplashViewModel = koinViewModel()
     val isLoaded by viewModel.isDataLoaded.collectAsState()
-     val platform = getPlatform()
 
 
     LaunchedEffect(isLoaded) {
@@ -63,8 +61,6 @@ fun SplashScreen(navController: NavController) {
 
             // Add some vertical space between logo and indicator
             Spacer(modifier = Modifier.height(32.dp))
-
-            Text(text = "Loading...${platform.name}")
 
             // 2. Circular Progress Indicator (The Loading Bar)
             CircularProgressIndicator(

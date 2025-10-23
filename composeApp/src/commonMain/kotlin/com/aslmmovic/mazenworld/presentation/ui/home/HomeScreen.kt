@@ -37,7 +37,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun HomeScreen(navController: NavController) {
     val viewModel: HomeViewModel = koinViewModel()
-    val profile by viewModel.profileState.collectAsState()
+//    val profile by viewModel.profileState.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -88,12 +88,12 @@ fun HomeScreen(navController: NavController) {
             )
 
             // Star Count (reads persistent value)
-            Text(
-                text = profile.stars.toString(), // <-- USES PERSISTENT DATA
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
+//            Text(
+//                text = profile.stars.toString(), // <-- USES PERSISTENT DATA
+//                fontSize = 20.sp,
+//                fontWeight = FontWeight.Bold,
+//                color = Color.Black
+//            )
         }
 
 
@@ -107,52 +107,11 @@ fun HomeScreen(navController: NavController) {
             SmallIconButton(onClick = { /* navigate to Rewards */ }) {
                 // ... Icon
             }
-//
-//            // Music Toggle (Uses persistent state)
-//            AudioToggleButton(
-//                isEnabled = profile.musicEnabled, // <-- USES PERSISTENT DATA
-//                onToggle = viewModel::toggleMusic,
-//                activeIconResource = Res.drawable.treesvg,
-//                inactiveIconResource = Res.drawable.tree
-//            )
-//
-//            // Sound Toggle (Uses persistent state)
-//            AudioToggleButton(
-//                isEnabled = profile.soundEnabled, // <-- USES PERSISTENT DATA
-//                onToggle = viewModel::toggleSound,
-//                activeIconResource = Res.drawable.icon_speaker,
-//                inactiveIconResource = Res.drawable.icon_speaker_off
-//            )
-
-            // Parent Gate Button (Info Icon)
-//            SmallIconButton(onClick = { navigator.push(ParentSettingsScreen) }) {
-//                // ... Icon
-//            }
         }
 
 
     }
 
-}
-
-@Composable
-fun AudioToggleButton(
-    isEnabled: Boolean,
-    onToggle: () -> Unit,
-    activeIconResource: String,
-    inactiveIconResource: String
-) {
-    SmallIconButton(onClick = onToggle) {
-        // Use an appropriate icon based on the state
-        val icon = if (isEnabled) activeIconResource else inactiveIconResource
-
-        // This still assumes you have setup your resource loading for the icons
-//        Icon(
-//            painter = painterResource("icon"),
-//            contentDescription = if (isEnabled) "Toggle Off" else "Toggle On",
-//            tint = Color.Unspecified
-//        )
-    }
 }
 
 @Composable

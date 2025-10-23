@@ -16,14 +16,8 @@ class SplashViewModel() : ViewModel() {
 
     init {
         viewModelScope.launch {
-            // 1. Simulate a minimum splash display time for better UX
             val minDelay = launch { delay(1000) }
-            // 2. Load the persistent data (which hits UserLocalDataSource)
-//            gameRepository.getUserProfile()
-            // 3. Wait for the minimum delay to finish
             minDelay.join()
-
-            // 4. Mark as loaded
             _isDataLoaded.value = true
         }
     }
