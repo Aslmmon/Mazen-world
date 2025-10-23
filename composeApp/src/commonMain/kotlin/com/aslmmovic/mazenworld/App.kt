@@ -11,8 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.aslmmovic.mazenworld.presentation.navigation.Screen
-import com.aslmmovic.mazenworld.presentation.ui.HomeScreen
-import com.aslmmovic.mazenworld.presentation.ui.SplashScreen
+import com.aslmmovic.mazenworld.presentation.ui.home.HomeScreen
+import com.aslmmovic.mazenworld.presentation.ui.splash.SplashScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -30,7 +30,9 @@ fun App() {
             composable(Screen.CategoryMap.route) {
                 Text(
                     "Map Screen: Coming Soon!",
-                    modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center)
                 )
             }
         }

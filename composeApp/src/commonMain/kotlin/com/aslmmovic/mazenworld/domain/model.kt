@@ -14,9 +14,6 @@ data class GameContent(
 data class UserProfile(
     val stars: Int = 0,
     val isPremium: Boolean = false,
-    val unlockedContentIds: Set<String> = emptySet(),
-    val unlockedRewardIds: Set<String> = emptySet(),
-    // New fields for audio state
     val soundEnabled: Boolean = true,
     val musicEnabled: Boolean = true
 

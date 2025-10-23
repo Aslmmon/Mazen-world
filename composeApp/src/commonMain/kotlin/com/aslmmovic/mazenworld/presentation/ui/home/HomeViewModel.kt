@@ -1,14 +1,13 @@
-package com.aslmmovic.mazenworld.presentation.ui.viewmodel
+package com.aslmmovic.mazenworld.presentation.ui.home
 
+import ToggleMusicEnabledUseCase
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aslmmovic.mazenworld.domain.UserProfile
 import com.aslmmovic.mazenworld.domain.respository.GameRepository
-import com.aslmmovic.mazenworld.domain.useCase.ToggleMusicEnabledUseCase
 import com.aslmmovic.mazenworld.domain.useCase.ToggleSoundEnabledUseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -20,25 +19,29 @@ class HomeViewModel(
     private val toggleSoundEnabled: ToggleSoundEnabledUseCase
 ) : ViewModel() { // Assuming you use a shared ViewModel base class
 
-    // Expose the User Profile state to the UI
-//    val profileState: StateFlow<UserProfile> = flow {
-//        // We'll use a hot flow (like StateFlow/SharedFlow) in the repository
-//        // later, but for now, we poll/load on start.
-//        emit(gameRepository.getUserProfile())
-//    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), UserProfile())
+    // Using a simple load/refresh mechanism for MVP
+//    private val _profileState = MutableStateFlow(UserProfile())
+//    val profileState: StateFlow<UserProfile> = _profileState
+
+    val profileState: StateFlow<UserProfile> = gameRepository.getUserProfile()
+        .stateIn(
+            scope = viewModelScope,
+            // Keep the flow active while subscribed, stopping after 5 seconds of inactivity.
+            started = SharingStarted.WhileSubscribed(5000),
+            // Initial value before the first emission from the repository.
+            initialValue = UserProfile()
+        )
 
 
     fun toggleMusic() {
         viewModelScope.launch {
             toggleMusicEnabled()
-            // Relaunch the profile flow (or rely on a hot flow from the repo)
         }
     }
 
     fun toggleSound() {
         viewModelScope.launch {
             toggleSoundEnabled()
-            // Relaunch the profile flow
         }
     }
 }

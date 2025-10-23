@@ -1,15 +1,12 @@
-package com.aslmmovic.mazenworld.presentation.ui
+package com.aslmmovic.mazenworld.presentation.ui.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -20,29 +17,30 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.aslmmovic.mazenworld.presentation.navigation.Screen
-import kotlinx.coroutines.delay
+import com.aslmmovic.mazenworld.impl.getPlatform
 import mazenworld.composeapp.generated.resources.Res
-import mazenworld.composeapp.generated.resources.compose_multiplatform
-import mazenworld.composeapp.generated.resources.tree
 import mazenworld.composeapp.generated.resources.treesvg
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 
 // presentation/ui/SplashScreen.kt
 @Composable
 fun SplashScreen(navController: NavController) {
-    LaunchedEffect(Unit) {
-        delay(2000) // Show splash for 2 seconds
-        navController.navigate(Screen.Home.route) {
-            // Prevent navigating back to the splash screen
-            popUpTo(Screen.Splash.route) { inclusive = true }
+
+    val viewModel: SplashViewModel = koinViewModel()
+    val isLoaded by viewModel.isDataLoaded.collectAsState()
+     val platform = getPlatform()
+
+
+    LaunchedEffect(isLoaded) {
+        if (isLoaded) {
+            navController.navigate(Screen.Home.route) {
+                popUpTo(Screen.Splash.route) { inclusive = true }
+            }
         }
     }
 
@@ -65,6 +63,8 @@ fun SplashScreen(navController: NavController) {
 
             // Add some vertical space between logo and indicator
             Spacer(modifier = Modifier.height(32.dp))
+
+            Text(text = "Loading...${platform.name}")
 
             // 2. Circular Progress Indicator (The Loading Bar)
             CircularProgressIndicator(

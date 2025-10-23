@@ -1,4 +1,4 @@
-package com.aslmmovic.mazenworld.presentation.ui
+package com.aslmmovic.mazenworld.presentation.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -6,12 +6,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,28 +22,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.aslmmovic.mazenworld.presentation.navigation.Screen
-import com.aslmmovic.mazenworld.presentation.ui.viewmodel.HomeViewModel
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.homebg
+import mazenworld.composeapp.generated.resources.tree
+import mazenworld.composeapp.generated.resources.treesvg
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
-// presentation/ui/HomeScreen.kt (Simplified Structure)
 @Composable
 fun HomeScreen(navController: NavController) {
-    // You'll fetch the ViewModel here using Koin/DI setup
-    // val viewModel: HomeViewModel = koinViewModel()
-
-//    val viewModel: HomeViewModel = koinViewModel()
-//    val profile by viewModel.profileState.collectAsState() // Observe the state
-
+    val viewModel: HomeViewModel = koinViewModel()
+    val profile by viewModel.profileState.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -72,6 +67,70 @@ fun HomeScreen(navController: NavController) {
         // --- Placeholder for Play Button and Side Icons ---
         // For Day 5, we will implement the actual clickable buttons
         // using your image assets on top of this background.
+// Star Counter (Top Right)
+        Row(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(16.dp)
+                .background(
+                    Color.Yellow.copy(alpha = 0.8f),
+                    shape = RoundedCornerShape(8.dp)
+                ), // Added background for visibility
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            // Star Icon (You must have this resource file!)
+            Icon(
+                painter = painterResource(Res.drawable.tree),
+                contentDescription = "Stars",
+                tint = Color(0xFFFF9800), // Orange tint for the star
+                modifier = Modifier.size(24.dp)
+            )
+
+            // Star Count (reads persistent value)
+            Text(
+                text = profile.stars.toString(), // <-- USES PERSISTENT DATA
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+        }
+
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Star button (Trophy Icon placeholder)
+            SmallIconButton(onClick = { /* navigate to Rewards */ }) {
+                // ... Icon
+            }
+//
+//            // Music Toggle (Uses persistent state)
+//            AudioToggleButton(
+//                isEnabled = profile.musicEnabled, // <-- USES PERSISTENT DATA
+//                onToggle = viewModel::toggleMusic,
+//                activeIconResource = Res.drawable.treesvg,
+//                inactiveIconResource = Res.drawable.tree
+//            )
+//
+//            // Sound Toggle (Uses persistent state)
+//            AudioToggleButton(
+//                isEnabled = profile.soundEnabled, // <-- USES PERSISTENT DATA
+//                onToggle = viewModel::toggleSound,
+//                activeIconResource = Res.drawable.icon_speaker,
+//                inactiveIconResource = Res.drawable.icon_speaker_off
+//            )
+
+            // Parent Gate Button (Info Icon)
+//            SmallIconButton(onClick = { navigator.push(ParentSettingsScreen) }) {
+//                // ... Icon
+//            }
+        }
+
+
     }
 
 }

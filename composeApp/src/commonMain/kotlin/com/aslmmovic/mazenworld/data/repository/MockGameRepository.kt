@@ -3,6 +3,7 @@ package com.aslmmovic.mazenworld.data.repository
 import com.aslmmovic.mazenworld.domain.GameContent
 import com.aslmmovic.mazenworld.domain.UserProfile
 import com.aslmmovic.mazenworld.domain.respository.GameRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 
@@ -57,7 +58,11 @@ class MockGameRepository : GameRepository {
     override suspend fun getFreemiumContent(): List<GameContent> =
         mockContent.filter { !it.isPremium }
 
-    override suspend fun getUserProfile(): UserProfile = profileFlow.first()
+    override fun getUserProfile(): Flow<UserProfile> {
+       return  profileFlow
+    }
+
+//    override suspend fun getUserProfile(): UserProfile = profileFlow.first()
 
     override suspend fun saveUserProfile(profile: UserProfile) {
         profileFlow.value = profile

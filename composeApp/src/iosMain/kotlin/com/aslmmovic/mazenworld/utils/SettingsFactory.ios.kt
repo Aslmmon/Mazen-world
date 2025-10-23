@@ -1,10 +1,7 @@
-package com.aslmmovic.mazenworld.utils
-
-import com.russhwolf.settings.NSUserDefaultsSettings
-import com.russhwolf.settings.Settings
-import platform.Foundation.NSUserDefaults
-
 // iosMain/utils/SettingsFactory.ios.kt
+import com.russhwolf.settings.Settings
+import com.russhwolf.settings.NSUserDefaultsSettings
+import platform.Foundation.NSUserDefaults
 
 actual class SettingsFactory {
     actual fun createSettings(): Settings {
