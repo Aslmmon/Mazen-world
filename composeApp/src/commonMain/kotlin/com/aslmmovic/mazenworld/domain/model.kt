@@ -1,5 +1,7 @@
 package com.aslmmovic.mazenworld.domain
 
+import org.jetbrains.compose.resources.DrawableResource
+
 // domain/model/GameContent.kt
 data class GameContent(
     val id: String, // e.g., "ALIF" for the letter Alif
@@ -17,5 +19,20 @@ data class UserProfile(
     val soundEnabled: Boolean = true,
     val musicEnabled: Boolean = true
 
+)
 
+data class CategoryItem(
+    val id: String,
+    val title: String,
+    // The resource to display on the node (Lion, Truck, Starfish, etc.)
+    val iconResource: DrawableResource,
+    val starCost: Int,
+    val isLocked: Boolean = true, // Initial state is locked
+    val isPremiumContent: Boolean = false
+)
+data class MapState(
+    // The list of all levels the user sees on the map
+    val categories: List<CategoryItem> = emptyList(),
+    // Any error state, though we'll keep this simple for the MVP
+    val errorMessage: String? = null
 )
