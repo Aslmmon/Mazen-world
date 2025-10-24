@@ -27,11 +27,9 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun SmallIconButton(
     onClick: () -> Unit,
-    // NEW: Allow the caller to set the button's main background image (e.g., the yellow star frame)
     backgroundPainter: Painter = painterResource(Res.drawable.yellow_frame),
     contentDescription: String,
     modifier: Modifier = Modifier,
-    // This content will be the icon placed in the center (Trophy, Music Note, Info 'i')
     icon: DrawableResource
 ) {
     // 1. The main container is a Box that holds the background image
