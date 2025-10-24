@@ -1,8 +1,6 @@
 package com.aslmmovic.mazenworld.presentation.ui.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,13 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
+import com.aslmmovic.mazenworld.presentation.components.withPressAnimationAndSound
 import com.aslmmovic.mazenworld.presentation.navigation.Screen
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.homebg
@@ -96,10 +94,9 @@ fun HomeScreen(navController: NavController) {
             modifier = Modifier
                 .size(180.dp) // Large size for easy tapping
                 .align(Alignment.Center)
-                .clickable(
-                    onClick = { navController.navigate(Screen.CategoryMap.route) },
-                    interactionSource = remember { MutableInteractionSource() }, // Prevents ripple tracking
-                    indication = null // Removes the visual shadow/ripple
+                .withPressAnimationAndSound(
+                    onClick = { navController.navigate(Screen.CategoryMap.route) }
+                    // Uses default "button_click" sound
                 )
 
         )
