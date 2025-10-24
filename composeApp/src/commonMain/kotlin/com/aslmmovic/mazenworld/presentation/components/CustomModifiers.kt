@@ -14,18 +14,19 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.input.pointer.pointerInput
 import com.aslmmovic.mazenworld.utils.AudioPlayerManager
 
+const val soundEffectSfx = "button_click"
+
 // Define the reusable modifier function
-fun Modifier.withPressAnimationAndSound(
+fun Modifier.withPressAnimation(
     onClick: () -> Unit,
-    sfxId: String = "button_click" // Default sound effect
+    playSound: Boolean = true,
+    sfxId: String = soundEffectSfx // Default sound effect
 ): Modifier = composed {
     var isPressed by remember { mutableStateOf(false) }
-
     val scale: Float by animateFloatAsState(
         targetValue = if (isPressed) 0.85f else 1.0f, // Scale down to 85% when pressed
         animationSpec = spring(dampingRatio = DampingRatioMediumBouncy)
     )
-    // Apply the scale and the touch logic
     this
         .scale(scale)
         .pointerInput(Unit) {
@@ -37,7 +38,7 @@ fun Modifier.withPressAnimationAndSound(
                     isPressed = false // Start visual scale up
                     if (up != null) {
                         // Play sound and execute navigation/logic
-                        AudioPlayerManager.playSound(sfxId)
+                        if (playSound) AudioPlayerManager.playSound(sfxId)
                         onClick()
                     }
                 }

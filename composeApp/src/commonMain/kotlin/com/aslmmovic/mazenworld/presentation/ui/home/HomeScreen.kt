@@ -14,7 +14,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
-import com.aslmmovic.mazenworld.presentation.components.withPressAnimationAndSound
+import com.aslmmovic.mazenworld.presentation.components.withPressAnimation
 import com.aslmmovic.mazenworld.presentation.navigation.Screen
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.homebg
@@ -94,7 +94,7 @@ fun HomeScreen(navController: NavController) {
             modifier = Modifier
                 .size(180.dp) // Large size for easy tapping
                 .align(Alignment.Center)
-                .withPressAnimationAndSound(
+                .withPressAnimation(
                     onClick = { navController.navigate(Screen.CategoryMap.route) }
                     // Uses default "button_click" sound
                 )
