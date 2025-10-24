@@ -16,17 +16,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import org.koin.compose.viewmodel.koinViewModel
-import com.aslmmovic.mazenworld.domain.CategoryItem
 import com.aslmmovic.mazenworld.presentation.components.LevelNode
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
-import com.aslmmovic.mazenworld.presentation.navigation.Screen
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.back_icon
 import mazenworld.composeapp.generated.resources.category_map
-import mazenworld.composeapp.generated.resources.homebg
-import mazenworld.composeapp.generated.resources.parent_icon
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun CategoryMapScreen(navController: NavController) {

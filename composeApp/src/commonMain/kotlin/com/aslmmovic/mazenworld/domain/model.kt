@@ -1,5 +1,8 @@
 package com.aslmmovic.mazenworld.domain
 
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.DrawableResource
 
 // domain/model/GameContent.kt
@@ -28,8 +31,16 @@ data class CategoryItem(
     val iconResource: DrawableResource,
     val starCost: Int,
     val isLocked: Boolean = true, // Initial state is locked
-    val isPremiumContent: Boolean = false
+    val isPremiumContent: Boolean = false,
+    val position: CategoryPosition
 )
+
+data class CategoryPosition(
+    val alignment: Alignment,
+    val paddingHorizontal: Dp = 0.dp,
+    val paddingVertical: Dp = 0.dp
+)
+
 data class MapState(
     // The list of all levels the user sees on the map
     val categories: List<CategoryItem> = emptyList(),

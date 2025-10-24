@@ -32,7 +32,8 @@ class CategoryMapViewModel(
                 val updatedCategories = categories.map { item ->
                     item.copy(
                         // Logic: Item is unlocked if starCost is 0, OR user has enough stars
-                        isLocked = item.starCost > 0 && item.starCost > profile.stars,
+//                        isLocked = item.starCost > 0 && item.starCost > profile.stars,
+                        isLocked = false,
                         isPremiumContent = item.isPremiumContent
                     )
                 }
