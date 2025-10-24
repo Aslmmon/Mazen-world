@@ -6,6 +6,6 @@ class ToggleMusicEnabledUseCase(
 ) {
     suspend operator fun invoke() {
         val currentProfile = gameRepository.getUserProfile().first()
-        val newState = !currentProfile.musicEnabled
+        gameRepository.saveMusicState(!currentProfile.musicEnabled)
     }
 }

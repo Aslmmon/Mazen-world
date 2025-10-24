@@ -37,7 +37,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun HomeScreen(navController: NavController) {
     val viewModel: HomeViewModel = koinViewModel()
-//    val profile by viewModel.profileState.collectAsState()
+   val profile by viewModel.profileState.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -87,13 +87,6 @@ fun HomeScreen(navController: NavController) {
                 modifier = Modifier.size(24.dp)
             )
 
-            // Star Count (reads persistent value)
-//            Text(
-//                text = profile.stars.toString(), // <-- USES PERSISTENT DATA
-//                fontSize = 20.sp,
-//                fontWeight = FontWeight.Bold,
-//                color = Color.Black
-//            )
         }
 
 

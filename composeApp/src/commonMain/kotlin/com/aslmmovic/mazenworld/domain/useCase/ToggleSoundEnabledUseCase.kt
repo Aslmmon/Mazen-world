@@ -8,12 +8,7 @@ class ToggleSoundEnabledUseCase(
 
 ) {
     suspend operator fun invoke() {
-        // 1. Load current profile
-        //    This uses the asynchronous architecture correctly.
         val currentProfile = gameRepository.getUserProfile().first()
-
-        // 2. Toggle the value.
-        val newState = !currentProfile.musicEnabled
-
+        gameRepository.saveSoundState(!currentProfile.soundEnabled)
     }
 }

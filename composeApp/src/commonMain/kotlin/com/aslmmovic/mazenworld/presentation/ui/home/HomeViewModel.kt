@@ -13,7 +13,31 @@ import kotlinx.coroutines.launch
 
 // presentation/viewmodel/HomeViewModel.kt (Simplified)
 
-class HomeViewModel() : ViewModel() { // Assuming you use a shared ViewModel base class
+class HomeViewModel(
+    private val gameRepository: GameRepository,
+    private val toggleMusicEnabled: ToggleMusicEnabledUseCase,
+    private val toggleSoundEnabled: ToggleSoundEnabledUseCase
+) : ViewModel() { // Assuming you use a shared ViewModel base class
 
 
+    // The single source of state for the UI, streamed directly from the Repository Flow.
+    val profileState: StateFlow<UserProfile> = gameRepository.getUserProfile()
+        .stateIn(
+            scope = viewModelScope,
+            // Uses mock data immediately
+            started = SharingStarted.Eagerly,
+            initialValue = UserProfile(stars = 16, musicEnabled = true, soundEnabled = true)
+        )
+
+    fun toggleMusic() {
+        viewModelScope.launch {
+            toggleMusicEnabled()
+        }
+    }
+
+    fun toggleSound() {
+        viewModelScope.launch {
+            toggleSoundEnabled()
+        }
+    }
 }
