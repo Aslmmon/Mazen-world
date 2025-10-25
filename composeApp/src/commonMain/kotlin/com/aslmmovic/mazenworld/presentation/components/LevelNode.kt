@@ -24,9 +24,6 @@ fun BoxScope.LevelNode(
     item: CategoryItem,
     onNodeClick: (CategoryItem) -> Unit
 ) {
-    // 1. Calculate screen placement (MOCK POSITIONS - You need to adjust these values)
-
-    // 2. The Node Container
     Box(
         modifier = Modifier
             .then(applyCategoryPosition(item)) // Apply position data
@@ -50,9 +47,9 @@ fun BoxScope.LevelNode(
                 Image(
                     painterResource(item.iconResource),
                     contentDescription = item.title,
-                    modifier = Modifier.fillMaxSize(0.7f)
+                    modifier = Modifier.fillMaxSize(1f)
                 )
-                Text(item.id, color = Color.Black, fontSize = 16.sp)
+                Text(item.id, color = Color.White, fontSize = 14.sp)
 
             }
             // UNLOCKED: Show the actual category icon (Lion, Truck, etc.)

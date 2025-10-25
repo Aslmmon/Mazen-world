@@ -10,6 +10,10 @@ import androidx.compose.ui.unit.dp
 import com.aslmmovic.mazenworld.domain.CategoryItem
 import com.aslmmovic.mazenworld.domain.CategoryPosition
 import mazenworld.composeapp.generated.resources.Res
+import mazenworld.composeapp.generated.resources.category_alfabet
+import mazenworld.composeapp.generated.resources.category_animals
+import mazenworld.composeapp.generated.resources.category_shape
+import mazenworld.composeapp.generated.resources.category_vehicles
 // Import specific resource identifiers needed for the map nodes
 import mazenworld.composeapp.generated.resources.star_icon // Example icon
 import mazenworld.composeapp.generated.resources.treesvg
@@ -43,7 +47,7 @@ val MOCK_CATEGORIES = listOf(
         id = "ANIMALS_1",
         title = "Farm Animals",
         // Assuming you have an icon for the cow
-        iconResource = Res.drawable.star_icon,
+        iconResource = Res.drawable.category_alfabet,
         starCost = 0, // FREE - Always unlocked
         isLocked = false,
         position = CategoryPosition(
@@ -56,7 +60,7 @@ val MOCK_CATEGORIES = listOf(
     CategoryItem(
         id = "ALPHABET_1",
         title = "First Letters",
-        iconResource = Res.drawable.star_icon, // The lion node
+        iconResource = Res.drawable.category_alfabet, // The lion node
         starCost = 0, // FREE - Always unlocked
         isLocked = false,
         position = CategoryPosition(
@@ -69,7 +73,7 @@ val MOCK_CATEGORIES = listOf(
     CategoryItem(
         id = "SHAPES_1",
         title = "Basic Shapes",
-        iconResource = Res.drawable.star_icon, // The starfish node
+        iconResource = Res.drawable.category_shape, // The starfish node
         starCost = 30, // Requires stars
         isLocked = true,
         position = CategoryPosition(
@@ -81,7 +85,7 @@ val MOCK_CATEGORIES = listOf(
     CategoryItem(
         id = "VEHICLES_1",
         title = "Big Trucks",
-        iconResource = Res.drawable.star_icon, // The truck node
+        iconResource = Res.drawable.category_vehicles, // The truck node
         starCost = 50, // More expensive
         isLocked = true,
         position = CategoryPosition(
