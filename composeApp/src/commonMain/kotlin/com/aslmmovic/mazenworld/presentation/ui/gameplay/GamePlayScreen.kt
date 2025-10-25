@@ -56,8 +56,6 @@ fun GamePlayScreen(navController: NavHostController, categoryId: String) {
             modifier = Modifier.fillMaxSize()
         )
 
-
-
         Column(
             modifier = Modifier
                 .align(Alignment.TopStart)
@@ -81,8 +79,6 @@ fun GamePlayScreen(navController: NavHostController, categoryId: String) {
             )
 
         }
-
-
         Box(
             modifier = Modifier
                 .align(Alignment.Center)
@@ -105,7 +101,7 @@ fun GamePlayScreen(navController: NavHostController, categoryId: String) {
 
 
             // Progress Bar (e.g., 30 questions)
-//            GameProgressBar(state.currentQuestionIndex, state.totalQuestions)
+            GameProgressBar(state.currentQuestionIndex, state.totalQuestions)
 //
 //            Spacer(Modifier.height(24.dp))
 //
@@ -117,8 +113,7 @@ fun GamePlayScreen(navController: NavHostController, categoryId: String) {
 //            // Options Grid
             OptionsGrid(state.currentQuestion?.options, viewModel::processAnswer)
 //
-//            // Feedback Text
-         //   state.feedbackMessage?.let { msg -> Text(msg, color = Color.Red.copy(alpha = 0.8f)) }
+            state.feedbackMessage?.let { msg -> Text(msg, color = Color.Red.copy(alpha = 0.8f)) }
         }
     }
 

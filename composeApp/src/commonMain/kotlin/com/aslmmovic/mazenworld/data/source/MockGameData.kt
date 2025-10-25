@@ -24,7 +24,72 @@ private val MOCK_VEHICLES_QUESTIONS = listOf(
         ),
         correctAnswerId = "O3"
     ),
-    // Add 4 more mock questions here...
+
+    // Q2: (Image to Image Match - Find the same Plane)
+    GameQuestion(
+        questionText = "أين هي 'الطائرة الحمراء'؟", // Where is the 'Red Plane'?
+        questionImageId = Res.drawable.yellow_truck, // Image prompt: Red Plane
+        options = listOf(
+            GameOption(id = "O1", text = null, iconResource = Res.drawable.yellow_truck),
+            GameOption(id = "O2", text = null, iconResource = Res.drawable.yellow_truck),
+            GameOption(id = "O3", text = null, iconResource = Res.drawable.yellow_truck),
+            GameOption(
+                id = "O4",
+                text = null,
+                iconResource = Res.drawable.yellow_truck
+            ) // Correct Answer: Red Plane Image
+        ),
+        correctAnswerId = "O4"
+    ),
+
+    GameQuestion(
+        questionText = "اختر صورة 'القارب'", // Choose the picture of the 'Boat'
+        questionImageId = Res.drawable.yellow_truck, // Image prompt: Blue Boat
+        options = listOf(
+            GameOption(id = "O1", text = "شاحنة", iconResource = null),
+            GameOption(
+                id = "O2",
+                text = "قارب",
+                iconResource = null
+            ), // Correct Answer: Word 'قارب'
+            GameOption(id = "O3", text = "سيارة", iconResource = null),
+            GameOption(id = "O4", text = "هليكوبتر", iconResource = null)
+        ),
+        correctAnswerId = "O2"
+    ),
+
+    GameQuestion(
+        questionText = "أي واحدة هي 'الشاحنة'؟", // Which one is the 'Truck'?
+        questionImageId = Res.drawable.yellow_truck, // Image prompt: Yellow Truck
+        options = listOf(
+            GameOption(
+                id = "O1",
+                text = "شاحنة",
+                iconResource = null
+            ), // Correct Answer: Word 'شاحنة'
+            GameOption(id = "O2", text = "طائرة", iconResource = null),
+            GameOption(id = "O3", text = "قارب", iconResource = null),
+            GameOption(id = "O4", text = "سيارة", iconResource = null)
+        ),
+        correctAnswerId = "O1"
+    ),
+
+    // Q5: (Image to Image Match - Find the same Car)
+    GameQuestion(
+        questionText = "اضغط على الصورة التي تطابق 'السيارة'", // Press the image that matches 'the Car'
+        questionImageId = Res.drawable.yellow_truck, // Image prompt: Purple Car
+        options = listOf(
+            GameOption(id = "O1", text = null, iconResource = Res.drawable.yellow_truck),
+            GameOption(
+                id = "O2",
+                text = null,
+                iconResource = Res.drawable.yellow_truck
+            ), // Correct Answer: Purple Car Image
+            GameOption(id = "O3", text = null, iconResource = Res.drawable.yellow_truck),
+            GameOption(id = "O4", text = null, iconResource = Res.drawable.yellow_truck)
+        ),
+        correctAnswerId = "O2"
+    ),
 )
 
 fun getMockQuestionsForCategory(categoryId: String): List<GameQuestion> {
