@@ -28,6 +28,7 @@ import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
 import com.aslmmovic.mazenworld.presentation.ui.home.HomeViewModel
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.back_icon
+import mazenworld.composeapp.generated.resources.board_frame
 import mazenworld.composeapp.generated.resources.homebg
 import mazenworld.composeapp.generated.resources.music_icon
 import mazenworld.composeapp.generated.resources.play_screen_bg
@@ -82,30 +83,45 @@ fun GamePlayScreen(navController: NavHostController, categoryId: String) {
         }
 
 
-        // Game Card (White Card in the center)
-//        Column(
-//            modifier = Modifier
-//                .align(Alignment.Center)
-//                .fillMaxWidth(0.9f)
-//                .background(Color.White, shape = RoundedCornerShape(16.dp))
-//                .padding(24.dp),
-//            horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-//            // Progress Bar (e.g., 30 questions)
+        Box(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .fillMaxWidth(0.7f),
+        ) {
+            Image(
+                painterResource(Res.drawable.board_frame),
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+        Column(
+            modifier = Modifier
+                .padding(24.dp)
+                .align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+
+            // Progress Bar (e.g., 30 questions)
 //            GameProgressBar(state.currentQuestionIndex, state.totalQuestions)
 //
 //            Spacer(Modifier.height(24.dp))
 //
 //            // Question Area
-//            QuestionArea(state.currentQuestion)
+            QuestionArea(state.currentQuestion)
 //
 //            Spacer(Modifier.height(32.dp))
 //
 //            // Options Grid
-//            OptionsGrid(state.currentQuestion?.options, viewModel::processAnswer)
+            OptionsGrid(state.currentQuestion?.options, viewModel::processAnswer)
 //
 //            // Feedback Text
-//            state.feedbackMessage?.let { msg -> Text(msg, color = Color.Red.copy(alpha = 0.8f)) }
-//        }
+         //   state.feedbackMessage?.let { msg -> Text(msg, color = Color.Red.copy(alpha = 0.8f)) }
+        }
     }
+
+    // Game Card (White Card in the center)
+
 }

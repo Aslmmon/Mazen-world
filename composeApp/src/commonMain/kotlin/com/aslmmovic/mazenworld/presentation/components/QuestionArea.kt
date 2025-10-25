@@ -33,13 +33,11 @@ fun QuestionArea(question: GameQuestion?) {
         // Question Text (e.g., "Find the Big Car" in Arabic)
         Text(
             text = question.questionText,
-            fontSize = 32.sp,
+            fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
-            modifier = Modifier.padding(16.dp)
         )
 
-        Spacer(Modifier.height(16.dp))
 
         // Question Image/Icon (e.g., the large Car picture)
         question.questionImageId?.let { resId ->
@@ -48,7 +46,7 @@ fun QuestionArea(question: GameQuestion?) {
                 contentDescription = "Question Image",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .size(25.dp) // Large visual prompt
+                    .size(120.dp) // Large visual prompt
                     .clip(RoundedCornerShape(8.dp))
             )
         }
