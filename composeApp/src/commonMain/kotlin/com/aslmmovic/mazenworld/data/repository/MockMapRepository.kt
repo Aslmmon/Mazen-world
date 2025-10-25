@@ -28,7 +28,6 @@ class MockMapRepository : MapRepository {
         MockState.musicEnabled,
         MockState.soundEnabled
     ) { stars, musicEnabled, soundEnabled ->
-        // Create a new UserProfile object whenever any internal state changes
         UserProfile(stars, musicEnabled, soundEnabled)
     }
 

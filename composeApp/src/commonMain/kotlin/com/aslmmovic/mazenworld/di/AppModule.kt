@@ -21,12 +21,12 @@ val appModule = module {
         ToggleMusicEnabledUseCase(
             get(),
         )
-    } // Inject GameRepository and PreferencesService
+    }
     factory {
         ToggleSoundEnabledUseCase(
             get(),
         )
-    } // Inject GameRepository and PreferencesService
+    }
 
     factory { HomeViewModel(get(), get(), get()) }
     factory { SplashViewModel() }

@@ -2,44 +2,16 @@ package com.aslmmovic.mazenworld.data.source
 
 // commonMain/data/MockData.kt
 
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.padding
+// Import specific resource identifiers needed for the map nodes
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.aslmmovic.mazenworld.domain.CategoryItem
 import com.aslmmovic.mazenworld.domain.CategoryPosition
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.category_alfabet
-import mazenworld.composeapp.generated.resources.category_animals
 import mazenworld.composeapp.generated.resources.category_shape
 import mazenworld.composeapp.generated.resources.category_vehicles
-// Import specific resource identifiers needed for the map nodes
-import mazenworld.composeapp.generated.resources.star_icon // Example icon
-import mazenworld.composeapp.generated.resources.treesvg
 
-
-
-fun getCategoryPositionModifier(scope: BoxScope, id: String): Modifier {
-    return with(scope) {
-        when (id) {
-//            "ALPHABET_1" -> Modifier
-//                .align(Alignment.TopStart)
-//                .padding(top = 150.dp, start = 150.dp)
-//            "SHAPES_1" -> Modifier
-//                .align(Alignment.TopStart)
-//                .padding(top = 250.dp, start = 150.dp)
-//            "VEHICLES_1" -> Modifier
-//                .align(Alignment.BottomCenter)
-//                .padding(bottom = 25.dp)
-//            "ANIMALS_1" -> Modifier
-//                .align(Alignment.BottomCenter)
-//                .padding(bottom = 100.dp, start = 20.dp)
-
-            else -> Modifier.align(Alignment.TopStart)
-        }
-    }
-}
 
 // Static data list mimicking the levels on the map
 val MOCK_CATEGORIES = listOf(

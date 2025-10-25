@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.aslmmovic.mazenworld.presentation.components.LevelNode
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
+import com.aslmmovic.mazenworld.presentation.navigation.Screen
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.back_icon
 import mazenworld.composeapp.generated.resources.category_map
@@ -65,7 +66,8 @@ fun CategoryMapScreen(navController: NavController) {
                         viewModel.attemptUnlock(clickedItem)
                     } else {
                         // Navigate to the Game Screen when unlocked
-//                        navController.navigate(Screen.GamePlay.route + "/${clickedItem.id}")
+                        navController.navigate(Screen.PlayScreen.route + "/${clickedItem.id}")
+
                     }
                 }
             )
