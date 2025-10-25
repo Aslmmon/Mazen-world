@@ -60,7 +60,7 @@ fun GamePlayScreen(navController: NavHostController, categoryId: String) {
         Column(
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(horizontal = 32.dp, vertical = 16.dp),
+                .padding(horizontal = 10.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
