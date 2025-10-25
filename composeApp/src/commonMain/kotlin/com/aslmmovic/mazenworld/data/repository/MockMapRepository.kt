@@ -14,6 +14,7 @@ interface MapRepository {
     fun getCurrentUserProfile(): Flow<UserProfile> // Synchronous read from MockState
     suspend fun subtractStars(cost: Int)
     suspend fun unlockCategory(id: String)
+    suspend fun addStars(amount: Int)
 }
 
 class MockMapRepository : MapRepository {
@@ -37,6 +38,15 @@ class MockMapRepository : MapRepository {
         if (currentStars >= cost) {
             MockState.updateStars(currentStars - cost)
         }
+    }
+
+    override suspend fun addStars(amount: Int) {
+        // MOCK: Delay to simulate network/database write latency
+        kotlinx.coroutines.delay(100)
+
+        val currentStars = MockState.stars.value
+        MockState.updateStars(currentStars + amount)
+        println("MOCK: Added $amount stars. Total: ${MockState.stars.value}")
     }
 
     override suspend fun unlockCategory(id: String) {

@@ -1,6 +1,8 @@
 package com.aslmmovic.mazenworld.di
 
 import ToggleMusicEnabledUseCase
+import com.aslmmovic.mazenworld.data.repository.MapRepository
+import com.aslmmovic.mazenworld.data.repository.MockMapRepository
 import com.aslmmovic.mazenworld.domain.respository.GameRepository
 import com.aslmmovic.mazenworld.domain.respository.MockGameRepository
 import com.aslmmovic.mazenworld.domain.useCase.ToggleSoundEnabledUseCase
@@ -17,6 +19,7 @@ import org.koin.dsl.module
 val appModule = module {
 
     single<GameRepository> { MockGameRepository() }
+    single<MapRepository> { MockMapRepository() }
 
     factory {
         ToggleMusicEnabledUseCase(

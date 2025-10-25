@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +20,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.aslmmovic.mazenworld.presentation.components.GameProgressBar
 import com.aslmmovic.mazenworld.presentation.components.OptionsGrid
@@ -32,6 +35,7 @@ import mazenworld.composeapp.generated.resources.board_frame
 import mazenworld.composeapp.generated.resources.homebg
 import mazenworld.composeapp.generated.resources.music_icon
 import mazenworld.composeapp.generated.resources.play_screen_bg
+import mazenworld.composeapp.generated.resources.treesvg
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -46,6 +50,8 @@ fun GamePlayScreen(navController: NavHostController, categoryId: String) {
 
     val state by viewModel.state.collectAsState()
 
+
+
     Box(modifier = Modifier.fillMaxSize()) {
 
         // Background (e.g., farm background)
@@ -56,6 +62,11 @@ fun GamePlayScreen(navController: NavHostController, categoryId: String) {
             modifier = Modifier.fillMaxSize()
         )
 
+        if (state.isLevelComplete) {
+           this.LevelCompleteOverlay(navController, state.score) // 🌟 Display completion screen
+        } else {
+            // ... Display regular Question Area and Options Grid ...
+        }
         Column(
             modifier = Modifier
                 .align(Alignment.TopStart)
@@ -119,4 +130,38 @@ fun GamePlayScreen(navController: NavHostController, categoryId: String) {
 
     // Game Card (White Card in the center)
 
+    // 🌟 NEW: Level Complete Overlay
+
 }
+@Composable
+fun BoxScope.LevelCompleteOverlay(navController: NavHostController, score: Int) {
+    // Semi-transparent overlay to draw attention
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.6f))
+            .align(Alignment.Center),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(20.dp)) {
+
+            // Success Message
+            Text("المستوى اكتمل!", fontSize = 36.sp, color = Color.White, fontWeight = FontWeight.Bold)
+            Text("لقد كسبت 25 نجمة!", fontSize = 24.sp, color = Color.Yellow)
+            Text("نقاطك: $score/${5}", fontSize = 18.sp, color = Color.LightGray)
+
+            // Button to return to the map
+            SmallIconButton(
+                onClick = {
+                    // Go back to the map screen to see the updated stars and unlocks
+                    navController.popBackStack()
+                },
+                contentDescription = "Return to Map",
+                // Use a different icon/frame for the final button
+                icon = Res.drawable.treesvg
+            )
+        }
+    }
+}
+
