@@ -5,6 +5,7 @@ import com.aslmmovic.mazenworld.domain.respository.GameRepository
 import com.aslmmovic.mazenworld.domain.respository.MockGameRepository
 import com.aslmmovic.mazenworld.domain.useCase.ToggleSoundEnabledUseCase
 import com.aslmmovic.mazenworld.presentation.ui.categories.CategoryMapViewModel
+import com.aslmmovic.mazenworld.presentation.ui.gameplay.GameViewModel
 import com.aslmmovic.mazenworld.presentation.ui.home.HomeViewModel
 import com.aslmmovic.mazenworld.presentation.ui.splash.SplashViewModel
 import org.koin.core.context.startKoin
@@ -29,7 +30,16 @@ val appModule = module {
     }
 
     factory { HomeViewModel(get(), get(), get()) }
+
+
     factory { SplashViewModel() }
+    factory { (categoryId: String) -> // <-- Accepts the runtime parameter
+        GameViewModel(
+            categoryId = categoryId, // Pass the runtime ID to the ViewModel's constructor
+            gameRepository = get() // Injects GameRepository
+        )
+    }
+
     factory { CategoryMapViewModel() }
 }
 

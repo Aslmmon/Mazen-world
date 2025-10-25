@@ -50,7 +50,9 @@ fun CategoryMapScreen(navController: NavController) {
             onClick = {
                 navController.popBackStack()
             },
-            modifier = Modifier.align(Alignment.TopStart).padding(16.dp),
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(16.dp),
             contentDescription = "back",
             icon = Res.drawable.back_icon
 

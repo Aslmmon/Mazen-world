@@ -47,3 +47,23 @@ data class MapState(
     // Any error state, though we'll keep this simple for the MVP
     val errorMessage: String? = null
 )
+
+// commonMain/domain/model/GameQuestion.kt (MOCK QUESTION STRUCTURE)
+
+
+data class GameQuestion(
+    // e.g., "Find the letter أ"
+    val questionText: String,
+    // The main image for the question (e.g., Car image for VEHICLES)
+    val questionImageId: DrawableResource?,
+    // The four clickable options
+    val options: List<GameOption>,
+    // ID of the correct option
+    val correctAnswerId: String
+)
+
+data class GameOption(
+    val id: String,
+    val text: String?,                     // The word/letter text (for ALPHABET/VEHICLES)
+    val iconResource: DrawableResource?     // The icon/image (for ANIMALS/SHAPES)
+)

@@ -11,8 +11,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-// presentation/viewmodel/HomeViewModel.kt (Simplified)
-
 class HomeViewModel(
     private val gameRepository: GameRepository,
     private val toggleMusicEnabled: ToggleMusicEnabledUseCase,
@@ -24,7 +22,6 @@ class HomeViewModel(
     val profileState: StateFlow<UserProfile> = gameRepository.getUserProfile()
         .stateIn(
             scope = viewModelScope,
-            // Uses mock data immediately
             started = SharingStarted.Eagerly,
             initialValue = UserProfile(stars = 16, musicEnabled = true, soundEnabled = true)
         )
