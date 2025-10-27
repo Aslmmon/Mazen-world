@@ -1,20 +1,37 @@
 package com.aslmmovic.mazenworld
 
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.os.LocaleListCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.aslmmovic.mazenworld.di.initKoin
 import org.koin.android.ext.koin.androidContext
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
 
+
+
+    override fun attachBaseContext(newBase: Context) {
+        val locale = Locale("ar") // Target Arabic
+        val config = Configuration(newBase.resources.configuration)
+        config.setLocale(locale)
+        val context = newBase.createConfigurationContext(config)
+        super.attachBaseContext(ContextWrapper(context))
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         initKoin {
             // This assumes your Koin module has Android-specific dependencies
             // that require context, e.g., for DataStore/SharedPreferences setup.

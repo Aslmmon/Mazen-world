@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeCap.Companion.Round
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -31,7 +30,7 @@ fun CustomRoundedProgressIndicator(
     Box(
         modifier = modifier
             // 1. Outer styling: Defines the size and the blue rounded border
-            .height(30.dp) // Use fixed height from your request
+            .height(20.dp) // Use fixed height from your request
             .border(1.dp, trackOutlineColor, roundedShape) // Blue Outline
             .background(trackBackgroundColor, roundedShape) // Light gray background
             .clip(roundedShape) // Clip content inside the border

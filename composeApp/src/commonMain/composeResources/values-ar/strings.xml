@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">عالم مازن</string>
+    <string name="title_home_screen">مزرعة مازن</string>
+    <string name="button_play">إبدأ اللعب</string>
+    <string name="button_back">عودة</string>
+    <string name="score_label">النقاط</string>
+
+    <string name="status_initializing">جاري التهيئة...</string>
+    <string name="status_preparing">تحضير عالم مازن...</string>
+    <string name="status_loading_assets">جاري تحميل الأصول والعوالم...</string>
+    <string name="status_almost_ready">قريبون من اللعب!</string>
+    <string name="status_complete">جاهز!</string>
+
+    <string name="message_not_enough_stars">لا يوجد نجوم كافية! تحتاج %1$s نجوم إضافية.</string>
+    <string name="message_unlocked">تم فتح الفئة: %1$s!</string>
+
+    <string name="feedback_correct">صحيح! ممتاز!</string>
+    <string name="feedback_incorrect">حاول مرة أخرى.</string>
+    <string name="level_complete">اكتمل المستوى!</string>
+    <string name="level_complete_reward">لقد كسبت %1$s نجوم!</string>
+
+    <string name="parent_gate_prompt">اسأل أحد الوالدين: كم يساوي %1$s زائد %2$s؟</string>
+    <string name="parent_gate_verify">تحقق</string>
+</resources>
