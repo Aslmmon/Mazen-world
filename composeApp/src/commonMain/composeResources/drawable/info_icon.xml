@@ -2,6 +2,8 @@
     android:width="62dp"
     android:height="70dp"
     android:viewportWidth="62"
+    android:autoMirrored="true"
+
     android:viewportHeight="70">
   <path
       android:pathData="M9.5,1.5C13.902,1.5 17.501,5.056 17.501,9.5C17.501,13.944 13.902,17.501 9.5,17.501C5.098,17.501 1.5,13.944 1.5,9.5C1.5,5.098 5.056,1.5 9.5,1.5Z"

@@ -21,14 +21,19 @@ import java.util.Locale
 
 class MainActivity : ComponentActivity() {
 
-
+    val isArabic = true
 
     override fun attachBaseContext(newBase: Context) {
-        val locale = Locale("ar") // Target Arabic
-        val config = Configuration(newBase.resources.configuration)
-        config.setLocale(locale)
-        val context = newBase.createConfigurationContext(config)
-        super.attachBaseContext(ContextWrapper(context))
+        if (isArabic) {
+            val locale = Locale("ar") // Target Arabic
+            val config = Configuration(newBase.resources.configuration)
+            config.setLocale(locale)
+            val context = newBase.createConfigurationContext(config)
+            super.attachBaseContext(ContextWrapper(context))
+
+        } else {
+            super.attachBaseContext(newBase)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
