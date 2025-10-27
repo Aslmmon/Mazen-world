@@ -21,7 +21,7 @@ import java.util.Locale
 
 class MainActivity : ComponentActivity() {
 
-    val isArabic = true
+    val isArabic = false
 
     override fun attachBaseContext(newBase: Context) {
         if (isArabic) {
