@@ -36,6 +36,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
             implementation(libs.androidx.datastore.preferences)
+            implementation(libs.androidx.ui.text.android)
 
         }
         commonMain.dependencies {
@@ -67,6 +68,8 @@ kotlin {
              * Navigation
              */
             implementation(libs.navigation.compose)
+
+            implementation(libs.androidx.ui.text.android)
 
         }
 //        commonTest.dependencies {

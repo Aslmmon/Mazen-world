@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,8 +28,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.aslmmovic.mazenworld.presentation.components.CustomRoundedProgressIndicator
 import com.aslmmovic.mazenworld.presentation.navigation.Screen
 import mazenworld.composeapp.generated.resources.Res
+import mazenworld.composeapp.generated.resources.app_logo
 import mazenworld.composeapp.generated.resources.mazen_world_logo
 import mazenworld.composeapp.generated.resources.treesvg
 import org.jetbrains.compose.resources.painterResource
@@ -45,9 +48,9 @@ fun SplashScreen(navController: NavController) {
 
     LaunchedEffect(isLoaded) {
         if (isLoaded) {
-            navController.navigate(Screen.Home.route) {
-                popUpTo(Screen.Splash.route) { inclusive = true }
-            }
+//            navController.navigate(Screen.Home.route) {
+//                popUpTo(Screen.Splash.route) { inclusive = true }
+//            }
         }
     }
 
@@ -57,34 +60,22 @@ fun SplashScreen(navController: NavController) {
             .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
-        // Use a Column to stack the Logo and the Indicator vertically
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-            // 1. Logo
             Image(
-                painter = painterResource(Res.drawable.mazen_world_logo), // Replace with your logo resource
+                painter = painterResource(Res.drawable.app_logo), // Replace with your logo resource
                 contentDescription = "Mazen World Logo",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.size(250.dp)
+                contentScale = ContentScale.FillHeight,
             )
-
-            // Add some vertical space between logo and indicator
             Spacer(modifier = Modifier.height(32.dp))
-
-
-            LinearProgressIndicator(
-                progress = { progressValue },
-                trackColor = Color.Gray,
+            CustomRoundedProgressIndicator(
+                progressValue = progressValue,
+                trackOutlineColor = MaterialTheme.colorScheme.tertiary,
+                progressColor = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier
-                    .width(400.dp)
-                    .height(10.dp),
-                color = Color.Green,
-                strokeCap = Round,
-                gapSize = 0.dp,
+                    .fillMaxWidth(0.6f)
+                    .padding(horizontal = 20.dp)
             )
-
             Spacer(modifier = Modifier.height(16.dp))
-
             Text(
                 text = currentLoadingText,
                 color = Color.DarkGray,

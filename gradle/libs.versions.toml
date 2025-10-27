@@ -20,11 +20,14 @@ navigationComposeVersion = "2.9.1"
 voyagerVersion = "1.0.1"
 firebaseDatabaseKtx = "22.0.1"
 roomKtx = "2.8.3"
+uiText = "1.9.4"
+uiTextGoogleFonts = "1.9.4"
 
 [libraries]
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastorePreferences" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-ui-text-android = { module = "androidx.compose.ui:ui-text-android", version.ref = "uiText" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinCore" }
 koin-compose = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinCore" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
@@ -45,6 +48,8 @@ voyager-screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", vers
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyagerVersion" }
 firebase-database-ktx = { group = "com.google.firebase", name = "firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
+androidx-ui-text = { group = "androidx.compose.ui", name = "ui-text", version.ref = "uiText" }
+androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

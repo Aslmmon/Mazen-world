@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.aslmmovic.mazenworld.presentation.navigation.Screen
+import com.aslmmovic.mazenworld.presentation.theme.MazenWorldTheme
 import com.aslmmovic.mazenworld.presentation.ui.categories.CategoryMapScreen
 import com.aslmmovic.mazenworld.presentation.ui.gameplay.GamePlayScreen
 import com.aslmmovic.mazenworld.presentation.ui.home.HomeScreen
@@ -20,7 +21,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     val navController = rememberNavController()
-    MaterialTheme {
+    MazenWorldTheme {
         NavHost(navController = navController, startDestination = Screen.Splash.route) {
             composable(Screen.Splash.route) {
                 SplashScreen(navController)
