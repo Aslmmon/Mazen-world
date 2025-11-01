@@ -78,17 +78,8 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
                     modifier = Modifier.padding(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Progress Bar
                     GameProgressBar(state.currentQuestionIndex, state.totalQuestions)
-
-                    Spacer(Modifier.height(24.dp))
-
-                    // Question Area
                     QuestionArea(state.currentQuestion)
-
-                    Spacer(Modifier.height(32.dp))
-
-                    // Options Grid
                     OptionsGrid(state.currentQuestion?.options, viewModel::processAnswer)
 
                     state.feedbackMessage?.let { msg ->

@@ -40,7 +40,7 @@ fun OptionsGrid(options: List<GameOption>?, onOptionSelected: (String) -> Unit) 
             // Option Button
             Box(
                 modifier = Modifier
-                    .size(70.dp) // Fixed button size
+                    .size(80.dp) // Fixed button size
                     .withPressAnimation(
                         onClick = { onOptionSelected(option.id) }
                     )

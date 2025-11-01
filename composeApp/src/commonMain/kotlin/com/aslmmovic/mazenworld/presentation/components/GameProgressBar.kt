@@ -22,7 +22,7 @@ fun GameProgressBar(currentIndex: Int, totalQuestions: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(30.dp),
+            .height(20.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -30,7 +30,7 @@ fun GameProgressBar(currentIndex: Int, totalQuestions: Int) {
         Image(
             painter = painterResource(Res.drawable.star_icon),
             contentDescription = "Current Score",
-            modifier = Modifier.size(30.dp)
+            modifier = Modifier.size(20.dp)
         )
 
         Spacer(Modifier.width(8.dp))

@@ -4,6 +4,7 @@ package com.aslmmovic.mazenworld.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,12 +29,16 @@ fun QuestionArea(question: GameQuestion?) {
         return
     }
 
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
 
         // Question Text (e.g., "Find the Big Car" in Arabic)
         Text(
             text = question.questionText,
-            fontSize = 15.sp,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
         )
@@ -46,8 +51,7 @@ fun QuestionArea(question: GameQuestion?) {
                 contentDescription = "Question Image",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .size(120.dp) // Large visual prompt
-                    .clip(RoundedCornerShape(8.dp))
+                    .size(200.dp) // Large visual prompt
             )
         }
     }
