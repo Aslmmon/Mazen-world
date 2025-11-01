@@ -22,11 +22,8 @@ class GameViewModel(
 ) : ViewModel() {
 
     private lateinit var questions: List<GameQuestion>
-
     private val _state = MutableStateFlow(GameState(currentQuestion = null))
     val state: StateFlow<GameState> = _state
-
-    // Tracks the index of the question that is currently being displayed/answered
     private var currentQuestionIndex = 0
 
     init {

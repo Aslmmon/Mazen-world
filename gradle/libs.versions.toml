@@ -22,6 +22,8 @@ firebaseDatabaseKtx = "22.0.1"
 roomKtx = "2.8.3"
 uiText = "1.9.4"
 uiTextGoogleFonts = "1.9.4"
+composeHotReload = "v1.0.0-beta07"
+
 
 [libraries]
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastorePreferences" }
@@ -30,6 +32,7 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-ui-text-android = { module = "androidx.compose.ui:ui-text-android", version.ref = "uiText" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinCore" }
 koin-compose = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinCore" }
+
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
@@ -57,3 +60,4 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload"}
