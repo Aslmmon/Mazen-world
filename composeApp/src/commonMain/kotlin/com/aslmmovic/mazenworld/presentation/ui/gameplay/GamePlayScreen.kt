@@ -23,7 +23,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.aslmmovic.mazenworld.presentation.components.GameProgressBar
 import com.aslmmovic.mazenworld.presentation.components.OptionsGrid
 import com.aslmmovic.mazenworld.presentation.components.QuestionArea
@@ -41,7 +40,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun GamePlayScreen(navController: NavHostController, categoryId: String) {
+fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
     val viewModel: GameViewModel = koinViewModel(
         parameters = { parametersOf(categoryId) } // Pass the argument here
     )
@@ -63,7 +62,7 @@ fun GamePlayScreen(navController: NavHostController, categoryId: String) {
         )
 
         if (state.isLevelComplete) {
-           this.LevelCompleteOverlay(navController, state.score) // 🌟 Display completion screen
+            LevelCompleteOverlay(onBackClick, state.score) // 🌟 Display completion screen
         } else {
             // ... Display regular Question Area and Options Grid ...
         }
@@ -75,9 +74,7 @@ fun GamePlayScreen(navController: NavHostController, categoryId: String) {
         ) {
 
             SmallIconButton(
-                onClick = {
-                    navController.popBackStack()
-                },
+                onClick = onBackClick,
                 contentDescription = "back",
                 icon = Res.drawable.back_icon
             )
@@ -133,8 +130,9 @@ fun GamePlayScreen(navController: NavHostController, categoryId: String) {
     // 🌟 NEW: Level Complete Overlay
 
 }
+
 @Composable
-fun BoxScope.LevelCompleteOverlay(navController: NavHostController, score: Int) {
+fun BoxScope.LevelCompleteOverlay(onBackClick: () -> Unit, score: Int) {
     // Semi-transparent overlay to draw attention
     Box(
         modifier = Modifier
@@ -143,8 +141,10 @@ fun BoxScope.LevelCompleteOverlay(navController: NavHostController, score: Int) 
             .align(Alignment.Center),
         contentAlignment = Alignment.Center
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(20.dp)) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
 
             // Success Message
             Text("المستوى اكتمل!", fontSize = 36.sp, color = Color.White, fontWeight = FontWeight.Bold)
@@ -153,10 +153,7 @@ fun BoxScope.LevelCompleteOverlay(navController: NavHostController, score: Int) 
 
             // Button to return to the map
             SmallIconButton(
-                onClick = {
-                    // Go back to the map screen to see the updated stars and unlocks
-                    navController.popBackStack()
-                },
+                onClick = onBackClick,
                 contentDescription = "Return to Map",
                 // Use a different icon/frame for the final button
                 icon = Res.drawable.treesvg
@@ -164,4 +161,3 @@ fun BoxScope.LevelCompleteOverlay(navController: NavHostController, score: Int) 
         }
     }
 }
-

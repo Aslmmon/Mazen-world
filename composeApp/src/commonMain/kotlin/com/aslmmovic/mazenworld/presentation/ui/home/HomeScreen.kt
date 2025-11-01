@@ -12,10 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
 import com.aslmmovic.mazenworld.presentation.components.withPressAnimation
-import com.aslmmovic.mazenworld.presentation.navigation.Screen
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.homebg
 import mazenworld.composeapp.generated.resources.info_icon
@@ -28,7 +26,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(onPlayClick: () -> Unit) {
     val viewModel: HomeViewModel = koinViewModel()
     val profile = viewModel.profileState
 
@@ -95,7 +93,7 @@ fun HomeScreen(navController: NavController) {
                 .size(180.dp) // Large size for easy tapping
                 .align(Alignment.Center)
                 .withPressAnimation(
-                    onClick = { navController.navigate(Screen.CategoryMap.route) }
+                    onClick = onPlayClick
                     // Uses default "button_click" sound
                 )
 

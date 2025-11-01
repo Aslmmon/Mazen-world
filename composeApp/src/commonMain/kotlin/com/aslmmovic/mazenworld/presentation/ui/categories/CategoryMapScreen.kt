@@ -15,10 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import com.aslmmovic.mazenworld.domain.CategoryItem
 import com.aslmmovic.mazenworld.presentation.components.LevelNode
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
-import com.aslmmovic.mazenworld.presentation.navigation.Screen
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.back_icon
 import mazenworld.composeapp.generated.resources.category_map
@@ -26,7 +25,10 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun CategoryMapScreen(navController: NavController) {
+fun CategoryMapScreen(
+    onBackClick: () -> Unit,
+    onCategoryClick: (CategoryItem) -> Unit
+) {
     // 1. Get the ViewModel and observe the live map state
     val viewModel: CategoryMapViewModel = koinViewModel()
     val mapState by viewModel.mapState.collectAsState()
@@ -47,9 +49,7 @@ fun CategoryMapScreen(navController: NavController) {
 
 
         SmallIconButton(
-            onClick = {
-                navController.popBackStack()
-            },
+            onClick = onBackClick,
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(16.dp),
@@ -62,15 +62,8 @@ fun CategoryMapScreen(navController: NavController) {
             // LevelNode will place the icon, cost, and handle the click logic
             LevelNode(
                 item = item,
-                onNodeClick = { clickedItem ->
-                    // Attempt to unlock or navigate
-                    if (clickedItem.isLocked) {
-                        viewModel.attemptUnlock(clickedItem)
-                    } else {
-                        // Navigate to the Game Screen when unlocked
-                        navController.navigate(Screen.PlayScreen.route + "/${clickedItem.id}")
-
-                    }
+                onNodeClick = {
+                    onCategoryClick(it)
                 }
             )
         }

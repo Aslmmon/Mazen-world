@@ -22,16 +22,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.aslmmovic.mazenworld.presentation.components.CustomRoundedProgressIndicator
-import com.aslmmovic.mazenworld.presentation.navigation.Screen
 import com.aslmmovic.mazenworld.utils.getLocalizedStatusText
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.app_logo
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
+
 @Composable
-fun SplashScreen(navController: NavController) {
+fun SplashScreen(onNavigateToHome: () -> Unit) {
 
     val viewModel: SplashViewModel = koinViewModel()
     val isLoaded by viewModel.isDataLoaded.collectAsState()
@@ -41,9 +40,7 @@ fun SplashScreen(navController: NavController) {
 
     LaunchedEffect(isLoaded) {
         if (isLoaded) {
-            navController.navigate(Screen.Home.route) {
-                popUpTo(Screen.Splash.route) { inclusive = true }
-            }
+            onNavigateToHome()
         }
     }
 
