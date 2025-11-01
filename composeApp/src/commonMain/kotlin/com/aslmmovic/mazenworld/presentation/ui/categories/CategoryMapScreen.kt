@@ -46,7 +46,7 @@ fun CategoryMapScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.8f))
+                .background(Color.Black.copy(alpha = 0.5f))
         )
 
         SmallIconButton(
@@ -59,7 +59,7 @@ fun CategoryMapScreen(
         )
 
         LazyVerticalGrid(
-            columns = GridCells.Fixed(3), // Or any number that fits your design
+            columns = GridCells.Fixed(4), // Or any number that fits your design
             modifier = Modifier.padding(top = 80.dp) // Adjust padding as needed
         ) {
             items(mapState.categories) { item ->
