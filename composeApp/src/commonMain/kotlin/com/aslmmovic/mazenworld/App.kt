@@ -18,6 +18,6 @@ fun App() {
         )
     }
     MazenWorldTheme {
-        AppNavigation(navController,navigator)
+        AppNavigation(navController, navigator)
     }
 }

@@ -47,19 +47,6 @@ fun HomeScreen(onPlayClick: () -> Unit) {
                 .padding(horizontal = 32.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Star button (Trophy Icon placeholder)
-            SmallIconButton(
-                onClick = {},
-                contentDescription = "reward",
-                icon = Res.drawable.star_icon
-            )
-
-            SmallIconButton(
-                onClick = {},
-                contentDescription = "info",
-                icon = Res.drawable.info_icon
-
-            )
 
             SmallIconButton(
                 onClick = viewModel::toggleMusic,
@@ -67,22 +54,13 @@ fun HomeScreen(onPlayClick: () -> Unit) {
                 icon = Res.drawable.music_icon
 
             )
-
             SmallIconButton(
                 onClick = {},
                 contentDescription = "parent",
                 icon = Res.drawable.parent_icon
 
             )
-
-            SmallIconButton(
-                onClick = {},
-                contentDescription = "leaderbord",
-                icon = Res.drawable.leaderbord_icon
-
-            )
         }
-
         Image(
             // Assuming you have an asset named 'play_button' or similar
             painter = painterResource(Res.drawable.play_icon),
