@@ -1,12 +1,12 @@
-
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.googleServices) apply false
 
 }
 
@@ -51,6 +51,8 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.androidx.ui.text.android)
+
             /**
              * Koin DI
              */
@@ -58,23 +60,23 @@ kotlin {
             implementation(libs.koin.compose)
 
             /**
-             * Koin DI
-             */
-            implementation(libs.multiplatform.settings)
-            implementation(libs.androidx.datastore)
-            // The Preferences DataStore library
-            implementation(libs.androidx.datastore.preferences)
-            /**
              * Navigation
              */
             implementation(libs.navigation.compose)
 
-            implementation(libs.androidx.ui.text.android)
+            /**
+             * Kotlinx Serialization
+             */
+            implementation(libs.kotlinx.serialization.json) // <-- ADD THIS
+
+            /**
+             * Firebase
+             */
+            implementation(libs.firebase.common)     // <-- ADD THIS
+            implementation(libs.firebase.firestore) // <-- This should point to dev.gitlive:firebase-firestore
 
         }
-//        commonTest.dependencies {
-//            implementation(libs.kotlin.test)
-//        }
+
     }
 }
 
@@ -108,4 +110,3 @@ android {
 dependencies {
     debugImplementation(compose.uiTooling)
 }
-

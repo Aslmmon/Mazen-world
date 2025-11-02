@@ -25,11 +25,6 @@ val MOCK_CATEGORIES = listOf(
         iconResource = Res.drawable.tiger,
         starCost = 0, // FREE - Always unlocked
         isLocked = false,
-        position = CategoryPosition(
-            alignment = Alignment.BottomCenter,
-            paddingHorizontal = 20.dp,
-            paddingVertical = 100.dp
-        )
 
     ),
     CategoryItem(
@@ -38,12 +33,6 @@ val MOCK_CATEGORIES = listOf(
         iconResource = Res.drawable.category_alfabet, // The lion node
         starCost = 0,
         isLocked = false,
-        position = CategoryPosition(
-            alignment = Alignment.TopStart,
-            paddingHorizontal = 150.dp,
-            paddingVertical = 150.dp
-        )
-
     ),
     CategoryItem(
         id = "SHAPES_1",
@@ -51,11 +40,7 @@ val MOCK_CATEGORIES = listOf(
         iconResource = Res.drawable.ship, // The starfish node
         starCost = 30, // Requires stars
         isLocked = true,
-        position = CategoryPosition(
-            alignment = Alignment.TopStart,
-            paddingHorizontal = 150.dp,
-            paddingVertical = 250.dp
-        )
+
     ),
     CategoryItem(
         id = "VEHICLES_1",
@@ -63,10 +48,6 @@ val MOCK_CATEGORIES = listOf(
         iconResource = Res.drawable.car_2, // The truck node
         starCost = 50, // More expensive
         isLocked = true,
-        position = CategoryPosition(
-            alignment = Alignment.Center,
-            paddingVertical = 20.dp
-        )
     ),
     CategoryItem(
         id = "VEHICLES_1",
@@ -74,9 +55,6 @@ val MOCK_CATEGORIES = listOf(
         iconResource = Res.drawable.category_shape, // The truck node
         starCost = 50, // More expensive
         isLocked = true,
-        position = CategoryPosition(
-            alignment = Alignment.Center,
-            paddingVertical = 20.dp
-        )
+
     ),
 )

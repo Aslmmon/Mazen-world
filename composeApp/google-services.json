@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "172287807131",
+    "project_id": "mazen-world",
+    "storage_bucket": "mazen-world.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:172287807131:android:d9fd21d248e51b1fc3c03e",
+        "android_client_info": {
+          "package_name": "com.aslmmovic.mazenworld"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApxiWw6pM9CceWRq_7jR3qCLdTK2z_84U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

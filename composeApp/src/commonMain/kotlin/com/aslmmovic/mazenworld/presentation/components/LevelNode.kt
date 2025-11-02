@@ -26,7 +26,6 @@ fun BoxScope.LevelNode(
 ) {
     Box(
         modifier = Modifier
-            .then(applyCategoryPosition(item)) // Apply position data
             .size(80.dp) // Size of the base pedestal
             .withPressAnimation(onClick = { onNodeClick(item) }), // Use your animated modifier
         contentAlignment = Alignment.Center
@@ -58,12 +57,4 @@ fun BoxScope.LevelNode(
     }
 }
 
-
-fun BoxScope.applyCategoryPosition(item: CategoryItem): Modifier {
-    return with(item.position) { // Use 'with' on the position data
-        Modifier
-            .align(alignment)
-            .padding(top = paddingVertical, start = paddingHorizontal)
-    }
-}
 

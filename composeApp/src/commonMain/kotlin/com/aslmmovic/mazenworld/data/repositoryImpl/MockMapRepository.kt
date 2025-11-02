@@ -1,4 +1,4 @@
-package com.aslmmovic.mazenworld.data.repository
+package com.aslmmovic.mazenworld.data.repositoryImpl
 
 // commonMain/data/repository/MockMapRepository.kt
 

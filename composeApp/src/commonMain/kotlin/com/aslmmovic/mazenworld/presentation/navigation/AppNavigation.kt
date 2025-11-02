@@ -32,7 +32,7 @@ fun AppNavigation(navController: NavHostController, navigationAction: Navigation
                 onBackClick = navigationAction::navigateBack,
                 onCategoryClick = { it ->
                     if (it.isLocked) {
-                        viewModel.attemptUnlock(it)
+//                        viewModel.attemptUnlock(it)
                     } else {
                         navigationAction.navigateToGamePlay(it.id)
                     }

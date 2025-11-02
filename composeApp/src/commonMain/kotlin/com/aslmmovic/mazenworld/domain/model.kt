@@ -32,7 +32,6 @@ data class CategoryItem(
     val starCost: Int,
     val isLocked: Boolean = true, // Initial state is locked
     val isPremiumContent: Boolean = false,
-    val position: CategoryPosition
 )
 
 data class CategoryPosition(
