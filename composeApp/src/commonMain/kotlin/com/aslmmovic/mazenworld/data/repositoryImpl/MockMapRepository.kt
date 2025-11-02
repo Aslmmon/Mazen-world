@@ -2,15 +2,12 @@ package com.aslmmovic.mazenworld.data.repositoryImpl
 
 // commonMain/data/repository/MockMapRepository.kt
 
-import com.aslmmovic.mazenworld.domain.CategoryItem
-import com.aslmmovic.mazenworld.data.source.MOCK_CATEGORIES // Import the static data
 import com.aslmmovic.mazenworld.domain.UserProfile
 import com.aslmmovic.mazenworld.data.source.MockState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
 interface MapRepository {
-    fun getCategoriesFlow(): Flow<List<CategoryItem>>
     fun getCurrentUserProfile(): Flow<UserProfile> // Synchronous read from MockState
     suspend fun subtractStars(cost: Int)
     suspend fun unlockCategory(id: String)
@@ -19,10 +16,6 @@ interface MapRepository {
 
 class MockMapRepository : MapRepository {
 
-
-    override fun getCategoriesFlow(): Flow<List<CategoryItem>> {
-        return kotlinx.coroutines.flow.flowOf(MOCK_CATEGORIES)
-    }
 
     override fun getCurrentUserProfile(): Flow<UserProfile> = combine(
         MockState.stars,

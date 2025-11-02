@@ -20,26 +20,34 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.aslmmovic.mazenworld.domain.CategoryItem
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.aslmmovic.mazenworld.data.model.CategoryDto
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.star_icon
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun CategoryCard(
-    item: CategoryItem,
-    onCategoryClick: (CategoryItem) -> Unit,
+    item: CategoryDto,
+    onCategoryClick: (CategoryDto) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val cardWidth = 170.dp
     val cardHeight = 190.dp
+
+
+    val composition by rememberLottieComposition(LottieCompositionSpec.Url(item.iconUrl))
+
 
     Card(
         modifier = modifier
@@ -88,7 +96,7 @@ fun CategoryCard(
                     modifier = Modifier.padding(top = 5.dp, start = 4.dp, end = 4.dp)
                 )
 
-                if (!item.isLocked) {
+                if (item.isLocked) {
                     // Locked state UI
                     Column(
                         modifier = Modifier
@@ -111,17 +119,30 @@ fun CategoryCard(
                         )
                     }
                 } else {
-                    // Unlocked state UI
-                    Image(
-                        painter = painterResource(item.iconResource),
-                        contentDescription = item.title,
-                        contentScale = ContentScale.Fit,
+
+                    LottieAnimation(
+                        composition = composition,
+                        iterations = LottieConstants.IterateForever,
                         modifier = Modifier
                             .padding(top = 25.dp)
                             .size(120.dp)
                     )
+
+//                    AsyncImage(
+//                        model = ImageRequest.Builder(LocalContext.current)
+//                            .data(item.iconUrl)
+//                            .decoderFactory(SvgDecoder.Factory())
+//                            .build(),
+//                        contentDescription = null,
+//                        contentScale = ContentScale.Fit,
+//                        modifier = Modifier
+//                            .padding(top = 25.dp)
+//                            .size(120.dp)
+//                    )
                 }
             }
         }
     }
 }
+
+

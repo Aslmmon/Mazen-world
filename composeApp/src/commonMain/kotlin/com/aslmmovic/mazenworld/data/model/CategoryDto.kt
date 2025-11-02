@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class CategoryDto(
     val id: String = "",
     val title: String = "",
-    val iconResource: String = "", // In Firestore, this will be a string like "animals_icon.xml"
+    val iconUrl: String = "",
     val starCost: Int = 0,
     val isLocked: Boolean = true,
     val isPremiumContent: Boolean = false,

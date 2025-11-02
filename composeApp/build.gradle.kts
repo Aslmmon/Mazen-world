@@ -11,6 +11,7 @@ plugins {
 
 }
 
+
 kotlin {
     androidTarget {
         compilerOptions {
@@ -27,6 +28,7 @@ kotlin {
 //            isStatic = true
 //        }
 //    }
+
 
 
     sourceSets {
@@ -66,6 +68,22 @@ kotlin {
              * Firebase
              */
             implementation(libs.firebase.firestore) // <-- This should point to dev.gitlive:firebase-firestore
+
+
+            /**
+             * Coil for Image
+             */
+            implementation("io.coil-kt.coil3:coil-compose:3.3.0")
+            implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
+            implementation("io.coil-kt.coil3:coil-svg:3.3.0")
+
+            /**
+             * lottie
+             */
+            implementation(libs.lottie.compose)
+//            implementation(libs.compottie.dot)
+//            implementation("io.github.alexzhirkevich:compottie-network:2.0.2")
+
 
         }
 

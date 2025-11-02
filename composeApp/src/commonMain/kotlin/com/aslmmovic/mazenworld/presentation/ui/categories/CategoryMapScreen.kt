@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.aslmmovic.mazenworld.data.model.CategoryDto
 import com.aslmmovic.mazenworld.domain.CategoryItem
 import com.aslmmovic.mazenworld.presentation.components.CategoryCard
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
@@ -30,7 +31,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun CategoryMapScreen(
     onBackClick: () -> Unit,
-    onCategoryClick: (CategoryItem) -> Unit
+    onCategoryClick: (CategoryDto) -> Unit
 ) {
     val viewModel: CategoryMapViewModel = koinViewModel()
     val mapState by viewModel.mapState.collectAsStateWithLifecycle()

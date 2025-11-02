@@ -3,6 +3,7 @@ package com.aslmmovic.mazenworld.domain
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.aslmmovic.mazenworld.data.model.CategoryDto
 import org.jetbrains.compose.resources.DrawableResource
 
 // domain/model/GameContent.kt
@@ -28,7 +29,7 @@ data class CategoryItem(
     val id: String,
     val title: String,
     // The resource to display on the node (Lion, Truck, Starfish, etc.)
-    val iconResource: DrawableResource,
+    val iconUrl: String,
     val starCost: Int,
     val isLocked: Boolean = true, // Initial state is locked
     val isPremiumContent: Boolean = false,
@@ -42,7 +43,7 @@ data class CategoryPosition(
 
 data class MapState(
     // The list of all levels the user sees on the map
-    val categories: List<CategoryItem> = emptyList(),
+    val categories: List<CategoryDto> = emptyList(),
     // Any error state, though we'll keep this simple for the MVP
     val errorMessage: String? = null
 )

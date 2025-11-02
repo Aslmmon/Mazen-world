@@ -1,6 +1,7 @@
 package com.aslmmovic.mazenworld.domain.useCase
 
 
+import com.aslmmovic.mazenworld.data.model.CategoryDto
 import com.aslmmovic.mazenworld.domain.CategoryItem
 import com.aslmmovic.mazenworld.domain.respository.CategoryRepository
 
@@ -10,7 +11,7 @@ import com.aslmmovic.mazenworld.domain.respository.CategoryRepository
 class PublishCategoriesUseCase(
     private val categoryRepository: CategoryRepository
 ) {
-    suspend operator fun invoke(categories: List<CategoryItem>) {
+    suspend operator fun invoke(categories: List<CategoryDto>) {
         categoryRepository.publishCategories(categories)
     }
 }
