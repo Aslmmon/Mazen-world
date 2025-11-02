@@ -13,7 +13,7 @@ val homeModule = module {
     factory { HomeViewModel(get(), get(), get()) }
 }
 val categoriesModule = module {
-    factory { CategoryMapViewModel(get()) }
+    factory { CategoryMapViewModel(get(), get()) }
 }
 val gameplayModule = module {
     factory { (categoryId: String) ->

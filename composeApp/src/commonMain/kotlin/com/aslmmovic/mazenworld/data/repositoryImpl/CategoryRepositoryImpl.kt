@@ -1,5 +1,6 @@
 package com.aslmmovic.mazenworld.data.repositoryImplimport
 
+import androidx.compose.ui.tooling.data.position
 import com.aslmmovic.mazenworld.data.model.CategoryDto
 import com.aslmmovic.mazenworld.domain.CategoryItem
 import mazenworld.composeapp.generated.resources.category_alfabet
@@ -20,9 +21,8 @@ class CategoryRepositoryImpl : CategoryRepository {
 
     // Inject the Firestore instance. Koin will provide this.
     private val db: FirebaseFirestore = Firebase.firestore
-
+    private val categoriesCollection = db.collection("categories")
     override fun getCategories(): Flow<List<CategoryItem>> {
-        val categoriesCollection = db.collection("categories")
 
         // Use snapshotFlow to listen for real-time updates from Firestore
         return categoriesCollection.snapshots().map { querySnapshot ->
@@ -35,6 +35,16 @@ class CategoryRepositoryImpl : CategoryRepository {
         }
     }
 
+    override suspend fun publishCategories(categories: List<CategoryItem>) {
+        val batch = db.batch()
+        categories.forEach { categoryItem ->
+            val dto = categoryItem.toDto()
+            val documentRef = categoriesCollection.document(dto.id)
+            batch.set(documentRef, dto)
+        }
+        batch.commit()
+    }
+
     /**
      * Maps the data layer object (CategoryDto) to the domain layer object (CategoryItem).
      * This is a crucial best practice to keep your domain pure.
@@ -44,6 +54,21 @@ class CategoryRepositoryImpl : CategoryRepository {
             id = this.id,
             title = this.title,
             iconResource = getDrawableResourceFromString(this.iconResource), // Convert string to resource
+            starCost = this.starCost,
+            isLocked = this.isLocked,
+            isPremiumContent = this.isPremiumContent,
+        )
+    }
+
+
+    /**
+     * A new mapper to convert a domain object back to a DTO for Firestore.
+     */
+    private fun CategoryItem.toDto(): CategoryDto {
+        return CategoryDto(
+            id = this.id,
+            title = this.title,
+            iconResource = getStringFromDrawableResource(this.iconResource),
             starCost = this.starCost,
             isLocked = this.isLocked,
             isPremiumContent = this.isPremiumContent,
@@ -63,6 +88,19 @@ class CategoryRepositoryImpl : CategoryRepository {
             "ic_shapes.xml" -> Res.drawable.category_shape
             // Add other cases for all your category icons
             else -> Res.drawable.category_alfabet // A default fallback icon
+        }
+    }
+
+    /**
+     * A new helper to convert a DrawableResource back to its string name for Firestore.
+     */
+    private fun getStringFromDrawableResource(resource: DrawableResource): String {
+        return when (resource) {
+            Res.drawable.category_animals -> "ic_animals.xml"
+            Res.drawable.category_vehicles -> "ic_vehicles.xml"
+            Res.drawable.category_shape -> "ic_shapes.xml"
+            Res.drawable.category_alfabet -> "ic_letters.xml"
+            else -> "unknown_icon.xml" // Fallback for safety
         }
     }
 }

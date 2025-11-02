@@ -16,6 +16,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.aslmmovic.mazenworld.di.initKoin
+import com.google.firebase.Firebase
 import org.koin.android.ext.koin.androidContext
 import java.util.Locale
 
