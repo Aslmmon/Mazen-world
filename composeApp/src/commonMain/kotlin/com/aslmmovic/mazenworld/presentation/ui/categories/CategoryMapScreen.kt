@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aslmmovic.mazenworld.domain.CategoryItem
 import com.aslmmovic.mazenworld.presentation.components.CategoryCard
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
@@ -32,7 +33,7 @@ fun CategoryMapScreen(
     onCategoryClick: (CategoryItem) -> Unit
 ) {
     val viewModel: CategoryMapViewModel = koinViewModel()
-    val mapState by viewModel.mapState.collectAsState()
+    val mapState by viewModel.mapState.collectAsStateWithLifecycle()
     val message by viewModel.message.collectAsState(initial = null)
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -43,6 +44,16 @@ fun CategoryMapScreen(
             modifier = Modifier.fillMaxSize()
         )
         // Add a dark overlay
+
+        message?.let {
+            Text(
+                it,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(20.dp),
+                color = Color.Red
+            )
+        }
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -70,14 +81,6 @@ fun CategoryMapScreen(
             }
         }
 
-        message?.let {
-            Text(
-                it,
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(20.dp),
-                color = Color.Red
-            )
-        }
+
     }
 }

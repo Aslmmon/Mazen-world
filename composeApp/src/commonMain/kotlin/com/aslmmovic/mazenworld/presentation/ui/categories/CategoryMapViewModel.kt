@@ -26,10 +26,10 @@ class CategoryMapViewModel(
     private val _message = MutableSharedFlow<String>()
     val message: SharedFlow<String> = _message
 
-    init {
-        // loadCategories()
-        //  publishCategories()
+    init{
+        loadCategories()
     }
+
 
     private fun loadCategories() {
         viewModelScope.launch {
@@ -38,8 +38,7 @@ class CategoryMapViewModel(
                     _message.emit("Failed to load categories: ${exception.message}")
                 }
                 .collect { categories ->
-                    val updatedCategories = categories.map { it.copy(isLocked = false) }
-                    _mapState.value = MapState(categories = updatedCategories)
+                    _mapState.value = MapState(categories = categories)
                 }
         }
     }
@@ -56,6 +55,7 @@ class CategoryMapViewModel(
                 publishCategoryUseCase(currentCategories)
                 _message.emit("Categories published successfully!")
             } catch (e: Exception) {
+                e.printStackTrace()
                 _message.emit("Failed to publish categories: ${e.message}")
             }
         }

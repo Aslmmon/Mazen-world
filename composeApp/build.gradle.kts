@@ -5,18 +5,19 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.googleServices)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.googleServices) apply false
+
 
 }
 
 kotlin {
     androidTarget {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-    
+
 //    listOf(
 //        iosArm64(),
 //        iosSimulatorArm64()
@@ -26,10 +27,8 @@ kotlin {
 //            isStatic = true
 //        }
 //    }
-    
 
 
-    
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
@@ -63,16 +62,9 @@ kotlin {
              * Navigation
              */
             implementation(libs.navigation.compose)
-
-            /**
-             * Kotlinx Serialization
-             */
-            implementation(libs.kotlinx.serialization.json) // <-- ADD THIS
-
             /**
              * Firebase
              */
-            implementation(libs.firebase.common)     // <-- ADD THIS
             implementation(libs.firebase.firestore) // <-- This should point to dev.gitlive:firebase-firestore
 
         }
@@ -102,8 +94,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 

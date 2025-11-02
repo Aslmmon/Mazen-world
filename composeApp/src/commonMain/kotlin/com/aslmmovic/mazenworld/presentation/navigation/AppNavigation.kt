@@ -9,11 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.aslmmovic.mazenworld.presentation.ui.categories.CategoryMapScreen
-import com.aslmmovic.mazenworld.presentation.ui.categories.CategoryMapViewModel
 import com.aslmmovic.mazenworld.presentation.ui.gameplay.GamePlayScreen
 import com.aslmmovic.mazenworld.presentation.ui.home.HomeScreen
 import com.aslmmovic.mazenworld.presentation.ui.splash.SplashScreen
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun AppNavigation(navController: NavHostController, navigationAction: NavigationActions) {
@@ -27,7 +25,6 @@ fun AppNavigation(navController: NavHostController, navigationAction: Navigation
             )
         }
         composable(Screen.CategoryMap.route) {
-            val viewModel: CategoryMapViewModel = koinViewModel()
             CategoryMapScreen(
                 onBackClick = navigationAction::navigateBack,
                 onCategoryClick = { it ->

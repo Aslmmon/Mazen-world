@@ -88,7 +88,7 @@ fun CategoryCard(
                     modifier = Modifier.padding(top = 5.dp, start = 4.dp, end = 4.dp)
                 )
 
-                if (item.isLocked) {
+                if (!item.isLocked) {
                     // Locked state UI
                     Column(
                         modifier = Modifier
