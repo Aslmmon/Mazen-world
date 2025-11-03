@@ -22,4 +22,8 @@
 
     <string name="parent_gate_prompt">اسأل أحد الوالدين: كم يساوي %1$s زائد %2$s؟</string>
     <string name="parent_gate_verify">تحقق</string>
+    <string name="error_network">Error Network</string>
+    <string name="error_server">Error Server</string>
+    <string name="error_uknown">Error Uknwon</string>
+
 </resources>
