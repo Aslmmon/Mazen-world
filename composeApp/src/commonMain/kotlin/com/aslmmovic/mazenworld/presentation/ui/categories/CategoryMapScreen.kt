@@ -32,7 +32,7 @@ import com.aslmmovic.mazenworld.presentation.components.ErrorSnackbar
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.back_icon
-import mazenworld.composeapp.generated.resources.category_map
+import mazenworld.composeapp.generated.resources.background
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -70,7 +70,7 @@ fun CategoryMapScreen(
                 .fillMaxSize()
         ) {
             Image(
-                painter = painterResource(Res.drawable.category_map),
+                painter = painterResource(Res.drawable.background),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()

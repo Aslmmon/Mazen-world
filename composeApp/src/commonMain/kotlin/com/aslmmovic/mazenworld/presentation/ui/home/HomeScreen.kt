@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
 import com.aslmmovic.mazenworld.presentation.components.withPressAnimation
 import mazenworld.composeapp.generated.resources.Res
+import mazenworld.composeapp.generated.resources.background
 import mazenworld.composeapp.generated.resources.homebg
 import mazenworld.composeapp.generated.resources.info_icon
 import mazenworld.composeapp.generated.resources.leaderbord_icon
@@ -35,7 +36,7 @@ fun HomeScreen(onPlayClick: () -> Unit) {
         Image(
             // NOTE: Use the resource that corresponds to your home.png file.
             // Assuming you named the asset 'home' and it's in resources/drawable.
-            painter = painterResource(Res.drawable.homebg),
+            painter = painterResource(Res.drawable.background),
             contentDescription = "Mazen World Background",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
