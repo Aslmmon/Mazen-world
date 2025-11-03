@@ -16,13 +16,9 @@ import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
 import com.aslmmovic.mazenworld.presentation.components.withPressAnimation
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.background
-import mazenworld.composeapp.generated.resources.homebg
-import mazenworld.composeapp.generated.resources.info_icon
-import mazenworld.composeapp.generated.resources.leaderbord_icon
 import mazenworld.composeapp.generated.resources.music_icon
 import mazenworld.composeapp.generated.resources.parent_icon
 import mazenworld.composeapp.generated.resources.play_icon
-import mazenworld.composeapp.generated.resources.star_icon
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
