@@ -45,69 +45,94 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
 
     Box(modifier = Modifier.fillMaxSize()) {
 
-        // Background (e.g., farm background)
-        Image(
-            painter = painterResource(Res.drawable.play_screen_bg),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
 
-        // Main content Box (board + game)
-        Box(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .fillMaxWidth(0.7f),
-            contentAlignment = Alignment.Center
-        ) {
-            // Board frame as background
-            Image(
-                painter = painterResource(Res.drawable.board_frame),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds, // Use FillBounds to stretch the image as a background
-                modifier = Modifier.fillMaxSize()
-            )
-
-            // Conditional content: game or level complete
-            if (state.isLevelComplete) {
-                LevelCompleteOverlay(onBackClick, state.score) // 🌟 Display completion screen
-            } else {
-                Column(
-                    modifier = Modifier.padding(24.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+        when {
+            state.isLoading -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.6f)),
+                    contentAlignment = Alignment.Center,
                 ) {
-                    GameProgressBar(state.currentQuestionIndex, state.totalQuestions)
-                    QuestionArea(state.currentQuestion)
-                    OptionsGrid(state.currentQuestion?.options, viewModel::processAnswer)
 
-                    state.feedbackMessage?.let { msg ->
-                        Text(
-                            msg,
-                            color = Color.Red.copy(alpha = 0.8f)
-                        )
+                    Text(
+                        "جار التحضير...", // "Getting Ready..."
+                        fontSize = 32.sp,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+            }
+
+            state.isLevelComplete -> {
+                LevelCompleteOverlay(onBackClick, state.score) // 🌟 Display completion screen
+            }
+
+            else -> {
+                // Background (e.g., farm background)
+                Image(
+                    painter = painterResource(Res.drawable.play_screen_bg),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(horizontal = 10.dp, vertical = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    SmallIconButton(
+                        onClick = onBackClick,
+                        contentDescription = "back",
+                        icon = Res.drawable.back_icon
+                    )
+                    SmallIconButton(
+                        onClick = homeViewModel::toggleMusic,
+                        contentDescription = "music",
+                        icon = Res.drawable.music_icon
+                    )
+                }
+
+                // Main content Box (board + game)
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .fillMaxWidth(0.7f),
+                    contentAlignment = Alignment.Center
+                ) {
+
+                    // Board frame as background
+                    Image(
+                        painter = painterResource(Res.drawable.board_frame),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillBounds, // Use FillBounds to stretch the image as a background
+                        modifier = Modifier.fillMaxSize()
+                    )
+
+                    Column(
+                        modifier = Modifier.padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        GameProgressBar(state.currentQuestionIndex, state.totalQuestions)
+                        QuestionArea(state.currentQuestion)
+                        OptionsGrid(state.currentQuestion?.options, viewModel::processAnswer)
+
+                        state.feedbackMessage?.let { msg ->
+                            Text(
+                                msg,
+                                color = Color.Red.copy(alpha = 0.8f)
+                            )
+                        }
                     }
                 }
+
             }
         }
 
-        // Top-left buttons
-        Column(
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(horizontal = 10.dp, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            SmallIconButton(
-                onClick = onBackClick,
-                contentDescription = "back",
-                icon = Res.drawable.back_icon
-            )
-            SmallIconButton(
-                onClick = homeViewModel::toggleMusic,
-                contentDescription = "music",
-                icon = Res.drawable.music_icon
-            )
-        }
+
     }
 }
 

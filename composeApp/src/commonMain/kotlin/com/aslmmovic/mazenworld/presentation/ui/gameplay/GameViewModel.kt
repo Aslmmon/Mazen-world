@@ -31,15 +31,20 @@ class GameViewModel(
 
     private fun loadGameContent() {
         // ... (existing mock load logic) ...
-        questions = getMockQuestionsForCategory(categoryId)
+        viewModelScope.launch {
+            delay(2000)
 
-        _state.update {
-            it.copy(
-                currentQuestion = questions.firstOrNull(),
-                totalQuestions = questions.size,
-                isLoading = false
-            )
+            questions = getMockQuestionsForCategory(categoryId)
+
+            _state.update {
+                it.copy(
+                    currentQuestion = questions.firstOrNull(),
+                    totalQuestions = questions.size,
+                    isLoading = false
+                )
+            }
         }
+
     }
 
     fun processAnswer(selectedOptionId: String) {
