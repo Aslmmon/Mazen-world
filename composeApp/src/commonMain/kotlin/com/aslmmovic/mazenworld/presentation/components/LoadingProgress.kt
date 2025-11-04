@@ -16,7 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.aslmmovic.mazenworld.utils.happyLoading
+import com.aslmmovic.mazenworld.presentation.ui.splash.LoadingStatus
+import com.aslmmovic.mazenworld.utils.getLocalizedStatusText
 import com.aslmmovic.mazenworld.utils.loadingTiger
 
 
@@ -36,7 +37,7 @@ fun LoadingProgress(rawLottieFile: String) {
         ) {
             LottieLoader(modifier = Modifier.fillMaxSize(0.9f), url = loadingTiger)
             Text(
-                "... جار التحضير", // "Getting Ready..."
+                getLocalizedStatusText(LoadingStatus.PREPARING), // "Getting Ready..."
                 fontSize = 32.sp,
                 color = Color.White,
                 fontWeight = FontWeight.Bold
