@@ -1,20 +1,18 @@
 package com.aslmmovic.mazenworld.presentation.ui.categories
 
-import androidx.compose.ui.semantics.error
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aslmmovic.mazenworld.data.model.CategoryDto
-import com.aslmmovic.mazenworld.domain.MapState
 import com.aslmmovic.mazenworld.domain.useCase.GetCategoriesUseCase
 import com.aslmmovic.mazenworld.domain.useCase.PublishCategoriesUseCase
 import com.aslmmovic.mazenworld.domain.util.AppError
 import com.aslmmovic.mazenworld.domain.util.AppResult
-import com.aslmmovic.mazenworld.domain.util.toUserFriendlyMessage
-import kotlinx.coroutines.flow.MutableSharedFlow
+import com.aslmmovic.mazenworld.utils.loadingBetweenScreensDelay
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+
 
 class CategoryMapViewModel(
     private val getCategoriesUseCase: GetCategoriesUseCase,
@@ -22,11 +20,9 @@ class CategoryMapViewModel(
 
 ) : ViewModel() {
 
-    private val _mapState = MutableStateFlow(MapState(categories = emptyList()))
-    val mapState: StateFlow<MapState> = _mapState
+    private val _state = MutableStateFlow<CategoryState>(CategoryState.Loading)
+    val state: StateFlow<CategoryState> = _state
 
-    private val _message = MutableSharedFlow<String>()
-    val message: SharedFlow<String> = _message
 
     init {
         loadCategories()
@@ -35,14 +31,15 @@ class CategoryMapViewModel(
 
     private fun loadCategories() {
         viewModelScope.launch {
+            delay(loadingBetweenScreensDelay)
             getCategoriesUseCase().collect { result ->
                 when (result) {
                     is AppResult.Success -> {
-                        _mapState.value = MapState(categories = result.data)
+                        _state.value = CategoryState.Success(result.data)
                     }
 
                     is AppResult.Failure -> {
-                        _message.emit(result.error.toUserFriendlyMessage())
+                        _state.value = CategoryState.Error(result.error)
                     }
                 }
             }
@@ -50,25 +47,11 @@ class CategoryMapViewModel(
     }
 
 
-    fun publishCategories() {
-        viewModelScope.launch {
-            val currentCategories = emptyList<CategoryDto>() // Using an empty list for the example
-            if (currentCategories.isEmpty()) {
-                _message.emit("No categories to publish.")
-                return@launch
-            }
+}
 
-            when (val result = publishCategoryUseCase(currentCategories)) {
-                is AppResult.Success -> {
-                    _message.emit("Categories published successfully!")
-                }
-
-                is AppResult.Failure -> {
-                    _message.emit(result.error.toUserFriendlyMessage())
-                }
-            }
-        }
-    }
-
+sealed class CategoryState {
+    data object Loading : CategoryState()
+    data class Success(val categories: List<CategoryDto>) : CategoryState()
+    data class Error(val error: AppError) : CategoryState()
 }
 

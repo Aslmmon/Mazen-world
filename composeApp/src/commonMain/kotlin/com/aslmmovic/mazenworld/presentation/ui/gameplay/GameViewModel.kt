@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.aslmmovic.mazenworld.data.repositoryImpl.MapRepository
 import com.aslmmovic.mazenworld.data.source.getMockQuestionsForCategory
 import com.aslmmovic.mazenworld.domain.GameQuestion
+import com.aslmmovic.mazenworld.utils.loadingBetweenScreensDelay
 // ... other imports ...
 
 // Use this for the delay after a correct answer
@@ -32,7 +33,8 @@ class GameViewModel(
     private fun loadGameContent() {
         // ... (existing mock load logic) ...
         viewModelScope.launch {
-            delay(2000)
+            delay(loadingBetweenScreensDelay)
+
 
             questions = getMockQuestionsForCategory(categoryId)
 

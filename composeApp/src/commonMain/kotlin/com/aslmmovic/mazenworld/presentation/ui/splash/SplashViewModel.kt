@@ -17,6 +17,7 @@ class SplashViewModel() : ViewModel() {
     // State to hold the current loading message
     private val _loadingStatus = MutableStateFlow(LoadingStatus.INITIALIZING)
     val loadingStatus: StateFlow<LoadingStatus> = _loadingStatus
+
     // 🌟 NEW: Progress value (Float from 0.0f to 1.0f)
     private val _progress = MutableStateFlow(0.0f)
     val progress: StateFlow<Float> = _progress

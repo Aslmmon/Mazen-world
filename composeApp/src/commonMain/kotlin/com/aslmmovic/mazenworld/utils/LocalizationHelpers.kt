@@ -38,3 +38,5 @@ fun getLocalizedStatusText(status: LoadingStatus): String {
     val stringResource = getStringResourceForStatus(status)
     return stringResource(stringResource)
 }
+
+const val loadingBetweenScreensDelay = 2000L

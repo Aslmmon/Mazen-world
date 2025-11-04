@@ -42,8 +42,6 @@ fun CategoryCard(
     onCategoryClick: (CategoryDto) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val cardWidth = 170.dp
-    val cardHeight = 190.dp
 
 
     val composition by rememberLottieComposition(LottieCompositionSpec.Url(item.iconUrl))
@@ -52,10 +50,9 @@ fun CategoryCard(
     Card(
         modifier = modifier
             .padding(8.dp)
-            .width(cardWidth)
-            .height(cardHeight)
+            .height(170.dp)
             .clickable { onCategoryClick(item) },
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(15.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
     ) {
         Box(
@@ -124,21 +121,9 @@ fun CategoryCard(
                         composition = composition,
                         iterations = LottieConstants.IterateForever,
                         modifier = Modifier
-                            .padding(top = 25.dp)
-                            .size(120.dp)
+                            .fillMaxSize(0.9f)
                     )
 
-//                    AsyncImage(
-//                        model = ImageRequest.Builder(LocalContext.current)
-//                            .data(item.iconUrl)
-//                            .decoderFactory(SvgDecoder.Factory())
-//                            .build(),
-//                        contentDescription = null,
-//                        contentScale = ContentScale.Fit,
-//                        modifier = Modifier
-//                            .padding(top = 25.dp)
-//                            .size(120.dp)
-//                    )
                 }
             }
         }

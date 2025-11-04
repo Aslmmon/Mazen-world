@@ -20,7 +20,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aslmmovic.mazenworld.presentation.components.GameProgressBar
+import com.aslmmovic.mazenworld.presentation.components.LoadingProgress
 import com.aslmmovic.mazenworld.presentation.components.OptionsGrid
 import com.aslmmovic.mazenworld.presentation.components.QuestionArea
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
@@ -41,28 +43,15 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
         parameters = { parametersOf(categoryId) } // Pass the argument here
     )
     val homeViewModel: HomeViewModel = koinViewModel()
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
 
     Box(modifier = Modifier.fillMaxSize()) {
 
 
         when {
             state.isLoading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.6f)),
-                    contentAlignment = Alignment.Center,
-                ) {
-
-                    Text(
-                        "جار التحضير...", // "Getting Ready..."
-                        fontSize = 32.sp,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-
+                LoadingProgress()
             }
 
             state.isLevelComplete -> {

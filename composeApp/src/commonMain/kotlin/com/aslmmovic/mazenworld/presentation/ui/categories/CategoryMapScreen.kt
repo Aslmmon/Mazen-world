@@ -27,8 +27,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aslmmovic.mazenworld.data.model.CategoryDto
+import com.aslmmovic.mazenworld.domain.util.toUserFriendlyMessage
 import com.aslmmovic.mazenworld.presentation.components.CategoryCard
+import com.aslmmovic.mazenworld.presentation.components.ErrorComponent
 import com.aslmmovic.mazenworld.presentation.components.ErrorSnackbar
+import com.aslmmovic.mazenworld.presentation.components.LoadingProgress
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.back_icon
@@ -42,70 +45,65 @@ fun CategoryMapScreen(
     onCategoryClick: (CategoryDto) -> Unit
 ) {
     val viewModel: CategoryMapViewModel = koinViewModel()
-    val mapState by viewModel.mapState.collectAsStateWithLifecycle()
-
-    // 1. Create a SnackbarHostState to control the snackbar
-    val snackbarHostState = remember { SnackbarHostState() }
-
-    // 2. Use LaunchedEffect to react to new messages from the ViewModel
-    LaunchedEffect(viewModel.message) {
-        viewModel.message.collect { message ->
-            snackbarHostState.showSnackbar(message)
-        }
-    }
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
 
-    Scaffold(
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState) {
-                // Use our custom ErrorSnackbar
-                ErrorSnackbar(message = it.visuals.message)
-            }
-        },
-        containerColor = Color.Transparent // Make Scaffold background transparent
-    ) { innerPadding -> // The content of the Scaffold
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Image(
-                painter = painterResource(Res.drawable.background),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
+    when (val currentState = state) {
+        is CategoryState.Success -> {
 
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.5f))
-            )
-
-            SmallIconButton(
-                onClick = onBackClick,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(16.dp),
-                contentDescription = "back",
-                icon = Res.drawable.back_icon
-            )
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(4), // Or any number that fits your design
-                modifier = Modifier.padding(top = 80.dp) // Adjust padding as needed
             ) {
-                items(mapState.categories) { item ->
-                    CategoryCard(
-                        item = item,
-                        onCategoryClick = onCategoryClick
-                    )
+                Image(
+                    painter = painterResource(Res.drawable.background),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.5f))
+                )
+                SmallIconButton(
+                    onClick = onBackClick,
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(5.dp),
+                    contentDescription = "back",
+                    icon = Res.drawable.back_icon
+                )
+
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(150.dp), // Or any number that fits your design
+                    modifier = Modifier.padding(
+                        top = 80.dp,
+                        start = 5.dp,
+                        end = 5.dp
+                    ) // Adjust padding as needed
+                ) {
+                    items(
+                        key = { category -> category.id },
+                        items = (currentState).categories
+                    ) { item ->
+                        CategoryCard(
+                            item = item,
+                            onCategoryClick = onCategoryClick
+                        )
+                    }
                 }
             }
-
-
         }
 
+        is CategoryState.Error -> {
+            ErrorComponent(currentState.error.toUserFriendlyMessage())
+        }
+
+        is CategoryState.Loading -> LoadingProgress()
+
     }
+
+
 }
 
