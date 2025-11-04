@@ -51,7 +51,7 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
 
         when {
             state.isLoading -> {
-                LoadingProgress()
+                LoadingProgress("raw/cute_tiger.json")
             }
 
             state.isLevelComplete -> {

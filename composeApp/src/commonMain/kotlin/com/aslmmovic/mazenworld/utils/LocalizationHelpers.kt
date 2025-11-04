@@ -39,4 +39,6 @@ fun getLocalizedStatusText(status: LoadingStatus): String {
     return stringResource(stringResource)
 }
 
-const val loadingBetweenScreensDelay = 2000L
+const val loadingBetweenScreensDelay = 5000L
+const val loadingTiger = "https://raw.githubusercontent.com/Aslmmon/Mazen-world-assets/main/loading_assets/cute_tiger.json"
+const val happyLoading = "https://raw.githubusercontent.com/Aslmmon/Mazen-world-assets/main/loading_assets/happy_loader.json"

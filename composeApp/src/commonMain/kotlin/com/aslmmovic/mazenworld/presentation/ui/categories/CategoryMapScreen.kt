@@ -100,7 +100,7 @@ fun CategoryMapScreen(
             ErrorComponent(currentState.error.toUserFriendlyMessage())
         }
 
-        is CategoryState.Loading -> LoadingProgress()
+        is CategoryState.Loading -> LoadingProgress("raw/cute_tiger.json")
 
     }
 

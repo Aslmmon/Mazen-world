@@ -44,9 +44,6 @@ fun CategoryCard(
 ) {
 
 
-    val composition by rememberLottieComposition(LottieCompositionSpec.Url(item.iconUrl))
-
-
     Card(
         modifier = modifier
             .padding(8.dp)
@@ -116,14 +113,7 @@ fun CategoryCard(
                         )
                     }
                 } else {
-
-                    LottieAnimation(
-                        composition = composition,
-                        iterations = LottieConstants.IterateForever,
-                        modifier = Modifier
-                            .fillMaxSize(0.9f)
-                    )
-
+                    LottieLoader(modifier = Modifier.fillMaxSize(0.9f), url = item.iconUrl)
                 }
             }
         }
