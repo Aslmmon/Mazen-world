@@ -25,7 +25,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun HomeScreen(onPlayClick: () -> Unit) {
     val viewModel: HomeViewModel = koinViewModel()
-    val profile = viewModel.profileState
+
 
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -46,7 +46,7 @@ fun HomeScreen(onPlayClick: () -> Unit) {
         ) {
 
             SmallIconButton(
-                onClick = viewModel::toggleMusic,
+                onClick = {},
                 contentDescription = "music",
                 icon = Res.drawable.music_icon
 

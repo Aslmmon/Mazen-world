@@ -1,16 +1,21 @@
 package com.aslmmovic.mazenworld.di
 
-import ToggleMusicEnabledUseCase
-import com.aslmmovic.mazenworld.domain.useCase.GetCategoriesUseCase
-import com.aslmmovic.mazenworld.domain.useCase.PublishCategoriesUseCase
-import com.aslmmovic.mazenworld.domain.useCase.ToggleSoundEnabledUseCase
+import com.aslmmovic.mazenworld.domain.useCase.categories.GetCategoriesUseCase
+import com.aslmmovic.mazenworld.domain.useCase.categories.PublishCategoriesUseCase
+import com.aslmmovic.mazenworld.domain.useCase.game_play.GetQuestionsUseCase
+import com.aslmmovic.mazenworld.domain.useCase.game_play.PublishQuestionsUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
-    factory { GetCategoriesUseCase(get()) }
-    factory { ToggleMusicEnabledUseCase(get()) }
-    factory { ToggleSoundEnabledUseCase(get()) }
+
+
+    //Categories
     factory { PublishCategoriesUseCase(get()) }
+    factory { GetCategoriesUseCase(get()) }
+
+    //GamePlay
+    factory { GetQuestionsUseCase(get()) }
+    factory { PublishQuestionsUseCase(get()) }
 
 
 }

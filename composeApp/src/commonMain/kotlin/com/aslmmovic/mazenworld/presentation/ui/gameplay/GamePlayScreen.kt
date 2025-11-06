@@ -79,7 +79,7 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
                         icon = Res.drawable.back_icon
                     )
                     SmallIconButton(
-                        onClick = homeViewModel::toggleMusic,
+                        onClick = {},
                         contentDescription = "music",
                         icon = Res.drawable.music_icon
                     )

@@ -16,11 +16,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.aslmmovic.mazenworld.domain.GameQuestion
+import com.aslmmovic.mazenworld.data.model.GameQuestionDto
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun QuestionArea(question: GameQuestion?) {
+fun QuestionArea(question: GameQuestionDto?) {
     val defaultText = "Loading Question..."
 
     // Ensure we have a question before rendering
@@ -46,13 +46,13 @@ fun QuestionArea(question: GameQuestion?) {
 
         // Question Image/Icon (e.g., the large Car picture)
         question.questionImageId?.let { resId ->
-            Image(
-                painter = painterResource(resId),
-                contentDescription = "Question Image",
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .size(200.dp) // Large visual prompt
-            )
+//            Image(
+//                painter = painterResource(resId),
+//                contentDescription = "Question Image",
+//                contentScale = ContentScale.Fit,
+//                modifier = Modifier
+//                    .size(200.dp) // Large visual prompt
+//            )
         }
     }
 }

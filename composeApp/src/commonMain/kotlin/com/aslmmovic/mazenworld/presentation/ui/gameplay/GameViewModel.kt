@@ -1,29 +1,28 @@
 package com.aslmmovic.mazenworld.presentation.ui.gameplay
-// commonMain/presentation/viewmodel/GameViewModel.kt
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aslmmovic.mazenworld.data.repositoryImpl.MapRepository
-import com.aslmmovic.mazenworld.data.source.getMockQuestionsForCategory
-import com.aslmmovic.mazenworld.domain.GameQuestion
+import com.aslmmovic.mazenworld.data.model.GameQuestionDto
+import com.aslmmovic.mazenworld.domain.useCase.game_play.GetQuestionsUseCase
+import com.aslmmovic.mazenworld.domain.useCase.game_play.PublishQuestionsUseCase
+import com.aslmmovic.mazenworld.domain.util.AppResult
 import com.aslmmovic.mazenworld.utils.loadingBetweenScreensDelay
-// ... other imports ...
-
-// Use this for the delay after a correct answer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.flow.update // Use update for clean state modification
 
 class GameViewModel(
     private val categoryId: String,
-    private val gameRepository: MapRepository // Changed to MapRepository interface
+    private val getQuestionsUseCase: GetQuestionsUseCase,
+    private val publishQuestionsUseCase: PublishQuestionsUseCase // Keep for potential use
 ) : ViewModel() {
 
-    private lateinit var questions: List<GameQuestion>
     private val _state = MutableStateFlow(GameState(currentQuestion = null))
     val state: StateFlow<GameState> = _state
+
+    private var questions: List<GameQuestionDto> = emptyList()
     private var currentQuestionIndex = 0
 
     init {
@@ -31,45 +30,41 @@ class GameViewModel(
     }
 
     private fun loadGameContent() {
-        // ... (existing mock load logic) ...
         viewModelScope.launch {
             delay(loadingBetweenScreensDelay)
 
-
-            questions = getMockQuestionsForCategory(categoryId)
-
-            _state.update {
-                it.copy(
-                    currentQuestion = questions.firstOrNull(),
-                    totalQuestions = questions.size,
-                    isLoading = false
-                )
+            getQuestionsUseCase(categoryId).collect { result ->
+                when (result) {
+                    is AppResult.Success -> {
+                        questions = result.data
+                        _state.update {
+                            it.copy(
+                                currentQuestion = questions.firstOrNull(),
+                                totalQuestions = questions.size,
+                                isLoading = false
+                            )
+                        }
+                    }
+                    is AppResult.Failure -> {
+                        _state.update { it.copy(feedbackMessage = "Failed to load questions.", isLoading = false) }
+                    }
+                }
             }
         }
-
     }
 
     fun processAnswer(selectedOptionId: String) {
-        // Prevent multiple submissions or submissions after completion
         if (_state.value.isLevelComplete) return
 
         val currentQ = _state.value.currentQuestion ?: return
 
         if (selectedOptionId == currentQ.correctAnswerId) {
-            // --- CORRECT ANSWER LOGIC ---
+            _state.update { it.copy(feedbackMessage = "Correct!", score = it.score + 1) }
 
-            // 1. Give immediate visual/audio feedback
-            _state.update { it.copy(feedbackMessage = "صحيح! ممتاز!", score = it.score + 1) }
-            // AudioPlayerManager.playSound("correct_chime")
-
-            // 2. Schedule the next action
             viewModelScope.launch {
-                delay(800) // Wait for 800ms for the user to see the feedback
-
-                // 3. Advance logic
+                delay(800)
                 val nextIndex = currentQuestionIndex + 1
                 if (nextIndex < questions.size) {
-                    // Go to next question
                     currentQuestionIndex = nextIndex
                     _state.update {
                         it.copy(
@@ -78,42 +73,22 @@ class GameViewModel(
                         )
                     }
                 } else {
-                    // Level Complete
-                    _state.update {
-                        it.copy(
-                            isLevelComplete = true,
-                            feedbackMessage = "أنهيت المستوى! أحسنت!"
-                        )
-                    }
-                    awardStarsAndSaveProgress()
+                    _state.update { it.copy(isLevelComplete = true, feedbackMessage = "Level Complete!") }
+                    // awardStarsAndSaveProgress()
                 }
             }
-
         } else {
-            // --- INCORRECT ANSWER LOGIC ---
-            // 1. Give feedback (UI can disable the incorrect option if needed)
-            _state.update { it.copy(feedbackMessage = "حاول مرة أخرى.") }
-            //    AudioPlayerManager.playSound("incorrect_buzz")
-        }
-    }
-
-    private fun awardStarsAndSaveProgress() {
-        viewModelScope.launch {
-            // MOCK REWARD: Award 5 stars for completing a mock level
-            gameRepository.addStars(25)
-
-            // Optional: You could add a slight delay here before navigating back
-            // to ensure the user sees the star count update on the screen.
+            _state.update { it.copy(feedbackMessage = "Try again.") }
         }
     }
 }
 
 data class GameState(
-    val currentQuestion: GameQuestion?,
-    val totalQuestions: Int = 5,
+    val currentQuestion: GameQuestionDto?,
+    val totalQuestions: Int = 0,
     val currentQuestionIndex: Int = 0,
     val isLoading: Boolean = true,
     val feedbackMessage: String? = null,
     val isLevelComplete: Boolean = false,
-    val score: Int = 0 // Tracks correct answers
+    val score: Int = 0
 )

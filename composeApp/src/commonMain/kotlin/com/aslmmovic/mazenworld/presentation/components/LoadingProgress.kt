@@ -33,9 +33,8 @@ fun LoadingProgress(rawLottieFile: String) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(20.dp)
         ) {
-            LottieLoader(modifier = Modifier.fillMaxSize(0.9f), url = loadingTiger)
+            LottieLoader(modifier = Modifier.fillMaxSize(0.7f), url = loadingTiger)
             Text(
                 getLocalizedStatusText(LoadingStatus.PREPARING), // "Getting Ready..."
                 fontSize = 32.sp,

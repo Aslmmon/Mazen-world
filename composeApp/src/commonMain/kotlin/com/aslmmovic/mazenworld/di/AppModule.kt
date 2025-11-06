@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 
 val homeModule = module {
-    factory { HomeViewModel(get(), get(), get()) }
+    factory { HomeViewModel() }
 }
 val categoriesModule = module {
     factory { CategoryMapViewModel(get(), get()) }
@@ -19,7 +19,8 @@ val gameplayModule = module {
     factory { (categoryId: String) ->
         GameViewModel(
             categoryId = categoryId,
-            gameRepository = get()
+            getQuestionsUseCase = get(),
+            publishQuestionsUseCase = get()
         )
     }
 }

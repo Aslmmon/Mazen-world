@@ -3,8 +3,8 @@ package com.aslmmovic.mazenworld.presentation.ui.categories
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aslmmovic.mazenworld.data.model.CategoryDto
-import com.aslmmovic.mazenworld.domain.useCase.GetCategoriesUseCase
-import com.aslmmovic.mazenworld.domain.useCase.PublishCategoriesUseCase
+import com.aslmmovic.mazenworld.domain.useCase.categories.GetCategoriesUseCase
+import com.aslmmovic.mazenworld.domain.useCase.categories.PublishCategoriesUseCase
 import com.aslmmovic.mazenworld.domain.util.AppError
 import com.aslmmovic.mazenworld.domain.util.AppResult
 import com.aslmmovic.mazenworld.utils.loadingBetweenScreensDelay

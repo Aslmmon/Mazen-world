@@ -1,15 +1,14 @@
 package com.aslmmovic.mazenworld.di
 
 import com.aslmmovic.mazenworld.data.repositoryImpl.CategoryRepositoryImpl
-import com.aslmmovic.mazenworld.data.repositoryImpl.MapRepository
-import com.aslmmovic.mazenworld.data.repositoryImpl.MockMapRepository
+import com.aslmmovic.mazenworld.data.repositoryImpl.GamePlayRepositoryImpl
 import com.aslmmovic.mazenworld.domain.respository.CategoryRepository
-import com.aslmmovic.mazenworld.domain.respository.GameRepository
-import com.aslmmovic.mazenworld.domain.respository.MockGameRepository
+import com.aslmmovic.mazenworld.domain.respository.GamePlayRepository
+
 import org.koin.dsl.module
 
 val dataModule = module {
-    single<GameRepository> { MockGameRepository() }
-    single<MapRepository> { MockMapRepository() }
     single<CategoryRepository> { CategoryRepositoryImpl() }
+    single<GamePlayRepository> { GamePlayRepositoryImpl() }
+
 }

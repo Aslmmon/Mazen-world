@@ -25,11 +25,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.aslmmovic.mazenworld.domain.GameOption
+import com.aslmmovic.mazenworld.data.model.GameOptionDto
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun OptionsGrid(options: List<GameOption>?, onOptionSelected: (String) -> Unit) {
+fun OptionsGrid(options: List<GameOptionDto>?, onOptionSelected: (String) -> Unit) {
     if (options.isNullOrEmpty()) return
 
     // Grid layout for 4 options (2 columns, 2 rows)
@@ -50,13 +50,13 @@ fun OptionsGrid(options: List<GameOption>?, onOptionSelected: (String) -> Unit) 
                 contentAlignment = Alignment.Center
             ) {
                 // Content: Text or Image, depending on the game type
-                if (option.iconResource != null) {
+                if (option.iconUrl != null) {
                     // Render Image Option (e.g., ANIMALS/SHAPES)
-                    Image(
-                        painter = painterResource(option.iconResource),
-                        contentDescription = option.text,
-                        modifier = Modifier.fillMaxSize(0.8f)
-                    )
+//                    Image(
+//                        painter = painterResource(option.iconUrl),
+//                        contentDescription = option.text,
+//                        modifier = Modifier.fillMaxSize(0.8f)
+//                    )
                 } else if (option.text != null) {
                     // Render Text Option (e.g., ALPHABET/VEHICLES)
                     Text(

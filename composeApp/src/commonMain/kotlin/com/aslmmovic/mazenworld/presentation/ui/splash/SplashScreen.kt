@@ -1,5 +1,6 @@
 package com.aslmmovic.mazenworld.presentation.ui.splash
 
+import YellowCharacter
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,7 +24,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aslmmovic.mazenworld.presentation.components.CustomRoundedProgressIndicator
+import com.aslmmovic.mazenworld.presentation.components.LottieLoader
 import com.aslmmovic.mazenworld.utils.getLocalizedStatusText
+import com.aslmmovic.mazenworld.utils.loadingTiger
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.app_logo
 import org.jetbrains.compose.resources.painterResource
@@ -51,13 +54,8 @@ fun SplashScreen(onNavigateToHome: () -> Unit) {
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(
-                painter = painterResource(Res.drawable.app_logo), // Replace with your logo resource
-                contentDescription = "Mazen World Logo",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .width(250.dp)
-            )
+//            LottieLoader(modifier = Modifier.fillMaxSize(0.5f), url = loadingTiger)
+            YellowCharacter(mood = CharacterMood.Thinking)
             CustomRoundedProgressIndicator(
                 progressValue = progressValue,
                 trackOutlineColor = MaterialTheme.colorScheme.tertiary,
