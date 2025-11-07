@@ -7,5 +7,6 @@ import com.aslmmovic.mazenworld.domain.util.AppResult
 import kotlinx.coroutines.flow.Flow
 
 class GetCategoriesUseCase(private val categoryRepository: CategoryRepository) {
-    operator fun invoke(): Flow<AppResult<List<CategoryDto>, AppError>> = categoryRepository.getCategories()
+    operator fun invoke(): Flow<AppResult<List<CategoryDto>, AppError>> =
+        categoryRepository.getCategories()
 }

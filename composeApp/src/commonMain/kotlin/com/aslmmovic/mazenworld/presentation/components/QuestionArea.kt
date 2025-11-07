@@ -2,22 +2,17 @@ package com.aslmmovic.mazenworld.presentation.components
 
 // commonMain/presentation/ui/game/QuestionArea.kt
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aslmmovic.mazenworld.data.model.GameQuestionDto
-import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun QuestionArea(question: GameQuestionDto?) {
@@ -45,7 +40,7 @@ fun QuestionArea(question: GameQuestionDto?) {
 
 
         // Question Image/Icon (e.g., the large Car picture)
-        question.questionImageId?.let { resId ->
+        question.questionImageUrl?.let { resId ->
 //            Image(
 //                painter = painterResource(resId),
 //                contentDescription = "Question Image",

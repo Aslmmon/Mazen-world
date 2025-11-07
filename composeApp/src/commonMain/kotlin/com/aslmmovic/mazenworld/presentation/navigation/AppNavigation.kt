@@ -49,7 +49,7 @@ fun AppNavigation(navController: NavHostController, navigationAction: Navigation
                     if (it.isLocked) {
 //                        viewModel.attemptUnlock(it)
                     } else {
-                        navigationAction.navigateToGamePlay(it.id)
+                        navigationAction.navigateToGamePlay(it.id.toString())
                     }
                 })
         }

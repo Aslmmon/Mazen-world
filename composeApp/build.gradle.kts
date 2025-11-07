@@ -38,6 +38,7 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.androidx.datastore.preferences)
             implementation(libs.androidx.ui.text.android)
+            implementation(libs.ktor.client.okhttp)
 
         }
         commonMain.dependencies {
@@ -71,22 +72,33 @@ kotlin {
 
 
             /**
+             * Supabase
+             */
+             implementation(libs.supabase.postgrest)
+            /**
+             * Ktor
+             */
+            implementation(libs.ktor.client.core)
+            implementation(project.dependencies.platform("io.github.jan-tennert.supabase:bom:3.2.6"))
+
+
+            /**
              * Coil for Image
              */
-            implementation("io.coil-kt.coil3:coil-compose:3.3.0")
-            implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
-            implementation("io.coil-kt.coil3:coil-svg:3.3.0")
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.okhttp)
+            implementation(libs.coil.svg)
 
             /**
              * lottie
              */
             implementation(libs.lottie.compose)
-//            implementation(libs.compottie.dot)
-//            implementation("io.github.alexzhirkevich:compottie-network:2.0.2")
 
 
         }
-
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
     }
 }
 

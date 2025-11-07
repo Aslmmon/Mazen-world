@@ -42,7 +42,6 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
     val viewModel: GameViewModel = koinViewModel(
         parameters = { parametersOf(categoryId) } // Pass the argument here
     )
-    val homeViewModel: HomeViewModel = koinViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
 

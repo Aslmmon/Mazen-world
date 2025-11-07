@@ -105,12 +105,12 @@ fun CategoryCard(
                             modifier = Modifier.size(50.dp)
                         )
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = "${item.starCost}",
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Gray
-                        )
+//                        Text(
+//                            text = "${item.starCost}",
+//                            fontSize = 22.sp,
+//                            fontWeight = FontWeight.Bold,
+//                            color = Color.Gray
+//                        )
                     }
                 } else {
                     LottieLoader(modifier = Modifier.fillMaxSize(0.9f), url = item.iconUrl)

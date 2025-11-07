@@ -5,6 +5,8 @@ android-minSdk = "24"
 android-targetSdk = "36"
 androidx-activity = "1.11.0"
 androidx-lifecycle = "2.9.5"
+coilCompose = "3.3.0"
+coilNetworkOkhttp = "3.3.0"
 composeMultiplatform = "1.9.2"
 datastorePreferences = "1.1.7"
 koinCore = "4.1.1"
@@ -13,12 +15,16 @@ navigationComposeVersion = "2.9.1"
 google-services = "4.4.4"
 uiText = "1.9.4"
 gitliveVersion = "2.4.0"
-compottie="2.0.2"
-lottie = "6.4.1"
+lottie = "6.7.1"
+supabase = "3.2.6"
+ktor ="3.3.2"
 
 [libraries]
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-ui-text-android = { module = "androidx.compose.ui:ui-text-android", version.ref = "uiText" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilNetworkOkhttp" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
+coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coilCompose" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinCore" }
 koin-compose = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinCore" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
@@ -27,8 +33,10 @@ androidx-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecyc
 androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
 firebase-firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "gitliveVersion" }
-
-compottie-dot = { module = "io.github.alexzhirkevich:compottie-dot", version.ref = "compottie" }
+supabase-postgrest = { module = "io.github.jan-tennert.supabase:postgrest-kt", version.ref = "supabase" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
 
 

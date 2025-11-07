@@ -4,53 +4,45 @@ import com.aslmmovic.mazenworld.data.model.GameQuestionDto
 import com.aslmmovic.mazenworld.domain.respository.GamePlayRepository
 import com.aslmmovic.mazenworld.domain.util.AppError
 import com.aslmmovic.mazenworld.domain.util.AppResult
-import com.google.firebase.FirebaseException
-import dev.gitlive.firebase.Firebase
-import dev.gitlive.firebase.firestore.FirebaseFirestore
-import dev.gitlive.firebase.firestore.firestore
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.postgrest.exception.PostgrestRestException
+import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.flow
 
-class GamePlayRepositoryImpl : GamePlayRepository {
+const val categoryIdColumn = "categoryId"
+const val QuestionsTableName = "Questions"
 
-    private val db: FirebaseFirestore by lazy { Firebase.firestore }
 
-    private fun questionsCollection(categoryId: String) =
-        db.collection(categoriesCollectionName).document(categoryId).collection("questions")
+class GamePlayRepositoryImpl(private val supabaseClient: SupabaseClient) : GamePlayRepository {
 
-    override fun getQuestionsForCategory(categoryId: String): Flow<AppResult<List<GameQuestionDto>, AppError>> {
-        return questionsCollection(categoryId).snapshots()
-            .map { querySnapshot ->
-                val questions = querySnapshot.documents.map { documentSnapshot ->
-                    documentSnapshot.data<GameQuestionDto>()
-                }
-                AppResult.Success(questions) as AppResult<List<GameQuestionDto>, AppError>
+    override fun getQuestionsForCategory(categoryId: String): Flow<AppResult<List<GameQuestionDto>, AppError>> =
+        flow {
+            try {
+                val questions = supabaseClient.from(QuestionsTableName)
+                    .select {
+                        filter {
+                            eq(categoryIdColumn, categoryId.toInt())
+                        }
+                    }
+                    .decodeList<GameQuestionDto>()
+                emit(AppResult.Success(questions))
+            } catch (e: Exception) {
+                emit(AppResult.Failure(AppError.Unknown(e.message)))
             }
-            .catch { e ->
-                val error = when (e) {
-                    is FirebaseException -> AppError.ServerError
-                    else -> AppError.Unknown(e.message)
-                }
-                emit(AppResult.Failure(error))
-            }
-    }
+        }
 
     override suspend fun publishQuestions(
         categoryId: String,
         questions: List<GameQuestionDto>
     ): AppResult<Unit, AppError> {
         return try {
-            val batch = db.batch()
-            val collection = questionsCollection(categoryId)
-            questions.forEach { question ->
-                val documentRef = collection.document // Auto-generate ID
-                batch.set(documentRef, question)
-            }
-            batch.commit()
+            // Add the categoryId to each question before publishing
+            val questionsWithCategoryId = questions.map { it.copy(categoryId = categoryId) }
+            supabaseClient.from("Questions").insert(questionsWithCategoryId)
             AppResult.Success(Unit)
-        } catch (e: FirebaseException) {
-            AppResult.Failure(AppError.ServerError)
+        } catch (e: PostgrestRestException) {
+            AppResult.Failure(AppError.Unknown(e.message))
         } catch (e: Exception) {
             AppResult.Failure(AppError.Unknown(e.message))
         }

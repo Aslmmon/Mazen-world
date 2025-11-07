@@ -2,6 +2,7 @@ package com.aslmmovic.mazenworld.presentation.ui.gameplay
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aslmmovic.mazenworld.data.model.GameOptionDto
 import com.aslmmovic.mazenworld.data.model.GameQuestionDto
 import com.aslmmovic.mazenworld.domain.useCase.game_play.GetQuestionsUseCase
 import com.aslmmovic.mazenworld.domain.useCase.game_play.PublishQuestionsUseCase
@@ -27,6 +28,7 @@ class GameViewModel(
 
     init {
         loadGameContent()
+        //  publishDummyQuestions() // Uncomment this line temporarily to publish data
     }
 
     private fun loadGameContent() {
@@ -36,17 +38,24 @@ class GameViewModel(
             getQuestionsUseCase(categoryId).collect { result ->
                 when (result) {
                     is AppResult.Success -> {
-                        questions = result.data
+                        questions = result.data // Shuffle questions for variety
                         _state.update {
                             it.copy(
                                 currentQuestion = questions.firstOrNull(),
                                 totalQuestions = questions.size,
-                                isLoading = false
+                                isLoading = false,
+                                currentQuestionIndex = 0
                             )
                         }
                     }
+
                     is AppResult.Failure -> {
-                        _state.update { it.copy(feedbackMessage = "Failed to load questions.", isLoading = false) }
+                        _state.update {
+                            it.copy(
+                                feedbackMessage = "Failed to load questions.",
+                                isLoading = false
+                            )
+                        }
                     }
                 }
             }
@@ -73,12 +82,64 @@ class GameViewModel(
                         )
                     }
                 } else {
-                    _state.update { it.copy(isLevelComplete = true, feedbackMessage = "Level Complete!") }
+                    _state.update {
+                        it.copy(
+                            isLevelComplete = true,
+                            feedbackMessage = "Level Complete!"
+                        )
+                    }
                     // awardStarsAndSaveProgress()
                 }
             }
         } else {
             _state.update { it.copy(feedbackMessage = "Try again.") }
+        }
+    }
+
+    /**
+     * Creates and uploads a set of dummy questions for predefined categories to Firestore.
+     * This is a utility function for seeding the database.
+     */
+    fun publishDummyQuestions() {
+        viewModelScope.launch {
+            _state.update { it.copy(feedbackMessage = "Publishing...", isLoading = true) }
+
+            val categories = listOf("animals", "vehicles", "shapes", "alphabet")
+            var success = true
+
+            for (catId in categories) {
+                val dummyQuestions = createDummyQuestionsFor(catId)
+                val result = publishQuestionsUseCase(catId, dummyQuestions)
+                if (result is AppResult.Failure) {
+                    success = false
+                    break
+                }
+            }
+
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    feedbackMessage = if (success) "Dummy questions published successfully!" else "Failed to publish questions."
+                )
+            }
+        }
+    }
+
+    private fun createDummyQuestionsFor(categoryId: String): List<GameQuestionDto> {
+        return (1..5).map { index ->
+            val options = (1..4).map { optionIndex ->
+                GameOptionDto(
+                    id = "${categoryId}_q${index}_opt${optionIndex}",
+                    text = "Option $optionIndex",
+                    iconUrl = "https://picsum.photos/seed/${categoryId}_q${index}_opt${optionIndex}/200" // Unique placeholder image
+                )
+            }
+            GameQuestionDto(
+                questionText = "This is question #$index for the '$categoryId' category",
+                questionImageUrl = "https://picsum.photos/seed/${categoryId}_q${index}/400", // Unique placeholder image
+                options = options.shuffled(), // Shuffle options
+                correctAnswerId = options.first().id // The first option is always the correct one before shuffling
+            )
         }
     }
 }
