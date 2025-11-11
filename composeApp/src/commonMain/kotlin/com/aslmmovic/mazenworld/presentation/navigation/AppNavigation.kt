@@ -1,14 +1,8 @@
 package com.aslmmovic.mazenworld.presentation.navigation
 
-import IronManCharacter
-import YellowCharacter
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -25,23 +19,12 @@ fun AppNavigation(navController: NavHostController, navigationAction: Navigation
         composable(Screen.Splash.route) {
             SplashScreen(onNavigateToHome = navigationAction::navigateToHome)
         }
-//        composable(Screen.Test.route) {
-//            Column(
-//
-//            ) {
-//
-//                YellowCharacter(mood = CharacterMood.Thinking)
-//                YellowCharacter(mood = CharacterMood.Right)
-//                YellowCharacter(mood = CharacterMood.Wrong)
-//
-//            }
-//        }
+
         composable(Screen.Home.route) {
             HomeScreen(
                 onPlayClick = navigationAction::navigateToCategoryMap
             )
         }
-
         composable(Screen.CategoryMap.route) {
             CategoryMapScreen(
                 onBackClick = navigationAction::navigateBack,

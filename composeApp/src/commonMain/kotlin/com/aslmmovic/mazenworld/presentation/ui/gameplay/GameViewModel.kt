@@ -6,6 +6,7 @@ import com.aslmmovic.mazenworld.data.model.GameOptionDto
 import com.aslmmovic.mazenworld.data.model.GameQuestionDto
 import com.aslmmovic.mazenworld.domain.useCase.game_play.GetQuestionsUseCase
 import com.aslmmovic.mazenworld.domain.useCase.game_play.PublishQuestionsUseCase
+import com.aslmmovic.mazenworld.domain.util.AppError
 import com.aslmmovic.mazenworld.domain.util.AppResult
 import com.aslmmovic.mazenworld.utils.loadingBetweenScreensDelay
 import kotlinx.coroutines.delay
@@ -38,17 +39,18 @@ class GameViewModel(
                         val loadedQuestions =
                             result.data.shuffled() // Shuffle for variety                        _state.update {
                         if (loadedQuestions.isEmpty()) {
-                            _state.value = GameState.Error("No questions found for this category.")
+                            _state.value = GameState.Error(AppError.Unknown("No questions found"))
                         } else {
                             _state.value = GameState.Success(
                                 questions = loadedQuestions,
                                 currentQuestionIndex = 0
+
                             )
                         }
                     }
 
                     is AppResult.Failure -> {
-                        _state.value = GameState.Error("Failed to load questions.")
+                        _state.value = GameState.Error(result.error)
                     }
                 }
             }
@@ -60,7 +62,9 @@ class GameViewModel(
         // Only process answers if we are in the Success state
         if (currentState !is GameState.Success) return
 
-        if (selectedOptionId == currentState.currentQuestion.correctAnswerId) {
+        val correctAnswerId= currentState.currentQuestion.correctAnswerId
+
+        if (selectedOptionId == correctAnswerId) {
             _state.update {
                 (it as GameState.Success).copy(feedbackMessage = "Correct!", score = it.score + 1)
             }
@@ -89,7 +93,7 @@ class GameViewModel(
 
 sealed class GameState {
     data object Loading : GameState()
-    data class Error(val message: String) : GameState()
+    data class Error(val message: AppError) : GameState()
     data class Success(
         val questions: List<GameQuestionDto>,
         val currentQuestionIndex: Int = 0,

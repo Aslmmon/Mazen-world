@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.aslmmovic.mazenworld.domain.util.toUserFriendlyMessage
 import com.aslmmovic.mazenworld.presentation.components.ErrorComponent
 import com.aslmmovic.mazenworld.presentation.components.GameProgressBar
 import com.aslmmovic.mazenworld.presentation.components.LevelCompleteOverlay
@@ -47,11 +48,12 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
             is GameState.Loading -> {
                 LoadingProgress("raw/cute_tiger.json")
             }
-
             is GameState.Error -> {
-                ErrorComponent(currentState.message, onBackClick = onBackClick)
+                ErrorComponent(
+                    currentState.message.toUserFriendlyMessage(),
+                    onBackClick = onBackClick
+                )
             }
-
             is GameState.Success -> {
                 GameContent(
                     state = currentState,
@@ -68,8 +70,6 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
             }
 
         }
-
-
     }
 }
 
