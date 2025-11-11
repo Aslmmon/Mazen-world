@@ -13,7 +13,7 @@ data class CategoryDto(
 
 @Serializable
 data class GameQuestionDto(
-    val categoryId: String? = null,
+    val categoryId: Int? = null,
     val questionText: String,
     val questionImageUrl: String,
     val options: List<GameOptionDto>,

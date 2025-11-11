@@ -38,7 +38,7 @@ class GamePlayRepositoryImpl(private val supabaseClient: SupabaseClient) : GameP
     ): AppResult<Unit, AppError> {
         return try {
             // Add the categoryId to each question before publishing
-            val questionsWithCategoryId = questions.map { it.copy(categoryId = categoryId) }
+            val questionsWithCategoryId = questions.map { it.copy(categoryId = categoryId.toInt()) }
             supabaseClient.from("Questions").insert(questionsWithCategoryId)
             AppResult.Success(Unit)
         } catch (e: PostgrestRestException) {

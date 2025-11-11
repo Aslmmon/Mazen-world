@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.aslmmovic.mazenworld.data.model.GameOptionDto
 import org.jetbrains.compose.resources.painterResource
 
@@ -52,11 +53,11 @@ fun OptionsGrid(options: List<GameOptionDto>?, onOptionSelected: (String) -> Uni
                 // Content: Text or Image, depending on the game type
                 if (option.iconUrl != null) {
                     // Render Image Option (e.g., ANIMALS/SHAPES)
-//                    Image(
-//                        painter = painterResource(option.iconUrl),
-//                        contentDescription = option.text,
-//                        modifier = Modifier.fillMaxSize(0.8f)
-//                    )
+                    AsyncImage(
+                        model = option.iconUrl,
+                        contentDescription = option.text,
+                        modifier = Modifier.fillMaxSize(0.8f)
+                    )
                 } else if (option.text != null) {
                     // Render Text Option (e.g., ALPHABET/VEHICLES)
                     Text(

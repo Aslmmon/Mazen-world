@@ -31,8 +31,8 @@ class CategoryMapViewModel(
 
     private fun loadCategories() {
         viewModelScope.launch {
-            delay(loadingBetweenScreensDelay)
             getCategoriesUseCase().collect { result ->
+                delay(loadingBetweenScreensDelay)
                 when (result) {
                     is AppResult.Success -> {
                         _state.value = CategoryState.Success(result.data)
