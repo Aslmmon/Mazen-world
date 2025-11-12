@@ -94,7 +94,6 @@ private fun GameContent(
     onProcessAnswer: (String) -> Unit
 ) {
     // Top-left buttons (Back, Music)
-    val onMusicClick = remember { {} }
     Image(
         painter = painterResource(Res.drawable.play_screen_bg),
         contentDescription = null,
@@ -113,7 +112,7 @@ private fun GameContent(
             icon = Res.drawable.back_icon
         )
         SmallIconButton(
-            onClick = {  },
+            onClick = {},
             contentDescription = "music",
             icon = Res.drawable.music_icon
         )
@@ -137,7 +136,6 @@ private fun GameContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // These composables now only recompose if their specific data changes
             GameProgressBar(currentQuestionIndex, totalQuestions)
             QuestionArea(currentQuestion)
             OptionsGrid(currentQuestion.options, onProcessAnswer)
