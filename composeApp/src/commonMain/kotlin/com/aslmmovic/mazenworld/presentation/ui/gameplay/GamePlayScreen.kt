@@ -1,6 +1,7 @@
 package com.aslmmovic.mazenworld.presentation.ui.gameplay
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.aslmmovic.mazenworld.data.model.GameQuestionDto
 import com.aslmmovic.mazenworld.domain.util.toUserFriendlyMessage
 import com.aslmmovic.mazenworld.presentation.components.ErrorComponent
 import com.aslmmovic.mazenworld.presentation.components.GameProgressBar
@@ -40,7 +43,9 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
         parameters = { parametersOf(categoryId) } // Pass the argument here
     )
     val state by viewModel.state.collectAsStateWithLifecycle()
-
+    val onProcessAnswer = remember(viewModel) {
+        { selectedOptionId: String -> viewModel.processAnswer(selectedOptionId) }
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -48,17 +53,22 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
             is GameState.Loading -> {
                 LoadingProgress("raw/cute_tiger.json")
             }
+
             is GameState.Error -> {
                 ErrorComponent(
                     currentState.message.toUserFriendlyMessage(),
                     onBackClick = onBackClick
                 )
             }
+
             is GameState.Success -> {
                 GameContent(
-                    state = currentState,
+                    currentQuestion = currentState.currentQuestion, // Pass the question object
+                    currentQuestionIndex = currentState.currentQuestionIndex,
+                    totalQuestions = currentState.totalQuestions,
+                    feedbackMessage = currentState.feedbackMessage, // Pass the message
                     onBackClick = onBackClick,
-                    onProcessAnswer = viewModel::processAnswer
+                    onProcessAnswer = onProcessAnswer
                 )
                 if (currentState.isLevelComplete) {
                     LevelCompleteOverlay(
@@ -75,11 +85,16 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
 
 @Composable
 private fun GameContent(
-    state: GameState.Success,
+    // 1. ACCEPT PRIMITIVE OR STABLE TYPES, NOT THE ENTIRE GameState.Success
+    currentQuestion: GameQuestionDto,
+    currentQuestionIndex: Int,
+    totalQuestions: Int,
+    feedbackMessage: String?,
     onBackClick: () -> Unit,
     onProcessAnswer: (String) -> Unit
 ) {
     // Top-left buttons (Back, Music)
+    val onMusicClick = remember { {} }
     Image(
         painter = painterResource(Res.drawable.play_screen_bg),
         contentDescription = null,
@@ -98,15 +113,15 @@ private fun GameContent(
             icon = Res.drawable.back_icon
         )
         SmallIconButton(
-            onClick = {},
+            onClick = {  },
             contentDescription = "music",
             icon = Res.drawable.music_icon
         )
     }
     Box(
         modifier = Modifier
-            .fillMaxSize() // Fill the screen to align center correctly
-            .padding(horizontal = 100.dp, vertical = 32.dp), // Adjust padding for a good fit
+            .fillMaxSize()
+            .padding(horizontal = 100.dp, vertical = 32.dp),
         contentAlignment = Alignment.Center
     ) {
         Image(
@@ -116,16 +131,18 @@ private fun GameContent(
             modifier = Modifier.fillMaxSize()
         )
 
+
         Column(
             modifier = Modifier.padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            GameProgressBar(state.currentQuestionIndex + 1, state.totalQuestions)
-            QuestionArea(state.currentQuestion)
-            OptionsGrid(state.currentQuestion.options, onProcessAnswer)
+            // These composables now only recompose if their specific data changes
+            GameProgressBar(currentQuestionIndex, totalQuestions)
+            QuestionArea(currentQuestion)
+            OptionsGrid(currentQuestion.options, onProcessAnswer)
 
-            state.feedbackMessage?.let { msg ->
+            feedbackMessage?.let { msg ->
                 Text(
                     msg,
                     fontSize = 20.sp,
@@ -136,4 +153,3 @@ private fun GameContent(
         }
     }
 }
-

@@ -1,5 +1,7 @@
 package com.aslmmovic.mazenworld.presentation.ui.gameplay
 
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aslmmovic.mazenworld.data.model.GameOptionDto
@@ -36,15 +38,13 @@ class GameViewModel(
                 delay(loadingBetweenScreensDelay)
                 when (result) {
                     is AppResult.Success -> {
-                        val loadedQuestions =
-                            result.data.shuffled() // Shuffle for variety                        _state.update {
+                        val loadedQuestions = result.data // Shuffle for variety
                         if (loadedQuestions.isEmpty()) {
                             _state.value = GameState.Error(AppError.Unknown("No questions found"))
                         } else {
                             _state.value = GameState.Success(
                                 questions = loadedQuestions,
                                 currentQuestionIndex = 0
-
                             )
                         }
                     }
@@ -62,7 +62,7 @@ class GameViewModel(
         // Only process answers if we are in the Success state
         if (currentState !is GameState.Success) return
 
-        val correctAnswerId= currentState.currentQuestion.correctAnswerId
+        val correctAnswerId = currentState.currentQuestion.correctAnswerId
 
         if (selectedOptionId == correctAnswerId) {
             _state.update {
@@ -72,6 +72,7 @@ class GameViewModel(
             viewModelScope.launch {
                 delay(800)
                 val nextIndex = currentState.currentQuestionIndex + 1
+                Log.e("test", "processAnswer: $nextIndex")
                 if (nextIndex < currentState.questions.size) {
                     // Go to the next question
                     _state.value = currentState.copy(
