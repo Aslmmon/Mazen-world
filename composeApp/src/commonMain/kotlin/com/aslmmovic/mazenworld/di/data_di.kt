@@ -19,7 +19,7 @@ val dataModule = module {
             install(Postgrest)
         }
     }
-    single<CategoryRepository> { CategoryRepositoryImpl(get()) }
-    single<GamePlayRepository> { GamePlayRepositoryImpl(get()) }
+    single<CategoryRepository> { CategoryRepositoryImpl() }
+    single<GamePlayRepository> { GamePlayRepositoryImpl() }
 
 }

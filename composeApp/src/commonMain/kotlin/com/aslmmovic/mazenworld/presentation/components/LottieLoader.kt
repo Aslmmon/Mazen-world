@@ -24,7 +24,7 @@ fun LottieLoader(
     val spec = if (url != null) {
         LottieCompositionSpec.Url(url)
     } else {
-        // In KMP, you load raw assets by their path string in the 'assets' folder.
+        // In KMP, you load files assets by their path string in the 'assets' folder.
         // E.g. "lottie/loader.json"
         LottieCompositionSpec.JsonString(rawResName!!)
     }

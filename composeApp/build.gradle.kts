@@ -7,10 +7,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.googleServices)
     alias(libs.plugins.kotlinSerialization)
-
-
 }
-
 
 kotlin {
     androidTarget {
@@ -18,18 +15,6 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-
-//    listOf(
-//        iosArm64(),
-//        iosSimulatorArm64()
-//    ).forEach { iosTarget ->
-//        iosTarget.binaries.framework {
-//            baseName = "ComposeApp"
-//            isStatic = true
-//        }
-//    }
-
-
 
     sourceSets {
         androidMain.dependencies {
@@ -39,62 +24,28 @@ kotlin {
             implementation(libs.androidx.datastore.preferences)
             implementation(libs.androidx.ui.text.android)
             implementation(libs.ktor.client.okhttp)
-
         }
         commonMain.dependencies {
-            /**
-             * Android Dependencies
-             */
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
-            implementation(compose.components.resources)
+            implementation(compose.components.resources) // Correct dependency for raw resources
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.androidx.ui.text.android)
-
-            /**
-             * Koin DI
-             */
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
-
-            /**
-             * Navigation
-             */
             implementation(libs.navigation.compose)
-            /**
-             * Firebase
-             */
-            implementation(libs.firebase.firestore) // <-- This should point to dev.gitlive:firebase-firestore
-
-
-            /**
-             * Supabase
-             */
-             implementation(libs.supabase.postgrest)
-            /**
-             * Ktor
-             */
+            implementation(libs.firebase.firestore)
+            implementation(libs.supabase.postgrest)
             implementation(libs.ktor.client.core)
             implementation(project.dependencies.platform("io.github.jan-tennert.supabase:bom:3.2.6"))
-
-
-            /**
-             * Coil for Image
-             */
             implementation(libs.coil.compose)
             implementation(libs.coil.network.okhttp)
             implementation(libs.coil.svg)
-
-            /**
-             * lottie
-             */
             implementation(libs.lottie.compose)
-
-
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
