@@ -2,47 +2,132 @@ package com.aslmmovic.mazenworld.utils
 
 import android.content.Context
 import android.media.MediaPlayer
-import android.media.SoundPool
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import androidx.annotation.RawRes
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import org.jetbrains.compose.resources.Resource
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 
-object AndroidContext : KoinComponent {
-    val context: Context by inject()
-    // Need a temporary, simple way to map resource names to Android IDs
-    fun getResourceId(resourceId: String): Int {
-        return context.resources.getIdentifier(resourceId, "raw", context.packageName)
+lateinit var appContext: Context
+
+
+actual class AudioPlayerManager : DefaultLifecycleObserver {
+
+    private var backgroundMusicPlayer: MediaPlayer? = null
+    private var backgroundMusicBytes: ByteArray? = null // Store the bytes to resume playback
+
+    /**
+     * Plays a short, one-off sound effect.
+     * A new MediaPlayer instance is created and released for each effect.
+     */
+    actual fun playSoundEffect(resource: Resource) {
+        try {
+            val resId = getResourceId(resource)
+            val mediaPlayer = MediaPlayer.create(appContext, resId)
+            mediaPlayer.setOnCompletionListener { it.release() }
+            mediaPlayer.start()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            // Handle error, e.g., log it
+        }
+    }
+
+    /**
+     * Plays looping background music.
+     * It manages a single MediaPlayer instance for the background music.
+     */
+    actual fun playBackgroundMusic(resource: ByteArray) {
+        if (backgroundMusicPlayer?.isPlaying == true) return // Don't restart if already playing
+
+        this.backgroundMusicBytes = resource
+
+        if (backgroundMusicPlayer == null) {
+            try {
+                val tempFile = createTempFileFromBytes(resource, "bgm")
+                backgroundMusicPlayer = MediaPlayer().apply {
+                    setDataSource(tempFile.absolutePath)
+                    isLooping = true // Music should loop
+                    setVolume(0.3f, 0.3f) // Lower volume for background music
+                    prepare()
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                // Handle error
+            }
+        }
+        if (backgroundMusicPlayer?.isPlaying == false) {
+            backgroundMusicPlayer?.start()
+        }
+    }
+
+    /**
+     * Stops the currently playing background music.
+     */
+    actual fun stopBackgroundMusic() {
+        if (backgroundMusicPlayer?.isPlaying == true) {
+            backgroundMusicPlayer?.pause()
+        }
+    }
+
+    /**
+     * Releases all MediaPlayer resources.
+     */
+    actual fun release() {
+        backgroundMusicPlayer?.release()
+        backgroundMusicPlayer = null
+    }
+
+    /**
+     * A helper function to get the Android-specific raw resource ID
+     * from the KMP Resource object.
+     */
+    @RawRes
+    private fun getResourceId(resource: Resource): Int {
+        val path = resource.toString().substringAfter("files/").substringBeforeLast(".")
+        return appContext.resources.getIdentifier(path, "raw", appContext.packageName)
+
+    }
+
+    private fun createTempFileFromBytes(bytes: ByteArray, prefix: String): File {
+        val tempFile = File.createTempFile(prefix, ".tmp", appContext.cacheDir)
+        tempFile.deleteOnExit()
+        FileOutputStream(tempFile).use { fos ->
+            fos.write(bytes)
+        }
+        return tempFile
+    }
+
+
+    override fun onStart(owner: LifecycleOwner) {
+        // App came to the foreground, resume music
+        if (backgroundMusicPlayer != null && backgroundMusicPlayer?.isPlaying == false) {
+            backgroundMusicPlayer?.start()
+        } else if (backgroundMusicPlayer == null && backgroundMusicBytes != null) {
+            // If the player was released, recreate it and play
+            playBackgroundMusic(backgroundMusicBytes!!)
+        }
+    }
+
+    override fun onStop(owner: LifecycleOwner) {
+        // App went to the background, pause music
+        stopBackgroundMusic()
     }
 }
 
-class AndroidAudioPlayer : AudioPlayer {
-
-    private val soundPool: SoundPool = SoundPool.Builder().setMaxStreams(5).build()
-    private val sfxMap = mutableMapOf<String, Int>()
-    private var mediaPlayer: MediaPlayer? = null
-
-    // NOTE: In a real app, you'd call loadSound() on init for all SFX
-
-    override fun playSound(resourceId: String, volume: Float) {
-        val resId = AndroidContext.getResourceId(resourceId)
-        if (!sfxMap.containsKey(resourceId)) {
-            sfxMap[resourceId] = soundPool.load(AndroidContext.context, resId, 1)
-        }
-        sfxMap[resourceId]?.let { soundId ->
-            soundPool.play(soundId, volume, volume, 0, 0, 1f)
-        }
-    }
-
-    override fun startMusic(resourceId: String, loop: Boolean) {
-        // ... (MediaPlayer implementation for music) ...
-    }
-    override fun pauseMusic() { mediaPlayer?.pause() }
-    override fun resumeMusic() { mediaPlayer?.start() }
-
-    override fun stopAndRelease() {
-        mediaPlayer?.release()
-        soundPool.release()
-    }
+private val audioPlayerManagerInstance: AudioPlayerManager by lazy {
+    AudioPlayerManager()
 }
 
-actual fun createAudioPlayer(): AudioPlayer = AndroidAudioPlayer()
+actual fun provideAudioPlayerManager(): AudioPlayerManager {
+    // Implement a singleton pattern here if needed
+    return audioPlayerManagerInstance// Assuming your actual class is named this
+}
+
+
+
+
+
+

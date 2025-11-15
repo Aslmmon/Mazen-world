@@ -18,6 +18,7 @@ gitliveVersion = "2.4.0"
 lottie = "6.7.1"
 supabase = "3.2.6"
 ktor ="3.3.2"
+lifecycleProcess = "2.8.3" # Use the latest version
 
 [libraries]
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
@@ -38,7 +39,7 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
-
+androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "lifecycleProcess" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
