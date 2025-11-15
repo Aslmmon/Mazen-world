@@ -9,53 +9,82 @@ import org.jetbrains.compose.resources.Resource
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-
+import java.util.LinkedList
+import java.util.Queue
 
 lateinit var appContext: Context
-
 
 actual class AudioPlayerManager : DefaultLifecycleObserver {
 
     private var backgroundMusicPlayer: MediaPlayer? = null
-    private var backgroundMusicBytes: ByteArray? = null // Store the bytes to resume playback
+    private var backgroundMusicBytes: ByteArray? = null
 
-    /**
-     * Plays a short, one-off sound effect.
-     * A new MediaPlayer instance is created and released for each effect.
-     */
-    actual fun playSoundEffect(resource: Resource) {
-        try {
-            val resId = getResourceId(resource)
-            val mediaPlayer = MediaPlayer.create(appContext, resId)
-            mediaPlayer.setOnCompletionListener { it.release() }
-            mediaPlayer.start()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            // Handle error, e.g., log it
+    // --- 1. CREATE THE OBJECT POOL FOR SOUND EFFECTS ---
+    private val soundEffectPlayerPool: Queue<MediaPlayer> = LinkedList()
+    private val activeSoundEffectPlayers = mutableListOf<MediaPlayer>()
+    private val maxPoolSize = 5 // Limit to 5 simultaneous sound effects
+
+    init {
+        // Pre-fill the pool with a few MediaPlayer instances
+        repeat(maxPoolSize) {
+            soundEffectPlayerPool.add(MediaPlayer())
         }
     }
 
     /**
+     * Plays a short, one-off sound effect using an object pool for efficiency.
+     */
+    actual fun playSoundEffect(resource: Resource) {
+        // 2. GET A PLAYER FROM THE POOL (if available)
+        val mediaPlayer = soundEffectPlayerPool.poll() ?: return // Or create a new one if pool is empty and you want to allow more sounds
+
+        try {
+            val resId = getResourceId(resource)
+            val afd = appContext.resources.openRawResourceFd(resId)
+
+            mediaPlayer.apply {
+                reset() // Reset player to idle state before use
+                setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
+                prepare()
+                setOnCompletionListener { completedPlayer ->
+                    // 3. RETURN THE PLAYER TO THE POOL when done
+                    completedPlayer.reset()
+                    activeSoundEffectPlayers.remove(completedPlayer)
+                    soundEffectPlayerPool.add(completedPlayer)
+                    afd.close() // Close the file descriptor
+                }
+            }
+
+            activeSoundEffectPlayers.add(mediaPlayer)
+            mediaPlayer.start()
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+            // If something fails, return the player to the pool
+            mediaPlayer.reset()
+            soundEffectPlayerPool.add(mediaPlayer)
+        }
+    }
+
+    // --- The rest of the class remains the same ---
+
+    /**
      * Plays looping background music.
-     * It manages a single MediaPlayer instance for the background music.
      */
     actual fun playBackgroundMusic(resource: ByteArray) {
-        if (backgroundMusicPlayer?.isPlaying == true) return // Don't restart if already playing
-
+        if (backgroundMusicPlayer?.isPlaying == true) return
         this.backgroundMusicBytes = resource
-
         if (backgroundMusicPlayer == null) {
             try {
                 val tempFile = createTempFileFromBytes(resource, "bgm")
                 backgroundMusicPlayer = MediaPlayer().apply {
                     setDataSource(tempFile.absolutePath)
-                    isLooping = true // Music should loop
-                    setVolume(0.3f, 0.3f) // Lower volume for background music
+                    isLooping = true
+                    setVolume(0.3f, 0.3f)
                     prepare()
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
-                // Handle error
             }
         }
         if (backgroundMusicPlayer?.isPlaying == false) {
@@ -78,17 +107,18 @@ actual class AudioPlayerManager : DefaultLifecycleObserver {
     actual fun release() {
         backgroundMusicPlayer?.release()
         backgroundMusicPlayer = null
+
+        // 4. RELEASE ALL POOLED PLAYERS
+        soundEffectPlayerPool.forEach { it.release() }
+        soundEffectPlayerPool.clear()
+        activeSoundEffectPlayers.forEach { it.release() }
+        activeSoundEffectPlayers.clear()
     }
 
-    /**
-     * A helper function to get the Android-specific raw resource ID
-     * from the KMP Resource object.
-     */
     @RawRes
     private fun getResourceId(resource: Resource): Int {
         val path = resource.toString().substringAfter("files/").substringBeforeLast(".")
         return appContext.resources.getIdentifier(path, "raw", appContext.packageName)
-
     }
 
     private fun createTempFileFromBytes(bytes: ByteArray, prefix: String): File {
@@ -100,34 +130,23 @@ actual class AudioPlayerManager : DefaultLifecycleObserver {
         return tempFile
     }
 
-
     override fun onStart(owner: LifecycleOwner) {
-        // App came to the foreground, resume music
         if (backgroundMusicPlayer != null && backgroundMusicPlayer?.isPlaying == false) {
             backgroundMusicPlayer?.start()
         } else if (backgroundMusicPlayer == null && backgroundMusicBytes != null) {
-            // If the player was released, recreate it and play
             playBackgroundMusic(backgroundMusicBytes!!)
         }
     }
 
     override fun onStop(owner: LifecycleOwner) {
-        // App went to the background, pause music
         stopBackgroundMusic()
     }
 }
 
+// Singleton provider remains the same
 private val audioPlayerManagerInstance: AudioPlayerManager by lazy {
     AudioPlayerManager()
 }
-
 actual fun provideAudioPlayerManager(): AudioPlayerManager {
-    // Implement a singleton pattern here if needed
-    return audioPlayerManagerInstance// Assuming your actual class is named this
+    return audioPlayerManagerInstance
 }
-
-
-
-
-
-
