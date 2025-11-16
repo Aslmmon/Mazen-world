@@ -31,6 +31,10 @@ actual class AudioPlayerManager : DefaultLifecycleObserver {
     private val _isMuted = MutableStateFlow(false)
     actual val isMuted: StateFlow<Boolean> = _isMuted.asStateFlow()
 
+
+    private var hasMusicBeenStarted = false
+
+
     init {
         // Pre-fill the pool with a few MediaPlayer instances
         repeat(maxPoolSize) {
@@ -81,37 +85,7 @@ actual class AudioPlayerManager : DefaultLifecycleObserver {
             soundEffectPlayerPool.add(mediaPlayer)
         }
     }
-//    actual fun playSoundEffect(resource: Resource) {
-//        // 2. GET A PLAYER FROM THE POOL (if available)
-//        val mediaPlayer = soundEffectPlayerPool.poll() ?: return // Or create a new one if pool is empty and you want to allow more sounds
-//
-//        try {
-//            val resId = getResourceId(resource)
-//            val afd = appContext.resources.openRawResourceFd(resId)
-//
-//            mediaPlayer.apply {
-//                reset() // Reset player to idle state before use
-//                setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
-//                prepare()
-//                setOnCompletionListener { completedPlayer ->
-//                    // 3. RETURN THE PLAYER TO THE POOL when done
-//                    completedPlayer.reset()
-//                    activeSoundEffectPlayers.remove(completedPlayer)
-//                    soundEffectPlayerPool.add(completedPlayer)
-//                    afd.close() // Close the file descriptor
-//                }
-//            }
-//
-//            activeSoundEffectPlayers.add(mediaPlayer)
-//            mediaPlayer.start()
-//
-//        } catch (e: IOException) {
-//            e.printStackTrace()
-//            // If something fails, return the player to the pool
-//            mediaPlayer.reset()
-//            soundEffectPlayerPool.add(mediaPlayer)
-//        }
-//    }
+
 
     // --- The rest of the class remains the same ---
 
@@ -120,6 +94,7 @@ actual class AudioPlayerManager : DefaultLifecycleObserver {
      */
     actual fun playBackgroundMusic(resource: ByteArray) {
         if (backgroundMusicPlayer?.isPlaying == true) return
+        if (hasMusicBeenStarted) return
         this.backgroundMusicBytes = resource
         if (backgroundMusicPlayer == null) {
             try {
@@ -137,6 +112,7 @@ actual class AudioPlayerManager : DefaultLifecycleObserver {
         }
         if (backgroundMusicPlayer?.isPlaying == false) {
             backgroundMusicPlayer?.start()
+            hasMusicBeenStarted = true
         }
     }
 

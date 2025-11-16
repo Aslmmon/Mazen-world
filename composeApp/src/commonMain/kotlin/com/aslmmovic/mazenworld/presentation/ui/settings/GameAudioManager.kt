@@ -22,6 +22,10 @@ class GameAudioManager {
         voiceFileName?.let { playSound("$animalsFolder/$it") }
     }
 
+
+    fun playBackgroundMusic() = playBackground("files/background_music.ogg")
+
+
     fun playSpecificAnswerSound(soundFileName: String?) {
         soundFileName?.let { playSound("$animalsFolder/$it") }
     }
@@ -30,6 +34,16 @@ class GameAudioManager {
         CoroutineScope(Dispatchers.Default).launch {
             try {
                 player.playSoundEffect(Res.readBytes(filePath))
+            } catch (e: Exception) {
+                // Log error
+            }
+        }
+    }
+
+    private fun playBackground(filePath: String) {
+        CoroutineScope(Dispatchers.Default).launch {
+            try {
+                player.playBackgroundMusic(Res.readBytes(filePath))
             } catch (e: Exception) {
                 // Log error
             }
