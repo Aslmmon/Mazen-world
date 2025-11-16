@@ -16,7 +16,7 @@ import java.util.LinkedList
 import java.util.Queue
 
 lateinit var appContext: Context
-
+const val soundVolume = 0.1f
 actual class AudioPlayerManager : DefaultLifecycleObserver {
 
     private var backgroundMusicPlayer: MediaPlayer? = null
@@ -47,7 +47,7 @@ actual class AudioPlayerManager : DefaultLifecycleObserver {
         if (_isMuted.value) {
             backgroundMusicPlayer?.setVolume(0f, 0f) // Mute
         } else {
-            backgroundMusicPlayer?.setVolume(0.3f, 0.3f) // Unmute to default volume
+            backgroundMusicPlayer?.setVolume(soundVolume, soundVolume) // Unmute to default volume
         }
     }
 
@@ -64,6 +64,7 @@ actual class AudioPlayerManager : DefaultLifecycleObserver {
             val tempFile = createTempFileFromBytes(resource, "sfx")
 
             mediaPlayer.apply {
+
                 reset()
                 setDataSource(tempFile.absolutePath) // 3. SET DATA SOURCE FROM TEMP FILE
                 prepare()
@@ -102,7 +103,7 @@ actual class AudioPlayerManager : DefaultLifecycleObserver {
                 backgroundMusicPlayer = MediaPlayer().apply {
                     setDataSource(tempFile.absolutePath)
                     isLooping = true
-                    val volume = if (_isMuted.value) 0f else 0.3f
+                    val volume = if (_isMuted.value) 0f else soundVolume
                     setVolume(volume, volume)
                     prepare()
                 }

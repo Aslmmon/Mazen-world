@@ -3,6 +3,7 @@ package com.aslmmovic.mazenworld.presentation.ui.categories
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -32,6 +33,7 @@ import com.aslmmovic.mazenworld.presentation.components.CategoryCard
 import com.aslmmovic.mazenworld.presentation.components.ErrorComponent
 import com.aslmmovic.mazenworld.presentation.components.ErrorSnackbar
 import com.aslmmovic.mazenworld.presentation.components.LoadingProgress
+import com.aslmmovic.mazenworld.presentation.components.MusicToggleButton
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.back_icon
@@ -66,14 +68,17 @@ fun CategoryMapScreen(
                         .fillMaxSize()
                         .background(Color.Black.copy(alpha = 0.5f))
                 )
-                SmallIconButton(
-                    onClick = onBackClick,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(5.dp),
-                    contentDescription = "back",
-                    icon = Res.drawable.back_icon
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    SmallIconButton(
+                        onClick = onBackClick,
+                        modifier = Modifier
+                            .padding(5.dp),
+                        contentDescription = "back",
+                        icon = Res.drawable.back_icon
+                    )
+                    MusicToggleButton()
+                }
+
 
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(150.dp), // Or any number that fits your design
