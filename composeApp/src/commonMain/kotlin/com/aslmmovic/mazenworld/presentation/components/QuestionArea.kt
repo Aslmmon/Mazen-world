@@ -28,22 +28,13 @@ fun QuestionArea(question: GameQuestionDto?) {
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
 
         // Question Text (e.g., "Find the Big Car" in Arabic)
-        Text(
-            text = question.questionText,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-        )
 
-
-        // Question Image/Icon (e.g., the large Car picture)
         question.questionImageUrl.let { resId ->
-//
             AsyncImage(
                 model = resId,
                 contentDescription = "",
@@ -51,5 +42,12 @@ fun QuestionArea(question: GameQuestionDto?) {
             )
 
         }
+        Text(
+            text = question.questionText,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+        )
+
     }
 }

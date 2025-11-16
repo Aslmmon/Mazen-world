@@ -3,6 +3,7 @@ package com.aslmmovic.mazenworld.di
 import com.aslmmovic.mazenworld.presentation.ui.categories.CategoryMapViewModel
 import com.aslmmovic.mazenworld.presentation.ui.gameplay.GameViewModel
 import com.aslmmovic.mazenworld.presentation.ui.home.HomeViewModel
+import com.aslmmovic.mazenworld.presentation.ui.settings.SettingsViewModel
 import com.aslmmovic.mazenworld.presentation.ui.splash.SplashViewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
@@ -24,6 +25,9 @@ val gameplayModule = module {
         )
     }
 }
+val settingsModule = module {
+    single { SettingsViewModel() }
+}
 
 val splashModule = module {
     factory { SplashViewModel() }
@@ -35,7 +39,8 @@ private val allModules = listOf(
     homeModule,
     categoriesModule,
     gameplayModule,
-    splashModule
+    splashModule,
+    settingsModule
 )
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {

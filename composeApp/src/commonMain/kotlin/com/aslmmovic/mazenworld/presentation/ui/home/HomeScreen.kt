@@ -8,17 +8,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.aslmmovic.mazenworld.presentation.components.MusicToggleButton
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
 import com.aslmmovic.mazenworld.presentation.components.withPressAnimation
-import com.aslmmovic.mazenworld.utils.provideAudioPlayerManager
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.background
-import mazenworld.composeapp.generated.resources.music_icon
 import mazenworld.composeapp.generated.resources.parent_icon
 import mazenworld.composeapp.generated.resources.play_icon
 import org.jetbrains.compose.resources.painterResource
@@ -27,8 +25,6 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun HomeScreen(onPlayClick: () -> Unit) {
     val viewModel: HomeViewModel = koinViewModel()
-
-
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -47,12 +43,8 @@ fun HomeScreen(onPlayClick: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
-            SmallIconButton(
-                onClick = {},
-                contentDescription = "music",
-                icon = Res.drawable.music_icon
+            MusicToggleButton()
 
-            )
             SmallIconButton(
                 onClick = {},
                 contentDescription = "parent",

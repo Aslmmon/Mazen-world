@@ -1,7 +1,6 @@
 package com.aslmmovic.mazenworld.presentation.ui.gameplay
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,13 +24,13 @@ import com.aslmmovic.mazenworld.presentation.components.ErrorComponent
 import com.aslmmovic.mazenworld.presentation.components.GameProgressBar
 import com.aslmmovic.mazenworld.presentation.components.LevelCompleteOverlay
 import com.aslmmovic.mazenworld.presentation.components.LoadingProgress
+import com.aslmmovic.mazenworld.presentation.components.MusicToggleButton
 import com.aslmmovic.mazenworld.presentation.components.OptionsGrid
 import com.aslmmovic.mazenworld.presentation.components.QuestionArea
 import com.aslmmovic.mazenworld.presentation.components.SmallIconButton
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.back_icon
 import mazenworld.composeapp.generated.resources.board_frame
-import mazenworld.composeapp.generated.resources.music_icon
 import mazenworld.composeapp.generated.resources.play_screen_bg
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -42,14 +41,18 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
     val viewModel: GameViewModel = koinViewModel(
         parameters = { parametersOf(categoryId) } // Pass the argument here
     )
-    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    val gameContentState by viewModel.GameContentState.collectAsStateWithLifecycle()
+
+
     val onProcessAnswer = remember(viewModel) {
         { selectedOptionId: String -> viewModel.processAnswer(selectedOptionId) }
     }
 
+
     Box(modifier = Modifier.fillMaxSize()) {
 
-        when (val currentState = state) {
+        when (val currentState = gameContentState) {
             is GameState.Loading -> {
                 LoadingProgress("raw/cute_tiger.json")
             }
@@ -68,7 +71,7 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
                     totalQuestions = currentState.totalQuestions,
                     feedbackMessage = currentState.feedbackMessage, // Pass the message
                     onBackClick = onBackClick,
-                    onProcessAnswer = onProcessAnswer
+                    onProcessAnswer = onProcessAnswer,
                 )
                 if (currentState.isLevelComplete) {
                     LevelCompleteOverlay(
@@ -85,14 +88,15 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
 
 @Composable
 private fun GameContent(
-    // 1. ACCEPT PRIMITIVE OR STABLE TYPES, NOT THE ENTIRE GameState.Success
     currentQuestion: GameQuestionDto,
     currentQuestionIndex: Int,
     totalQuestions: Int,
     feedbackMessage: String?,
     onBackClick: () -> Unit,
-    onProcessAnswer: (String) -> Unit
+    onProcessAnswer: (String) -> Unit,
 ) {
+
+
     // Top-left buttons (Back, Music)
     Image(
         painter = painterResource(Res.drawable.play_screen_bg),
@@ -111,11 +115,8 @@ private fun GameContent(
             contentDescription = "back",
             icon = Res.drawable.back_icon
         )
-        SmallIconButton(
-            onClick = {},
-            contentDescription = "music",
-            icon = Res.drawable.music_icon
-        )
+
+        MusicToggleButton()
     }
     Box(
         modifier = Modifier

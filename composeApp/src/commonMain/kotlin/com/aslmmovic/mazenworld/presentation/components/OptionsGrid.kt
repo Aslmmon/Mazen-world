@@ -4,6 +4,8 @@ package com.aslmmovic.mazenworld.presentation.components
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,7 +20,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,34 +41,38 @@ fun OptionsGrid(options: List<GameOptionDto>?, onOptionSelected: (String) -> Uni
     if (options.isNullOrEmpty()) return
 
     Log.e("test options value", "OptionsGrid called with ${options} options")
+    var selectedOptionId by remember { mutableStateOf<String?>(null) }
+    LaunchedEffect(key1 = options.firstOrNull()?.id) {
+        selectedOptionId = null
+    }
 
-    val context = LocalContext.current
-    // Grid layout for 4 options (2 columns, 2 rows)
     Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
 
-        // Loop through pairs of options (Row 1: Options 0 & 1, Row 2: Options 2 & 3)
         options.forEach { option ->
             // Option Button
+            val isSelected = selectedOptionId == option.id
             val stableOnClick = remember(option.id, onOptionSelected) {
                 {
-                    Toast.makeText(
-                        context,
-                        "Selected: ${option.id}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    selectedOptionId = option.id
                     onOptionSelected(option.id)
                 }
             }
+
+            val borderColor by animateColorAsState(
+                targetValue = if (isSelected) Color(0xFFFFD700) else Color.Black, // Gold when selected, black otherwise
+                animationSpec = tween(durationMillis = 200),
+                label = "borderColorAnimation"
+            )
+
             Box(
                 modifier = Modifier
                     .size(80.dp) // Fixed button size
-//                    .withPressAnimation(
-//                        onClick = stableOnClick
-//
-//                    )
                     .clickable(onClick = stableOnClick)
-
-                    .border(2.dp, Color.Black, RoundedCornerShape(12.dp))
+                    .border(
+                        width = if (isSelected) 4.dp else 2.dp, // Thicker border when selected
+                        color = borderColor,
+                        shape = RoundedCornerShape(12.dp)
+                    )
                     .clip(RoundedCornerShape(12.dp))
                     .background(Color.White),
                 contentAlignment = Alignment.Center

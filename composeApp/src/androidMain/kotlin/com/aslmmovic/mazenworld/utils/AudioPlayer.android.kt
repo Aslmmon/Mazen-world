@@ -5,6 +5,9 @@ import android.media.MediaPlayer
 import androidx.annotation.RawRes
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import org.jetbrains.compose.resources.Resource
 import java.io.File
 import java.io.FileOutputStream
@@ -24,12 +27,26 @@ actual class AudioPlayerManager : DefaultLifecycleObserver {
     private val activeSoundEffectPlayers = mutableListOf<MediaPlayer>()
     private val maxPoolSize = 5 // Limit to 5 simultaneous sound effects
 
+
+    private val _isMuted = MutableStateFlow(false)
+    actual val isMuted: StateFlow<Boolean> = _isMuted.asStateFlow()
+
     init {
         // Pre-fill the pool with a few MediaPlayer instances
         repeat(maxPoolSize) {
             soundEffectPlayerPool.add(MediaPlayer())
         }
     }
+
+    actual fun toggleMute() {
+        _isMuted.value = !_isMuted.value
+        if (_isMuted.value) {
+            backgroundMusicPlayer?.setVolume(0f, 0f) // Mute
+        } else {
+            backgroundMusicPlayer?.setVolume(0.3f, 0.3f) // Unmute to default volume
+        }
+    }
+
 
     /**
      * Plays a short, one-off sound effect using an object pool for efficiency.
@@ -110,7 +127,8 @@ actual class AudioPlayerManager : DefaultLifecycleObserver {
                 backgroundMusicPlayer = MediaPlayer().apply {
                     setDataSource(tempFile.absolutePath)
                     isLooping = true
-                    setVolume(0.3f, 0.3f)
+                    val volume = if (_isMuted.value) 0f else 0.3f
+                    setVolume(volume, volume)
                     prepare()
                 }
             } catch (e: IOException) {

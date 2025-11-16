@@ -18,7 +18,7 @@ fun App() {
 
 
     LaunchedEffect(Unit) {
-      //  provideAudioPlayerManager().playBackgroundMusic(Res.readBytes("files/background_music.ogg"))
+        provideAudioPlayerManager().playBackgroundMusic(Res.readBytes("files/background_music.ogg"))
     }
     val navController = rememberNavController()
     val navigator = remember(navController) {

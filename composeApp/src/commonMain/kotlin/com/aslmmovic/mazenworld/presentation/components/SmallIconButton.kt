@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,11 +21,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.offset
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.aslmmovic.mazenworld.presentation.ui.settings.SettingsViewModel
 import mazenworld.composeapp.generated.resources.Res
+import mazenworld.composeapp.generated.resources.music_icon_off
+import mazenworld.composeapp.generated.resources.music_icon_on
 import mazenworld.composeapp.generated.resources.yellow_frame
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun SmallIconButton(
@@ -77,4 +82,27 @@ fun SmallIconButton(
             )
         }
     }
+}
+
+/**
+ * A self-contained, reusable button that handles its own logic for
+ * toggling the background music. It observes the shared SettingsViewModel.
+ */
+@Composable
+fun MusicToggleButton(modifier: Modifier = Modifier) {
+    // 1. All the logic is now encapsulated inside this component.
+    val settingsViewModel: SettingsViewModel = koinViewModel()
+    val isMuted by settingsViewModel.isMuted.collectAsStateWithLifecycle()
+    val onMusicClick = remember(settingsViewModel) {
+        { settingsViewModel.toggleMute() }
+    }
+
+    // 2. It uses a standard SmallIconButton to render itself.
+    SmallIconButton(
+        onClick = onMusicClick,
+        contentDescription = "Toggle Music",
+        icon = if (isMuted) Res.drawable.music_icon_off else Res.drawable.music_icon_on,
+        isAnimated = true,
+        modifier = modifier
+    )
 }

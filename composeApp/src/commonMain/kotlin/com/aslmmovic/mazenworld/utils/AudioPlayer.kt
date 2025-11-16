@@ -2,6 +2,7 @@ package com.aslmmovic.mazenworld.utils
 
 // commonMain/utils/AudioPlayer.kt
 
+import kotlinx.coroutines.flow.StateFlow
 import org.jetbrains.compose.resources.Resource
 
 /**
@@ -10,6 +11,11 @@ import org.jetbrains.compose.resources.Resource
  * Platform-specific modules will provide the 'actual' implementation.
  */
 expect class AudioPlayerManager {
+
+    val isMuted: StateFlow<Boolean>
+
+    fun toggleMute()
+
     /**
      * Plays a short, one-off sound effect.
      * @param resource The compose resource of the sound to play.
