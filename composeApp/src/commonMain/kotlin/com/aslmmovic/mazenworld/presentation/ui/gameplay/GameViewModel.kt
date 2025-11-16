@@ -92,6 +92,7 @@ class GameViewModel(
                     )
                 } else {
                     // Level Complete
+                    playLevelCompleteSound()
                     _state.value = currentState.copy(isLevelComplete = true)
                 }
             }
@@ -113,6 +114,12 @@ class GameViewModel(
     private fun playIncorrectAnswerSound() {
         viewModelScope.launch {
             player.playSoundEffect(Res.readBytes("files/error_chime.mp3"))
+        }
+    }
+
+    private fun playLevelCompleteSound() {
+        viewModelScope.launch {
+            player.playSoundEffect(Res.readBytes("files/kids_cheering.mp3"))
         }
     }
 }
