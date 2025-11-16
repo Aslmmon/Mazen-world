@@ -34,24 +34,23 @@ actual class AudioPlayerManager : DefaultLifecycleObserver {
     /**
      * Plays a short, one-off sound effect using an object pool for efficiency.
      */
-    actual fun playSoundEffect(resource: Resource) {
-        // 2. GET A PLAYER FROM THE POOL (if available)
-        val mediaPlayer = soundEffectPlayerPool.poll() ?: return // Or create a new one if pool is empty and you want to allow more sounds
+
+    actual fun playSoundEffect(resource: ByteArray) { // <-- 1. PARAMETER CHANGED
+        val mediaPlayer = soundEffectPlayerPool.poll() ?: return
 
         try {
-            val resId = getResourceId(resource)
-            val afd = appContext.resources.openRawResourceFd(resId)
+            // 2. USE THE SAME TEMP FILE LOGIC AS BACKGROUND MUSIC
+            val tempFile = createTempFileFromBytes(resource, "sfx")
 
             mediaPlayer.apply {
-                reset() // Reset player to idle state before use
-                setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
+                reset()
+                setDataSource(tempFile.absolutePath) // 3. SET DATA SOURCE FROM TEMP FILE
                 prepare()
                 setOnCompletionListener { completedPlayer ->
-                    // 3. RETURN THE PLAYER TO THE POOL when done
                     completedPlayer.reset()
                     activeSoundEffectPlayers.remove(completedPlayer)
                     soundEffectPlayerPool.add(completedPlayer)
-                    afd.close() // Close the file descriptor
+                    tempFile.delete() // 4. CLEAN UP THE TEMP FILE
                 }
             }
 
@@ -65,6 +64,37 @@ actual class AudioPlayerManager : DefaultLifecycleObserver {
             soundEffectPlayerPool.add(mediaPlayer)
         }
     }
+//    actual fun playSoundEffect(resource: Resource) {
+//        // 2. GET A PLAYER FROM THE POOL (if available)
+//        val mediaPlayer = soundEffectPlayerPool.poll() ?: return // Or create a new one if pool is empty and you want to allow more sounds
+//
+//        try {
+//            val resId = getResourceId(resource)
+//            val afd = appContext.resources.openRawResourceFd(resId)
+//
+//            mediaPlayer.apply {
+//                reset() // Reset player to idle state before use
+//                setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
+//                prepare()
+//                setOnCompletionListener { completedPlayer ->
+//                    // 3. RETURN THE PLAYER TO THE POOL when done
+//                    completedPlayer.reset()
+//                    activeSoundEffectPlayers.remove(completedPlayer)
+//                    soundEffectPlayerPool.add(completedPlayer)
+//                    afd.close() // Close the file descriptor
+//                }
+//            }
+//
+//            activeSoundEffectPlayers.add(mediaPlayer)
+//            mediaPlayer.start()
+//
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//            // If something fails, return the player to the pool
+//            mediaPlayer.reset()
+//            soundEffectPlayerPool.add(mediaPlayer)
+//        }
+//    }
 
     // --- The rest of the class remains the same ---
 
@@ -147,6 +177,7 @@ actual class AudioPlayerManager : DefaultLifecycleObserver {
 private val audioPlayerManagerInstance: AudioPlayerManager by lazy {
     AudioPlayerManager()
 }
+
 actual fun provideAudioPlayerManager(): AudioPlayerManager {
     return audioPlayerManagerInstance
 }

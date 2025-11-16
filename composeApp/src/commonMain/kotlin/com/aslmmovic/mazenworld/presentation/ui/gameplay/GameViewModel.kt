@@ -2,6 +2,7 @@ package com.aslmmovic.mazenworld.presentation.ui.gameplay
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aslmmovic.mazenworld.data.model.GameOptionDto
@@ -11,11 +12,14 @@ import com.aslmmovic.mazenworld.domain.useCase.game_play.PublishQuestionsUseCase
 import com.aslmmovic.mazenworld.domain.util.AppError
 import com.aslmmovic.mazenworld.domain.util.AppResult
 import com.aslmmovic.mazenworld.utils.loadingBetweenScreensDelay
+import com.aslmmovic.mazenworld.utils.provideAudioPlayerManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import mazenworld.composeapp.generated.resources.Res
+import mazenworld.composeapp.generated.resources.allDrawableResources
 
 class GameViewModel(
     private val categoryId: String,
@@ -27,6 +31,10 @@ class GameViewModel(
         MutableStateFlow<GameState>(GameState.Loading) // The initial state is now self-contained
     val state: StateFlow<GameState> = _state
 
+
+    private val player = provideAudioPlayerManager()
+
+    // Get the player instance once
     init {
         loadGameContent()
     }
@@ -65,6 +73,9 @@ class GameViewModel(
         val correctAnswerId = currentState.currentQuestion.correctAnswerId
 
         if (selectedOptionId == correctAnswerId) {
+
+            playCorrectAnswerSound()
+
             _state.update {
                 (it as GameState.Success).copy(feedbackMessage = "Correct!", score = it.score + 1)
             }
@@ -85,12 +96,27 @@ class GameViewModel(
                 }
             }
         } else {
+            playIncorrectAnswerSound()
+
             _state.update {
                 (it as GameState.Success).copy(feedbackMessage = "Try again.")
             }
         }
     }
+
+    private fun playCorrectAnswerSound() {
+        viewModelScope.launch {
+            player.playSoundEffect(Res.readBytes("files/correct_chime.mp3"))
+        }
+    }
+
+    private fun playIncorrectAnswerSound() {
+        viewModelScope.launch {
+            player.playSoundEffect(Res.readBytes("files/error_chime.mp3"))
+        }
+    }
 }
+
 
 sealed class GameState {
     data object Loading : GameState()

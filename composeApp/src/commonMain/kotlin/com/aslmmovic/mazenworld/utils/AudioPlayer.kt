@@ -14,7 +14,7 @@ expect class AudioPlayerManager {
      * Plays a short, one-off sound effect.
      * @param resource The compose resource of the sound to play.
      */
-    fun playSoundEffect(resource: Resource)
+    fun playSoundEffect(resource: ByteArray)
 
     /**
      * Plays looping background music.
