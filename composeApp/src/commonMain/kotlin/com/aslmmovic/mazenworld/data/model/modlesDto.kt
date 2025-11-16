@@ -17,7 +17,8 @@ data class GameQuestionDto(
     val questionText: String,
     val questionImageUrl: String,
     val options: List<GameOptionDto>,
-    val correctAnswerId: String
+    val correctAnswerId: String,
+    val questionVoice: String? = null
 )
 
 @Serializable

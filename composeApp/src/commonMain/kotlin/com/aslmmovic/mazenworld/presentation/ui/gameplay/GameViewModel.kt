@@ -9,6 +9,7 @@ import com.aslmmovic.mazenworld.domain.useCase.game_play.PublishQuestionsUseCase
 import com.aslmmovic.mazenworld.domain.util.AppError
 import com.aslmmovic.mazenworld.domain.util.AppResult
 import com.aslmmovic.mazenworld.utils.loadingBetweenScreensDelay
+import com.aslmmovic.mazenworld.utils.loadingTiger
 import com.aslmmovic.mazenworld.utils.provideAudioPlayerManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,6 +51,8 @@ class GameViewModel(
                                 questions = loadedQuestions,
                                 currentQuestionIndex = 0
                             )
+                            playVoiceQuestion(loadedQuestions.first().questionVoice)
+
                         }
                     }
 
@@ -73,7 +76,7 @@ class GameViewModel(
             playCorrectAnswerSound()
 
             _state.update {
-                (it as GameState.Success).copy(feedbackMessage =null, score = it.score + 1)
+                (it as GameState.Success).copy(feedbackMessage = null, score = it.score + 1)
             }
 
             viewModelScope.launch {
@@ -101,6 +104,15 @@ class GameViewModel(
         viewModelScope.launch {
             player.playSoundEffect(Res.readBytes("files/correct_chime.mp3"))
         }
+    }
+
+    private fun playVoiceQuestion(voiceFileName: String?) {
+        voiceFileName?.let { voiceFileName ->
+            viewModelScope.launch {
+                player.playSoundEffect(Res.readBytes("files/animalsSrc/${voiceFileName}"))
+            }
+        }
+
     }
 
     private fun playIncorrectAnswerSound() {
