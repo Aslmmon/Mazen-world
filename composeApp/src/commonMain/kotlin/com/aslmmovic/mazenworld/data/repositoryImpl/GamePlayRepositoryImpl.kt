@@ -62,8 +62,10 @@ private data class GameQuestionWithRawOptions(
     val questionImageUrl: String,
     val options: String, // Reads the nested JSON as a single string
     val correctAnswerId: String,
-    val questionVoice: String? = null
-) {
+    val questionVoice: String? = null,
+    val correctAnswerSound: String? = null,
+
+    ) {
     /**
      * Converts this files DTO into the final, clean GameQuestionDto.
      */
@@ -74,7 +76,8 @@ private data class GameQuestionWithRawOptions(
             questionImageUrl = this.questionImageUrl,
             options = parsedOptions,
             correctAnswerId = this.correctAnswerId,
-            questionVoice = this.questionVoice
+            questionVoice = this.questionVoice,
+            correctAnswerSound = correctAnswerSound
         )
     }
 }

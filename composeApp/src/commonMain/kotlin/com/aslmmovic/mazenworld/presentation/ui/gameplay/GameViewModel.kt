@@ -4,11 +4,15 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aslmmovic.mazenworld.data.model.GameQuestionDto
+import com.aslmmovic.mazenworld.domain.useCase.game_play.AnswerResult
 import com.aslmmovic.mazenworld.domain.useCase.game_play.GetQuestionsUseCase
+import com.aslmmovic.mazenworld.domain.useCase.game_play.ProcessAnswerUseCase
 import com.aslmmovic.mazenworld.domain.useCase.game_play.PublishQuestionsUseCase
 import com.aslmmovic.mazenworld.domain.util.AppError
 import com.aslmmovic.mazenworld.domain.util.AppResult
+import com.aslmmovic.mazenworld.presentation.ui.settings.GameAudioManager
 import com.aslmmovic.mazenworld.utils.loadingBetweenScreensDelay
+import com.aslmmovic.mazenworld.utils.loadingBetweenSounds
 import com.aslmmovic.mazenworld.utils.loadingTiger
 import com.aslmmovic.mazenworld.utils.provideAudioPlayerManager
 import kotlinx.coroutines.delay
@@ -21,15 +25,14 @@ import mazenworld.composeapp.generated.resources.Res
 class GameViewModel(
     private val categoryId: String,
     private val getQuestionsUseCase: GetQuestionsUseCase,
-    private val publishQuestionsUseCase: PublishQuestionsUseCase // Keep for potential use
+    private val processAnswerUseCase: ProcessAnswerUseCase, // Injected dependency
+    private val gameAudioManager: GameAudioManager
 ) : ViewModel() {
 
     private val _state =
         MutableStateFlow<GameState>(GameState.Loading) // The initial state is now self-contained
     val GameContentState: StateFlow<GameState> = _state
 
-
-    private val player = provideAudioPlayerManager()
 
     // Get the player instance once
     init {
@@ -38,7 +41,6 @@ class GameViewModel(
 
     private fun loadGameContent() {
         viewModelScope.launch {
-
             getQuestionsUseCase(categoryId).collect { result ->
                 delay(loadingBetweenScreensDelay)
                 when (result) {
@@ -49,10 +51,8 @@ class GameViewModel(
                         } else {
                             _state.value = GameState.Success(
                                 questions = loadedQuestions,
-                                currentQuestionIndex = 0
                             )
-                            playVoiceQuestion(loadedQuestions.first().questionVoice)
-
+                            gameAudioManager.playQuestionVoice(loadedQuestions.first().questionVoice)
                         }
                     }
 
@@ -65,66 +65,46 @@ class GameViewModel(
     }
 
     fun processAnswer(selectedOptionId: String) {
-        val currentState = _state.value
-        // Only process answers if we are in the Success state
-        if (currentState !is GameState.Success) return
 
-        val correctAnswerId = currentState.currentQuestion.correctAnswerId
+        val currentState = _state.value as? GameState.Success ?: return
+        when (val result = processAnswerUseCase(currentState, selectedOptionId)) {
 
-        if (selectedOptionId == correctAnswerId) {
+            is AnswerResult.Correct -> {
 
-            playCorrectAnswerSound()
-
-            _state.update {
-                (it as GameState.Success).copy(feedbackMessage = null, score = it.score + 1)
-            }
-
-            viewModelScope.launch {
-                delay(800)
-                val nextIndex = currentState.currentQuestionIndex + 1
-                Log.e("test", "processAnswer: $nextIndex")
-                if (nextIndex < currentState.questions.size) {
-                    // Go to the next question
-                    _state.value = currentState.copy(
-                        currentQuestionIndex = nextIndex,
-                        feedbackMessage = null
-                    )
-                } else {
-                    // Level Complete
-                    playLevelCompleteSound()
-                    _state.value = currentState.copy(isLevelComplete = true)
+                viewModelScope.launch {
+                    gameAudioManager.playCorrectSound()
+                    delay(loadingBetweenSounds)
+                    gameAudioManager.playSpecificAnswerSound(result.correctAnswerSound)
+                    _state.update {
+                        (it as GameState.Success).copy(
+                            currentQuestionIndex = it.currentQuestionIndex + 1,
+                            feedbackMessage = null
+                        )
+                    }
                 }
             }
-        } else {
-            playIncorrectAnswerSound()
-        }
-    }
 
-    private fun playCorrectAnswerSound() {
-        viewModelScope.launch {
-            player.playSoundEffect(Res.readBytes("files/correct_chime.mp3"))
-        }
-    }
+            is AnswerResult.Incorrect -> gameAudioManager.playIncorrectSound()
 
-    private fun playVoiceQuestion(voiceFileName: String?) {
-        voiceFileName?.let { voiceFileName ->
-            viewModelScope.launch {
-                player.playSoundEffect(Res.readBytes("files/animalsSrc/${voiceFileName}"))
+
+            is AnswerResult.LevelComplete -> {
+                viewModelScope.launch {
+                    gameAudioManager.playCorrectSound() // Play final correct sound
+                    delay(loadingBetweenScreensDelay)
+                    gameAudioManager.playLevelCompleteSound()
+                    _state.update {
+                        (it as GameState.Success).copy(
+                            score = result.finalScore,
+                            isLevelComplete = true
+                        )
+                    }
+                }
+
             }
+
+
         }
 
-    }
-
-    private fun playIncorrectAnswerSound() {
-        viewModelScope.launch {
-            player.playSoundEffect(Res.readBytes("files/error_chime.mp3"))
-        }
-    }
-
-    private fun playLevelCompleteSound() {
-        viewModelScope.launch {
-            player.playSoundEffect(Res.readBytes("files/kids_cheering.mp3"))
-        }
     }
 }
 

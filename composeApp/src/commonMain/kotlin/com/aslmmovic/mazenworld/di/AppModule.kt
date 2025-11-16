@@ -3,6 +3,7 @@ package com.aslmmovic.mazenworld.di
 import com.aslmmovic.mazenworld.presentation.ui.categories.CategoryMapViewModel
 import com.aslmmovic.mazenworld.presentation.ui.gameplay.GameViewModel
 import com.aslmmovic.mazenworld.presentation.ui.home.HomeViewModel
+import com.aslmmovic.mazenworld.presentation.ui.settings.GameAudioManager
 import com.aslmmovic.mazenworld.presentation.ui.settings.SettingsViewModel
 import com.aslmmovic.mazenworld.presentation.ui.splash.SplashViewModel
 import org.koin.core.context.startKoin
@@ -17,11 +18,13 @@ val categoriesModule = module {
     factory { CategoryMapViewModel(get(), get()) }
 }
 val gameplayModule = module {
+    factory { GameAudioManager() } // Add the new audio manager
     factory { (categoryId: String) ->
         GameViewModel(
             categoryId = categoryId,
             getQuestionsUseCase = get(),
-            publishQuestionsUseCase = get()
+            processAnswerUseCase = get(), // Inject the use cases
+            gameAudioManager = get()
         )
     }
 }

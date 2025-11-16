@@ -18,12 +18,14 @@ data class GameQuestionDto(
     val questionImageUrl: String,
     val options: List<GameOptionDto>,
     val correctAnswerId: String,
-    val questionVoice: String? = null
+    val questionVoice: String? = null,
+    val correctAnswerSound: String? = null
+
 )
 
 @Serializable
 data class GameOptionDto(
     val id: String,
     val text: String? = null,
-    val iconUrl: String? = null
+    val iconUrl: String? = null,
 )
