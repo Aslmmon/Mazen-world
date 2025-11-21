@@ -1,63 +1,114 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web.
+# 🌍 Mazen World (عالم مازن)
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
-
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
-
-### Build and Run Android Application
-
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
-
-### Build and Run Web Application
-
-To build and run the development version of the web app, use the run configuration from the run widget
-in your IDE's toolbar or run it directly from the terminal:
-- for the Wasm target (faster, modern browsers):
-  - on macOS/Linux
-    ```shell
-    ./gradlew :composeApp:wasmJsBrowserDevelopmentRun
-    ```
-  - on Windows
-    ```shell
-    .\gradlew.bat :composeApp:wasmJsBrowserDevelopmentRun
-    ```
-- for the JS target (slower, supports older browsers):
-  - on macOS/Linux
-    ```shell
-    ./gradlew :composeApp:jsBrowserDevelopmentRun
-    ```
-  - on Windows
-    ```shell
-    .\gradlew.bat :composeApp:jsBrowserDevelopmentRun
-    ```
-
-### Build and Run iOS Application
-
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+**Mazen World** is a modern, cross-platform educational application designed to provide an engaging learning experience for children. Built with **Kotlin Multiplatform (KMP)** and **Compose Multiplatform**, it targets Android, iOS, and Web from a single codebase, ensuring a consistent and high-quality user experience across all devices.
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+## 🚀 Key Features
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [YouTrack](https://youtrack.jetbrains.com/newIssue?project=CMP).
+*   📱 **Cross-Platform Support**: Runs natively on Android, iOS, and Web (Wasm/JS).
+*   🎨 **Modern UI/UX**: Built with **Jetpack Compose** and **Compose Multiplatform** for a declarative and beautiful UI.
+*   🏗️ **Clean Architecture**: Structured using Clean Architecture principles (Data, Domain, Presentation) for scalability and testability.
+*   ☁️ **Cloud Integration**: Powered by **Firebase** and **Supabase** for reliable backend services.
+*   🌐 **Robust Networking**: Uses **Ktor** for efficient network operations.
+*   💉 **Dependency Injection**: Leverages **Koin** for lightweight and pragmatic dependency injection.
+
+---
+
+## 🛠️ Tech Stack
+
+*   🐶 **Language**: [Kotlin](https://kotlinlang.org/)
+*   🎹 **UI Framework**: [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
+*   🏛️ **Architecture**: Clean Architecture + MVVM
+*   🪙 **Dependency Injection**: [Koin](https://insert-koin.io/)
+*   🔌 **Networking**: [Ktor](https://ktor.io/)
+*   🖼️ **Image Loading**: [Coil 3](https://coil-kt.github.io/coil/)
+*   🔥 **Backend**:
+    *   [Firebase](https://firebase.google.com/) (Firestore)
+    *   [Supabase](https://supabase.com/) (PostgREST)
+*   🧭 **Navigation**: [Navigation Compose](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation-routing.html)
+*   🎬 **Animations**: [Lottie](https://airbnb.io/lottie/)
+
+---
+
+## 📂 Project Structure
+
+The project follows a standard Kotlin Multiplatform structure:
+
+*   📦 **`composeApp`**: The main module containing shared code and platform-specific entry points.
+    *   🔹 `commonMain`: Shared code (UI, Domain, Data) used by all platforms.
+    *   🤖 `androidMain`: Android-specific implementations.
+    *   🍎 `iosMain`: iOS-specific implementations.
+*   🍏 **`iosApp`**: The iOS Xcode project entry point.
+
+---
+
+## 🏁 Getting Started
+
+### Prerequisites
+
+*   ☕ **JDK 17** or higher.
+*   🤖 **Android Studio** (latest stable or canary for KMP support).
+*   🍎 **Xcode** (for iOS development, macOS only).
+*   📦 **CocoaPods** (for iOS dependency management).
+
+### Installation
+
+1.  📥 **Clone the repository**:
+    ```bash
+    git clone https://github.com/your-username/mazen-world.git
+    cd mazen-world
+    ```
+
+2.  💻 **Open in Android Studio**:
+    Open the project root directory in Android Studio and let Gradle sync.
+
+---
+
+## 🏃‍♂️ Build & Run
+
+### 🤖 Android
+
+Run the app directly from Android Studio using the `composeApp` run configuration, or use the terminal:
+
+```bash
+./gradlew :composeApp:assembleDebug
+```
+
+### 🍎 iOS
+
+1.  Open `iosApp/iosApp.xcworkspace` in **Xcode**.
+2.  Select your target simulator or device.
+3.  Run the app (**Cmd + R**).
+
+Alternatively, run from Android Studio if the KMP plugin is configured.
+
+### 🌐 Web
+
+#### Wasm (Recommended for modern browsers)
+```bash
+./gradlew :composeApp:wasmJsBrowserDevelopmentRun
+```
+
+#### JS (Legacy support)
+```bash
+./gradlew :composeApp:jsBrowserDevelopmentRun
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1.  🍴 Fork the repository.
+2.  🌿 Create a feature branch (`git checkout -b feature/amazing-feature`).
+3.  💾 Commit your changes (`git commit -m 'Add some amazing feature'`).
+4.  🚀 Push to the branch (`git push origin feature/amazing-feature`).
+5.  🔀 Open a Pull Request.
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
