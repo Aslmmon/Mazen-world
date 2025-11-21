@@ -75,9 +75,10 @@ fun GamePlayScreen(onBackClick: () -> Unit, categoryId: String) {
                 )
                 if (currentState.isLevelComplete) {
                     LevelCompleteOverlay(
-                        onBackClick,
-                        currentState.score,
-                        currentState.totalQuestions
+                        onRetryClick = { viewModel.retryLevel() },
+                        onNextClick = onBackClick, // Navigate back to map for next level selection
+                        score = currentState.score,
+                        totalQuestions = currentState.totalQuestions
                     )
                 }
             }

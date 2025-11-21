@@ -11,6 +11,7 @@ composeMultiplatform = "1.9.2"
 datastorePreferences = "1.1.7"
 koinCore = "4.1.1"
 kotlin = "2.2.21"
+materialIconsCore = "1.7.8"
 navigationComposeVersion = "2.9.1"
 google-services = "4.4.4"
 uiText = "1.9.4"
@@ -22,6 +23,7 @@ lifecycleProcess = "2.8.3" # Use the latest version
 
 [libraries]
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+androidx-material-icons-core = { module = "androidx.compose.material:material-icons-core", version.ref = "materialIconsCore" }
 androidx-ui-text-android = { module = "androidx.compose.ui:ui-text-android", version.ref = "uiText" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilNetworkOkhttp" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }

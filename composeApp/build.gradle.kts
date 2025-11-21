@@ -28,6 +28,8 @@ kotlin {
             implementation(libs.androidx.datastore.preferences)
             implementation(libs.androidx.ui.text.android)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.androidx.material.icons.core)
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)

@@ -106,6 +106,11 @@ class GameViewModel(
         }
 
     }
+
+    fun retryLevel() {
+        _state.value = GameState.Loading
+        loadGameContent()
+    }
 }
 
 
