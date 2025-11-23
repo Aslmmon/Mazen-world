@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aslmmovic.mazenworld.presentation.theme.mazenFontFamily
+import com.aslmmovic.mazenworld.utils.ResourcesHelpers
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.background_overlay
 import mazenworld.composeapp.generated.resources.car_2
@@ -171,7 +172,7 @@ fun BoxScope.LevelCompleteOverlay(
         // Confetti Animation
         LottieLoader(
             modifier = Modifier.fillMaxSize(),
-            file = "confetti.json"
+            file = ResourcesHelpers.CONFETTI_EFFECT
         )
     }
 }

@@ -47,7 +47,6 @@ fun SplashScreen(onNavigateToHome: () -> Unit) {
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//            LottieLoader(modifier = Modifier.fillMaxSize(0.5f), url = loadingTiger)
             YellowCharacter(mood = CharacterMood.Thinking)
             CustomRoundedProgressIndicator(
                 progressValue = progressValue,

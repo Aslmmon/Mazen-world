@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aslmmovic.mazenworld.data.model.CategoryDto
+import com.aslmmovic.mazenworld.utils.ResourcesHelpers
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.car_2
 import org.jetbrains.compose.resources.painterResource
@@ -107,7 +108,10 @@ fun CategoryCard(
 //                        )
                     }
                 } else {
-                    LottieLoader(modifier = Modifier.fillMaxSize(0.9f), file = "cute_tiger.json")
+                    LottieLoader(
+                        modifier = Modifier.fillMaxSize(0.9f),
+                        file = item.iconUrl
+                    )
 
 //                    LottieLoader(modifier = Modifier.fillMaxSize(0.9f), url = item.iconUrl)
                 }

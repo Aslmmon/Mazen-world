@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aslmmovic.mazenworld.presentation.ui.splash.LoadingStatus
+import com.aslmmovic.mazenworld.utils.ResourcesHelpers
 import com.aslmmovic.mazenworld.utils.getLocalizedStatusText
 import com.aslmmovic.mazenworld.utils.happyLoading
 import com.aslmmovic.mazenworld.utils.loadingTiger
@@ -75,7 +76,7 @@ fun ErrorComponent(errorMssage: String,onBackClick: () -> Unit = {}) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            LottieLoader(modifier = Modifier.fillMaxSize(0.7f), file = "cute_tiger.json")
+            LottieLoader(modifier = Modifier.fillMaxSize(0.7f), file = ResourcesHelpers.CUTE_TIGER_LOADER)
             Text(
                 errorMssage, // "Getting Ready..."
                 fontSize = 15.sp,

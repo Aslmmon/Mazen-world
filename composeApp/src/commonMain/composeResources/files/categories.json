@@ -4,34 +4,34 @@
     "id": 1,
     "isLocked": false,
     "title": "الحيوانات",
-    "iconUrl": "https://raw.githubusercontent.com/Aslmmon/Mazen-world-assets/main/category_assets/animals_category.json"
+    "iconUrl": "animals_category.json"
   },
   {
     "idx": 1,
     "id": 2,
     "isLocked": false,
     "title": "الفواكه",
-    "iconUrl": "https://raw.githubusercontent.com/Aslmmon/Mazen-world-assets/main/category_assets/fruits_category.json"
+    "iconUrl": "fruits_category.json"
   },
   {
     "idx": 2,
     "id": 3,
     "isLocked": false,
     "title": "الحروف",
-    "iconUrl": "https://raw.githubusercontent.com/Aslmmon/Mazen-world-assets/main/category_assets/letters_category.json"
+    "iconUrl": "letters_category.json"
   },
   {
     "idx": 3,
     "id": 4,
     "isLocked": false,
     "title": "الأشكال",
-    "iconUrl": "https://raw.githubusercontent.com/Aslmmon/Mazen-world-assets/main/category_assets/shapes_category.json"
+    "iconUrl": "shapes_category.json"
   },
   {
     "idx": 4,
     "id": 5,
     "isLocked": false,
     "title": "المركبات",
-    "iconUrl": "https://raw.githubusercontent.com/Aslmmon/Mazen-world-assets/main/category_assets/vehicle_category.json"
+    "iconUrl": "vehicle_category.json"
   }
 ]

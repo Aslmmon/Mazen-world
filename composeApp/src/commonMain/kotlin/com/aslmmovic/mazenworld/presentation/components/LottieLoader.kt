@@ -29,7 +29,7 @@ fun LottieLoader(
             val bytes = Res.readBytes("files/lottie/$file")
             jsonString = bytes.decodeToString()
         } catch (e: Exception) {
-            e.printStackTrace()
+            e.printStackTrace(
         }
     }
 
