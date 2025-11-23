@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 // Assuming you have star and score icon assets:
 import mazenworld.composeapp.generated.resources.Res
-import mazenworld.composeapp.generated.resources.star_icon // Use a star or progress icon
+import mazenworld.composeapp.generated.resources.car_2
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -28,7 +28,7 @@ fun GameProgressBar(currentIndex: Int, totalQuestions: Int) {
     ) {
         // Display Stars/Score Icon (like the one in your reference image)
         Image(
-            painter = painterResource(Res.drawable.star_icon),
+            painter = painterResource(Res.drawable.car_2),
             contentDescription = "Current Score",
             modifier = Modifier.size(20.dp)
         )

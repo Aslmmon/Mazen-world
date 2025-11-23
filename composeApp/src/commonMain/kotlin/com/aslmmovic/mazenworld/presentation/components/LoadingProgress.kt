@@ -36,7 +36,9 @@ fun LoadingProgress(rawLottieFile: String) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            LottieLoader(modifier = Modifier.fillMaxSize(0.7f), url = loadingTiger)
+//            LottieLoader(modifier = Modifier.fillMaxSize(0.7f), url = loadingTiger)
+            LottieLoader(modifier = Modifier.fillMaxSize(0.7f), file = "cute_tiger.json")
+
             Text(
                 getLocalizedStatusText(LoadingStatus.PREPARING), // "Getting Ready..."
                 fontSize = 32.sp,
@@ -73,7 +75,7 @@ fun ErrorComponent(errorMssage: String,onBackClick: () -> Unit = {}) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            LottieLoader(modifier = Modifier.fillMaxSize(0.7f), url = happyLoading)
+            LottieLoader(modifier = Modifier.fillMaxSize(0.7f), file = "cute_tiger.json")
             Text(
                 errorMssage, // "Getting Ready..."
                 fontSize = 15.sp,

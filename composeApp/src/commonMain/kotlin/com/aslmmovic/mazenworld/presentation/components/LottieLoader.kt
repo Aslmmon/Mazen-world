@@ -1,39 +1,45 @@
 package com.aslmmovic.mazenworld.presentation.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
+import mazenworld.composeapp.generated.resources.Res
+import org.jetbrains.compose.resources.ExperimentalResourceApi
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun LottieLoader(
     modifier: Modifier = Modifier,
-    // Note: Int resId doesn't work well with KMP resources. Let's assume you'd pass a resource path string.
-    rawResName: String? = null,
-    url: String? = null
+    file: String,
+    iterations: Int = LottieConstants.IterateForever
 ) {
-    // 1. Add a precondition to prevent crashes and enforce correct usage.
-    // This ensures that exactly one source is provided.
-    require(rawResName != null || url != null) { "LottieLoader requires either rawResName or url to be non-null" }
-    require(rawResName == null || url == null) { "LottieLoader cannot accept both rawResName and url. Provide only one." }
+    var jsonString by remember { mutableStateOf<String?>(null) }
 
-    // 2. Determine the spec safely
-    val spec = if (url != null) {
-        LottieCompositionSpec.Url(url)
-    } else {
-        // In KMP, you load files assets by their path string in the 'assets' folder.
-        // E.g. "lottie/loader.json"
-        LottieCompositionSpec.JsonString(rawResName!!)
+    LaunchedEffect(file) {
+        try {
+            // Load the file from composeResources/files/
+            val bytes = Res.readBytes("files/lottie/$file")
+            jsonString = bytes.decodeToString()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
-    val composition by rememberLottieComposition(spec)
-
-    LottieAnimation(
-        composition = composition,
-        iterations = LottieConstants.IterateForever,
-        modifier = modifier
-    )
+    jsonString?.let { json ->
+        val composition by rememberLottieComposition(LottieCompositionSpec.JsonString(json))
+        
+        LottieAnimation(
+            composition = composition,
+            iterations = iterations,
+            modifier = modifier
+        )
+    }
 }

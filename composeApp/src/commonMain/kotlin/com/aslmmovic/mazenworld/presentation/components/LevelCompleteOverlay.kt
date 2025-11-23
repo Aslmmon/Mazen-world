@@ -35,8 +35,8 @@ import androidx.compose.ui.unit.sp
 import com.aslmmovic.mazenworld.presentation.theme.mazenFontFamily
 import mazenworld.composeapp.generated.resources.Res
 import mazenworld.composeapp.generated.resources.background_overlay
+import mazenworld.composeapp.generated.resources.car_2
 import mazenworld.composeapp.generated.resources.rippon
-import mazenworld.composeapp.generated.resources.star_icon
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -88,7 +88,7 @@ fun BoxScope.LevelCompleteOverlay(
                         repeat(3) { index ->
                             val isActive = index < stars
                             Icon(
-                                painter = painterResource(Res.drawable.star_icon),
+                                painter = painterResource(Res.drawable.car_2),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(60.dp)
@@ -167,6 +167,12 @@ fun BoxScope.LevelCompleteOverlay(
                 )
             }
         }
+
+        // Confetti Animation
+        LottieLoader(
+            modifier = Modifier.fillMaxSize(),
+            file = "confetti.json"
+        )
     }
 }
 
